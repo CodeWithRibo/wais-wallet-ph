@@ -1,5 +1,6 @@
+@import './theme.css'; /* By Sheaf.dev */ 
 @import 'tailwindcss';
-
+@import '../../vendor/livewire/flux/dist/flux.css';
 @plugin '@tailwindcss/forms';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -28,3 +29,6 @@
     border-color: var(--color-gray-200, currentcolor);
   }
 }
+
+
+ @custom-variant dark (&:where(.dark, .dark *)); /* By Sheaf.dev */ 

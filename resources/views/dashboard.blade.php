@@ -14,7 +14,8 @@
                 <div class="p-6 space-y-2">
                     @livewire('wallet-switcher')
                 </div>
+
             </div>
         </div>
-
+    </div>
 @endsection

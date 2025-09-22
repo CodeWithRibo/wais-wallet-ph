@@ -1,13 +1,17 @@
 <div class="space-y-8">
     <div class="sm:flex items-center gap-4">
         <h1 class="text-gray-800 text-base font-semibold">Active Wallet: </h1>
-        <select wire:model.live="wallet_option" class="select w-full max-w-sm rounded-md">
-            <option disabled>Select Wallet</option>
-            <option value="all">All</option>
-            <option value="personal">Personal</option>
-            <option value="business">Business</option>
-            <option value="shared">Shared</option>
-        </select>
+
+        <x-ui.select
+            class="w-full sm:w-[40%] pt-3 sm:pt-0"
+            placeholder="Select Wallet"
+            wire:model.live="wallet_option">
+            <x-ui.select.option value="all">All</x-ui.select.option>
+            <x-ui.select.option value="personal">Personal</x-ui.select.option>
+            <x-ui.select.option value="business">Business</x-ui.select.option>
+            <x-ui.select.option value="shared">Shared</x-ui.select.option>
+        </x-ui.select>
+
     </div>
     <x-secondary-button wire:click="$dispatch('openModal', {component: ''})">Add Income</x-secondary-button>
     <div class="text-gray-800 text-2xl font-bold">

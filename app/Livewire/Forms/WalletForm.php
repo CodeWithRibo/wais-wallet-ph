@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Forms;
 
 use App\Models\Wallet;
 use Livewire\Component;
-use LivewireUI\Modal\ModalComponent;
 
 class WalletForm extends Component
 {
@@ -37,10 +36,8 @@ class WalletForm extends Component
         return redirect()->route('wallet');
     }
 
-
-
     public function render()
     {
-        return view('livewire.wallet-form');
+        return view('livewire.forms.wallet-form');
     }
 }
