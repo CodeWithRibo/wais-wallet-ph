@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class WalletPolicy
 {
@@ -19,8 +20,11 @@ class WalletPolicy
     {
     }
 
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
+        return $user->role === 'user'
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     public function update(User $user, Wallet $wallet): bool

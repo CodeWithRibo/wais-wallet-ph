@@ -1,22 +1,35 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire;
 
+use App\Models\User;
 use App\Models\Wallet;
+use Illuminate\Auth\Access\Gate;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class WalletForm extends Component
 {
-    public $wallet_name;
-    public $current_balance;
-    public $wallet_type;
+    #[Validate]
+    public $wallet_name = '';
+    public $current_balance = '';
+    public $wallet_type = '';
 
     protected function rules(): array
     {
         return [
             'wallet_name' => 'required|min:6|max:50',
-            'current_balance' => 'required',
+            'current_balance' => 'required|numeric|min:1',
             'wallet_type' => 'required',
+        ];
+    }
+
+    protected function messages(): array
+    {
+        return [
+            'current_balance.min' => 'The current balance field must be at least ₱1',
         ];
     }
 
@@ -27,17 +40,17 @@ class WalletForm extends Component
 
     public function save()
     {
+        Gate::authorize('create', Wallet::class);
         $q = Wallet::query();
         $q->create([
             'user_id' => auth()->id(),
             ... $this->validate()
         ]);
-
         return redirect()->route('wallet');
     }
 
     public function render()
     {
-        return view('livewire.forms.wallet-form');
+        return view('livewire.wallet-form');
     }
 }
