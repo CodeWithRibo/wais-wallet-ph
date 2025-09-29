@@ -33,7 +33,7 @@ new class extends Component {
                         Dashboard
                     </x-nav-link>
 
-                    <x-nav-link :href="route('dashboard')" wire:navigate>
+                    <x-nav-link :href="route('expenses')" :active="request()->routeIs('expenses')">
                         Expenses
                     </x-nav-link>
 
