@@ -40,7 +40,7 @@ class WalletForm extends Component
 
     public function save()
     {
-        Gate::authorize('create', Wallet::class);
+       $this->authorize('create', Wallet::class);
         $q = Wallet::query();
         $q->create([
             'user_id' => auth()->id(),
