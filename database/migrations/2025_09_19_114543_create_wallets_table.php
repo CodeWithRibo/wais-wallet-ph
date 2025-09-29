@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->string('wallet_name');
-            $table->string('current_balance');
+            $table->float('current_balance');
             $table->string('wallet_type');
             $table->foreignId('user_id')
                 ->nullable()
