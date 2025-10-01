@@ -13,7 +13,7 @@ class ExpenseTable extends Component
     use WithPagination;
 
     #[Url]
-    public $search = '';
+    public ?string $search = '';
     #[Url]
     public $sort = 'created_at';
     public $sortDirection = 'ASC';
@@ -31,9 +31,11 @@ class ExpenseTable extends Component
         $sortColumn = $this->sortDirection === 'DESC' ? "-$this->sort" : $this->sort;
 
         $expenses = QueryBuilder::for(Expense::class)
+            ->search($this->search)
             ->allowedSorts(['date', 'category', 'wallet', 'payment_method'])
             ->defaultSort($sortColumn)
-            ->paginate(10);
+            //Pagination Bug
+            ->simplePaginate(10);
 
         return view('livewire.expense-table', compact('expenses'));
     }
