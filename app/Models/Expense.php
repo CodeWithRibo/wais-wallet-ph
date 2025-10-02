@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,6 +23,16 @@ class Expense extends Model
         'wallet_id',
     ];
 
+    public function scopeSearch(Builder $query, $term)
+    {
+        $query
+            ->where(function ($q) use ($term) {
+                $q->whereLike('category', '%'.$term.'%' ?? '')
+                    ->orWhereLike('notes', '%'.$term.'%' ?? '')
+                    ->orWhereLike('amount', '%'.$term.'%' ?? '');
+            });
+    }
+
     public function User(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -31,6 +42,7 @@ class Expense extends Model
     {
         return $this->belongsTo(Wallet::class);
     }
+
     protected function casts(): array
     {
         return [
