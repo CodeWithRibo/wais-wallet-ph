@@ -26,17 +26,22 @@ class ExpenseTable extends Component
             : $this->sort = $field;
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
+
         $sortColumn = $this->sortDirection === 'DESC' ? "-$this->sort" : $this->sort;
 
         $expenses = QueryBuilder::for(Expense::class)
-            ->search($this->search)
+            ->search(trim($this->search))
             ->allowedSorts(['date', 'category', 'wallet', 'payment_method'])
             ->defaultSort($sortColumn)
             //Pagination Bug
-            ->simplePaginate(10);
-
+            ->paginate(15);
         return view('livewire.expense-table', compact('expenses'));
     }
 }
