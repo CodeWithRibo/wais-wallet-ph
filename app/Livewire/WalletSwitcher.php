@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use LivewireUI\Modal\ModalComponent;
+use Livewire\Component;
 
-class WalletSwitcher extends ModalComponent
+class WalletSwitcher extends Component
 {
     public $wallet_option = 'all';
     public $remainingBalance = 0;

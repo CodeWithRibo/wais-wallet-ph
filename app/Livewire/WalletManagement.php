@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\Wallet;
 use Livewire\Component;
-use LivewireUI\Modal\ModalComponent;
 
 class WalletManagement extends Component
 {
