@@ -22,7 +22,7 @@ $squared = $slot->isEmpty();
 
 /* DEALING WITH SIZES - START */
 // Determine size-specific classes, including height, text size, and padding adjustments based on squared mode and icon presence
-$sizeClasses = match($size) { 
+$sizeClasses = match($size) {
     'lg' => '[:where(&)]:h-12 text-md' . ' '. ( $squared ? 'w-12': ($icon ? 'ps-4' : 'ps-5') . ' ' . ($iconAfter ? 'pe-4' : 'pe-5')),
     'md' => '[:where(&)]:h-10 text-base' . ' '. ( $squared ? 'w-10': ($icon ? 'ps-3' : 'ps-4') . ' ' . ($iconAfter ? 'pe-3' : 'pe-4')), // default
     'sm' => '[:where(&)]:h-8 text-sm' . ' '. ( $squared ? 'w-8': ($icon ? 'ps-2' : 'ps-3') . ' ' . ($iconAfter ? 'pe-2' : 'pe-3')),
@@ -49,7 +49,7 @@ $iconClasses = [
     '!text-[var(--color-primary-fg)]' => $variant === 'primary',
     '!text-[var(--color-primary)]' => $variant === 'outline'
 ];
- 
+
 $iconAttributes = (new \Illuminate\View\ComponentAttributeBag())->class($iconClasses);
 /* ICONS - END */
 
@@ -82,7 +82,7 @@ $colors = match($color) {
 // Determine variant-specific classes for background, text, borders, and hover states
 $variantClasses = match($variant){
     'primary' => [
-        'bg-[var(--color-primary)] hover:bg-[--alpha(var(--color-primary)/50%)', // Background color 
+        'bg-[var(--color-primary)] hover:bg-[--alpha(var(--color-primary)/50%)', // Background color
         'text-[var(--color-primary-fg)]', // Text color
         'border border-black/10 dark:border-0', // Border styles
         $colors => filled($color)
@@ -98,7 +98,7 @@ $variantClasses = match($variant){
     'outline' => [
         'border border-[--alpha(var(--color-primary)/50%)] hover:border-[color-mix(in_oklab,_var(--color-primary),_black_20%)]', // Border
         'bg-[--alpha(var(--color-primary)/5%)] hover:bg-[--alpha(var(--color-primary)/10%)]', // Background
-        'text-[var(--color-primary)]', 
+        'text-[var(--color-primary)]',
         $colors => filled($color), // Ensure variables are set
     ],
     'ghost' => [
@@ -120,7 +120,7 @@ $classes = [
     'disabled:opacity-75 dark:disabled:opacity-75 disabled:cursor-default disabled:pointer-events-none cursor-pointer',
     '[&_a]:no-underline [&_a]:decoration-none [&_a:hover]:no-underline' => $variant !== 'none' , // Handle anchor tags inside the button
     'rounded-field' => $variant !== 'none' , // Apply rounding unless variant is 'none'
-    
+
     // Handling loading logic via CSS: Show loading indicator as flex and set opacity-0 on its siblings
     '[&>[data-loading=true]:first-child]:flex', // Override 'hidden' to display the loading div during loading
     '[&>[data-loading=true]:first-child~*]:opacity-0', // Apply opacity-0 to all subsequent children (e.g., icons, text)
@@ -140,7 +140,7 @@ $loadingAttributes = $loadingAttributes->merge($hasWireLoading || $type === 'sub
     'wire:target' => $attributes->has('wire:target') ? $attributes->get('wire:target') : ($attributes->whereStartsWith('wire:click')->first() ?? null),
 ] : []);
 
-// Fallback for non-Livewire cases, I believe there use case for this static case beyond we actually need it in demo docs: 
+// Fallback for non-Livewire cases, I believe there use case for this static case beyond we actually need it in demo docs:
 $loadingAttributes = $loadingAttributes->merge($loading ? [
     'data-loading' => 'true', // thats 'true' is crucial, boolean true will break the work
     ] : []);
@@ -148,16 +148,16 @@ $loadingAttributes = $loadingAttributes->merge($loading ? [
 /* LOADING LOGIC - END */
 @endphp
 
-<x-ui.button.abstract 
-    :$as 
-    :$type 
+<x-ui.button.abstract
+    :$as
+    :$type
     :attributes="$attributes->class($classes)->merge([
         'role' => $as === 'a' && !$attributes->has('href') ? 'button' : null,
         'aria-busy' => $loading ? 'true' : 'false',
         'aria-disabled' => $attributes->has('disabled') ? 'true' : 'false',
-        // I know it basic, but you can create mapping labels for popular icons like ['x-mark' => 'Close']... 
+        // I know it basic, but you can create mapping labels for popular icons like ['x-mark' => 'Close']...
         'aria-label' => $squared && blank($slot) ? Str::title($icon ?? $iconAfter ?? 'Button') : null,
-    ])"  
+    ])"
     data-slot="button"
 >
         {{-- This is a special icon component (ui/icon/loading.blade.php) required for the loading indicator --}}
@@ -169,7 +169,7 @@ $loadingAttributes = $loadingAttributes->merge($loading ? [
             {{ $loadingAttributes }}
         >
             <x-ui.icon.loading :variant="$iconVariant" data-slot="loading-indicator" :attributes="$iconAttributes"/>
-        </div> 
+        </div>
 
     @if(filled($icon))
         <x-ui.icon :name="$icon" :variant="$iconVariant" :attributes="$iconAttributes"  data-slot="right-icon"/>

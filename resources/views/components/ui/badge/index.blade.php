@@ -61,9 +61,9 @@
                 => 'text-white dark:text-white bg-fuchsia-400 dark:bg-fuchsia-400 border-fuchsia-400 dark:border-fuchsia-400/90',
             'pink' => 'text-white dark:text-white bg-pink-400 dark:bg-pink-400 border-pink-400 dark:border-pink-400/90',
             'rose'=> 'text-white dark:text-white bg-rose-400 dark:bg-rose-400 border-rose-400 dark:border-rose-400/90',
-            'maya'=> 'text-white dark:text-white bg-[#02B46A] dark:bg-[#02B46A] border-[#02B46A] dark:border-[#02B46A]',
-            'gcash'=> 'text-white dark:text-white bg-[#007CFF] dark:bg-[#007CFF] border-[#007CFF] dark:border-[#007CFF]',
-            'cash'=> 'text-white dark:text-white bg-[#206B28] dark:bg-[#206B28] border-[#206B28] dark:border-[#206B28]',
+            'Maya'=> 'text-white dark:text-white bg-[#02B46A] dark:bg-[#02B46A] border-[#02B46A] dark:border-[#02B46A]',
+            'Gcash'=> 'text-white dark:text-white bg-[#007CFF] dark:bg-[#007CFF] border-[#007CFF] dark:border-[#007CFF]',
+            'Cash'=> 'text-white dark:text-white bg-[#206B28] dark:bg-[#206B28] border-[#206B28] dark:border-[#206B28]',
         };
     }
 

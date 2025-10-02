@@ -19,7 +19,7 @@
 ])
 
 @php
-    
+
     $invalid ??= $name && $errors->has($name);
 
     $classes = [
@@ -54,47 +54,47 @@
 
     <div
         @unless($bindScopeToParent)
-            {{-- 
-                When this input component is used on its own, it needs its own Alpine.js scope (`x-data`) 
+            {{--
+                When this input component is used on its own, it needs its own Alpine.js scope (`x-data`)
                 to handle features like copy, clear, reveal, etc.
 
                 However, when this input is nested inside a parent component that already has an Alpine.js scope,
-                giving it a separate `x-data` creates duplicate Alpine scopes. 
+                giving it a separate `x-data` creates duplicate Alpine scopes.
 
-                Duplicate scopes mean that methods like `handleKeydown` exist both in the parent and child, 
+                Duplicate scopes mean that methods like `handleKeydown` exist both in the parent and child,
                 so the same event gets handled twice, which is why you were seeing the keydown fire handled two times...
 
-                Setting '$bindScopeToParent = true' disables this child scope, allowing the input to 
-                use the parent's Alpine.js scope, preventing duplicate event handling while still 
+                Setting '$bindScopeToParent = true' disables this child scope, allowing the input to
+                use the parent's Alpine.js scope, preventing duplicate event handling while still
                 keeping all parent features intact.
             --}}
             x-data
         @endunless
 
-        
+
         @class([
             // ============================================================================
-            // GRID CONTAINER SETUP 
+            // GRID CONTAINER SETUP
             // ============================================================================
-            // Creates a CSS Grid container that enables complex overlapping layouts, I challenge you to do the same with flex  
+            // Creates a CSS Grid container that enables complex overlapping layouts, I challenge you to do the same with flex
             'w-full grid isolate',
 
             // ============================================================================
             // RIGHT-SIDE ACTIONS POSITIONING SYSTEM
-            // ============================================================================ 
+            // ============================================================================
             // Complex conditional positioning for the actions container based on left icon presence
             // The actions need to be in different columns depending on grid layout:
-            // - Without left icon: 2-column grid, actions go in column 2  
+            // - Without left icon: 2-column grid, actions go in column 2
             // - With left icon: 3-column grid, actions go in column 3
-            
+
             // When no left icon exists, place actions in column 2
             '[&:not(:has([data-slot=left-icon]))>[data-slot=input-actions]]:col-start-2',
-            
-            // When left icon exists, place actions in column 3 
+
+            // When left icon exists, place actions in column 3
             '[&:has([data-slot=left-icon])>[data-slot=input-actions]]:col-start-3',
-            
+
             // '[&>[data-slot=input-actions]]:col-start-3',
-            
+
             // Standard positioning for all action containers
             '[&>[data-slot=input-actions]]:row-start-1',        // Same row as input
             '[&>[data-slot=input-actions]]:place-self-center',  // Center within grid cell
@@ -107,45 +107,45 @@
             '[&>[data-slot=control]]:col-start-1',      // Always start at column 1
             '[&>[data-slot=control]]:row-start-1',      // First (and only) row
             '[&>[data-slot=control]]:col-span-3',       // Span across all possible columns (it handle the case of 2 as well)
-            
+
             // ============================================================================
             // LEFT ICON POSITIONING SYSTEM (when there is a one actually it handled like this has([data-slot=left-icon]))
             // ============================================================================
             // Left icon positioning - only applies when left icon exists
             // Places icon in first column, overlaying on top of input
-            
-            // Grid positioning 
+
+            // Grid positioning
             '[&:has([data-slot=left-icon])>[data-slot=left-icon]]:col-start-1',      // First column
             '[&:has([data-slot=left-icon])>[data-slot=left-icon]]:row-start-1',      // Same row as input (what actually force overlap)
             '[&:has([data-slot=left-icon])>[data-slot=left-icon]]:place-self-center', // Center within cell
-            
+
             // Z-index stacking - higher than input and actions to be visible
             '[&:has([data-slot=left-icon])>[data-slot=left-icon]]:!z-20',
-            
+
             // ============================================================================
             // DYNAMIC PADDING MANAGEMENT SYSTEM
             // ============================================================================
             // Prevents text from overlapping with overlaid icons by adding padding
-            
+
             // LEFT PADDING: Space for left icon when present
             '[&:has([data-slot=left-icon])>[data-slot=control]]:pl-[2.2rem]',
-            
+
             // RIGHT PADDING: Dynamic padding based on number of action elements
             // Each action input option (or right icon) takes ~1.9rem of space, padding increases accordingly
-            
+
             // 1 action element (clearable OR copyable OR revealable OR rightIcon so there is [1-4] element)
             '[&:has([data-slot=input-actions]):has([data-slot=input-option])>[data-slot=control]]:pr-[1.9rem]',
-            
-            // 2 action elements 
+
+            // 2 action elements
             '[&:has([data-slot=input-actions]):has([data-slot=input-option]+[data-slot=input-option])>[data-slot=control]]:pr-[3.8rem]',
-            
+
             // 3 action elements
             '[&:has([data-slot=input-actions]):has([data-slot=input-option]+[data-slot=input-option]+[data-slot=input-option])>[data-slot=control]]:pr-[5.7rem]',
-            
-            // 4 action elements 
+
+            // 4 action elements
             '[&:has([data-slot=input-actions]):has([data-slot=input-option]+[data-slot=input-option]+[data-slot=input-option]+[data-slot=input-option])>[data-slot=control]]:pr-[7.6rem]',
         ])
-        
+
         {{-- ========================================================================== --}}
         {{-- DYNAMIC GRID COLUMN TEMPLATE SYSTEM --}}
         {{-- ========================================================================== --}}
@@ -154,13 +154,13 @@
             // CSS custom properties for calculations
             '--icon-count: '. $iconCount,              // Number of right-side action icons
             '--icon-width: 2rem',                      // Standard width for each icon
-            
+
             // WITHOUT LEFT ICON: 2-column layout
             // Column 1: Input (flexible width)
             // Column 2: Action icons (fixed width based on count)
             'grid-template-columns: 1fr calc(var(--icon-width) * var(--icon-count))' => blank($leftIcon),
-            
-            // WITH LEFT ICON: 3-column layout  
+
+            // WITH LEFT ICON: 3-column layout
             // Column 1: Left icon (fixed 2.3rem) 2 seems too small spacially for  left icons
             // Column 2: Input (flexible width)
             // Column 3: Action icons (fixed width based on count)
@@ -198,14 +198,14 @@
             @if ($clearable)  <x-ui.input.options.clearable />  @endif
             @if ($revealable) <x-ui.input.options.revealable /> @endif
 
-            {{-- This isn’t a real input option, just an icon slotted as one. 
+            {{-- This isn’t a real input option, just an icon slotted as one.
                 It’s here purely to handle padding logic easly, don’t judge me 🤓 --}}
-            @if ($rightIcon)  
-                <x-ui.icon 
-                    :name="$rightIcon" 
-                    class="!text-neutral-500 dark:!text-neutral-500" 
+            @if ($rightIcon)
+                <x-ui.icon
+                    :name="$rightIcon"
+                    class="!text-neutral-500 dark:!text-neutral-500"
                     data-slot="input-option"
-                />   
+                />
             @endif
         </div>
     </div>
