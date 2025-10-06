@@ -24,12 +24,12 @@
 
             <x-ui.select
                 placeholder="All Wallets"
-                wire:model="#"
+                wire:model="walletFilter"
                 class="w-full">
                 {{--Need Loop Option--}}
                 <x-ui.select.option value="All Wallets">All Wallets</x-ui.select.option>
-                <x-ui.select.option value="business">Business</x-ui.select.option>
-                <x-ui.select.option value="shared">Shared</x-ui.select.option>
+                <x-ui.select.option value="Business">Business</x-ui.select.option>
+                <x-ui.select.option value="Shared">Shared</x-ui.select.option>
             </x-ui.select>
 
         </div>
@@ -54,18 +54,7 @@
                    </span>
                 </th>
                 <th>
-                     <span
-                         wire:click="sortBy('amount')"
-                         class="inline-flex items-center gap-1 cursor-pointer hover:underline">
-                       <p>Amount</p>
-                       @if($sort === 'amount')
-                             @if($sortDirection === 'ASC')
-                                 <x-ui.icon name="arrow-up" class="size-3 text-gray-500"></x-ui.icon>
-                             @else
-                                 <x-ui.icon name="arrow-down" class="size-3 text-gray-500"></x-ui.icon>
-                             @endif
-                         @endif
-                   </span>
+                    Amount
                 </th>
                 <th>
                       <span
@@ -110,48 +99,77 @@
                    </span>
                 </th>
                 <th>Notes</th>
-
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
-            @forelse($expenses as $index)
-                <tr class="text-center" wire:key="{{ $index->id }}">
-                    <td>{{$index->date->format('Y-m-d')}}</td>
-                    <td class="font-semibold text-[#118139]">₱{{number_format($index->amount, 2)}}</td>
-                    <td>{{ucwords($index->category)}}</td>
-                    <td>
-                        <x-ui.badge size="sm" variant="outline">{{ucwords($index->wallet_type)}}</x-ui.badge>
-                    </td>
-                    <td class="text-center">
-                        @switch($index->payment_method)
-                            @case('Cash')
-                                <x-ui.badge color="Cash">{{$index->payment_method}}</x-ui.badge>
-                                @break
-                            @case('Gcash')
-                                <x-ui.badge color="Gcash">{{$index->payment_method}}</x-ui.badge>
-                                @break
-                            @case('Maya')
-                                <x-ui.badge color="Maya">{{$index->payment_method}}</x-ui.badge>
-                                @break
-                            @case('Card')
-                                <x-ui.badge>{{$index->payment_method}}</x-ui.badge>
-                                @break
-                        @endswitch
-                    </td>
-                    <td class="text-start">@if($index->notes == null)
-                            <p class="text-gray-600 font-light">No Additional Notes</p>
+            @if($expenses->isNotEmpty())
+                @foreach($expenses as $index)
+                    <tr class="text-center" wire:key="{{ $index->id }}">
+                        <td>{{$index->date->format('Y-m-d')}}</td>
+                        <td class="font-semibold text-[#118139]">₱{{number_format($index->amount, 2)}}</td>
+                        <td>{{ucwords($index->category)}}</td>
+                        <td>
+                            <x-ui.badge size="sm" variant="outline">{{ucwords($index->wallet_type)}}</x-ui.badge>
+                        </td>
+                        <td class="text-center">
+                            @switch($index->payment_method)
+                                @case('Cash')
+                                    <x-ui.badge color="Cash">{{$index->payment_method}}</x-ui.badge>
+                                    @break
+                                @case('Gcash')
+                                    <x-ui.badge color="Gcash">{{$index->payment_method}}</x-ui.badge>
+                                    @break
+                                @case('Maya')
+                                    <x-ui.badge color="Maya">{{$index->payment_method}}</x-ui.badge>
+                                    @break
+                                @case('Card')
+                                    <x-ui.badge>{{$index->payment_method}}</x-ui.badge>
+                                    @break
+                            @endswitch
+                        </td>
+                        <td class="text-start">
+                            @if($index->notes == null)
+                                <p class="text-gray-600 font-light">No Additional Notes</p>
+                            @else
+                                {{$index->notes}}
+                            @endif
+                        </td>
+                        <td>
+                            <x-ui.button variant="outline" color="blue" icon="pencil-square">Edit</x-ui.button>
+                            <x-ui.modal.trigger id="delete-expense" class="my-4">
+                                <x-ui.button
+                                    variant="outline"
+                                    color="red"
+                                    icon="trash"
+                                >Delete</x-ui.button>
+                            </x-ui.modal.trigger>
+{{--                            <x-ui.modal--}}
+{{--                                id="delete-expense"--}}
+{{--                                position="center"--}}
+{{--                                heading="Delete Expense">--}}
+{{--                                @livewire('expense-delete', ['id' => $index->id ])--}}
+{{--                            </x-ui.modal>--}}
+                        </td>
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td colspan="6" class="text-center py-10">
+                        @if(!empty($search))
+                            <p class="text-gray-500 text-xl font-medium">
+                                No results found for "<span class="italic">{{ $search }}</span>"
+                            </p>
                         @else
-                            {{$index->notes}}
+                            <p class="text-gray-500 text-xl font-medium">
+                                No expenses recorded yet
+                            </p>
                         @endif
                     </td>
-                    @empty
-                    <td colspan="6">
-                           <p class="text-center text-2xl text-gray-500"> No Data Found</p>
-                    </td>
                 </tr>
-            @endforelse
-
+            @endif
             </tbody>
         </table>
+        {{$expenses->links()}}
     </div>
 </div>

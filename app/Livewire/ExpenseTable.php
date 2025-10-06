@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Expense;
+use Database\Seeders\ExpenseSeeder;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -17,6 +18,7 @@ class ExpenseTable extends Component
     #[Url]
     public $sort = 'created_at';
     public $sortDirection = 'ASC';
+//    public $walletFilter = 'all';
 
     public function sortBy($field): string
     {
@@ -31,16 +33,19 @@ class ExpenseTable extends Component
         $this->resetPage();
     }
 
+
     public function render()
     {
-
         $sortColumn = $this->sortDirection === 'DESC' ? "-$this->sort" : $this->sort;
 
+//        $q = Expense::query();
+//        if (!$this->walletFilter != 'all')
+//            $q->where('wallet_type', $this->walletFilter);
+//
         $expenses = QueryBuilder::for(Expense::class)
             ->search(trim($this->search))
-            ->allowedSorts(['date', 'category', 'wallet', 'payment_method'])
+            ->allowedSorts(['date', 'category', 'wallet_type', 'payment_method'])
             ->defaultSort($sortColumn)
-            //Pagination Bug
             ->paginate(15);
         return view('livewire.expense-table', compact('expenses'));
     }
