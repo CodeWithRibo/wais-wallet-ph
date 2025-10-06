@@ -15,7 +15,7 @@
         "livewire/livewire": "^3.6.4",
         "livewire/volt": "^1.7.0",
         "sheaf/cli": "^1.1",
-        "1ie/laravel-query-builder": "^6.3",
+        "spatie/laravel-query-builder": "^6.3",
         "wireui/heroicons": "^2.9"
     },
     "require-dev": {
