@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('payment_method')->nullable();
             $table->string('notes')->nullable();
             $table->timestamps();
-            $table->softDeletes();
+//            $table->softDeletes();
             $table->foreignId('user_id')
                 ->nullable()
                 ->constrained()
