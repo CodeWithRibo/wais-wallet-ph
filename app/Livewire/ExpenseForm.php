@@ -22,12 +22,14 @@ class ExpenseForm extends Component
             'date' => 'required|date',
             'wallet_type' => 'required',
             'payment_method' => 'nullable',
-            'notes' => 'nullable',
+            'notes' => 'nullable|max:50',
+
         ];
     }
 
     public function save()
     {
+        $this->authorize('create', Expense::class);
         Expense::create([
             'user_id' => auth()->id(),
             'wallet_id' => auth()->id(),
