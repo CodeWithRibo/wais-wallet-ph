@@ -33,7 +33,7 @@ class ExpensePolicy
 
     public function delete(User $user, Expense $expense): Response
     {
-        return $user->id === $expense->id
+        return $user->id === $expense->user_id
             ? Response::allow()
             : Response::denyAsNotFound();
     }
