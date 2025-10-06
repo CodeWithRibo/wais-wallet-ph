@@ -136,26 +136,29 @@
                             @endif
                         </td>
                         <td>
+                            <div class="flex space-x-3">
                             <x-ui.button variant="outline" color="blue" icon="pencil-square">Edit</x-ui.button>
-                            <x-ui.modal.trigger id="delete-expense" class="my-4">
+                            <x-ui.modal.trigger  :id="'delete-expense-' . $index->id" class="my-4">
                                 <x-ui.button
                                     variant="outline"
                                     color="red"
                                     icon="trash"
                                 >Delete</x-ui.button>
                             </x-ui.modal.trigger>
-{{--                            <x-ui.modal--}}
-{{--                                id="delete-expense"--}}
-{{--                                position="center"--}}
-{{--                                heading="Delete Expense">--}}
-{{--                                @livewire('expense-delete', ['id' => $index->id ])--}}
-{{--                            </x-ui.modal>--}}
+                            </div>
+                            <x-ui.modal
+                                :id="'delete-expense-' . $index->id"
+                                position="center"
+                                heading="Delete expense"
+                            >
+                               @livewire('expense-delete', ['id' => $index->id])
+                            </x-ui.modal>
                         </td>
                     </tr>
                 @endforeach
             @else
                 <tr>
-                    <td colspan="6" class="text-center py-10">
+                    <td colspan="7" class="text-center py-10">
                         @if(!empty($search))
                             <p class="text-gray-500 text-xl font-medium">
                                 No results found for "<span class="italic">{{ $search }}</span>"
