@@ -137,22 +137,28 @@
                         </td>
                         <td>
                             <div class="flex space-x-3">
-                            <x-ui.button variant="outline" color="blue" icon="pencil-square">Edit</x-ui.button>
-                            <x-ui.modal.trigger  :id="'delete-expense-' . $index->id" class="my-4">
-                                <x-ui.button
-                                    variant="outline"
-                                    color="red"
-                                    icon="trash"
-                                >Delete</x-ui.button>
-                            </x-ui.modal.trigger>
+                                <div>
+                                    <x-ui.modal.trigger id="edit-expense-modal" class="my-4">
+                                        <x-ui.button variant="outline"
+                                                     color="blue"
+                                                     icon="pencil-square"
+                                                     wire:click="edit({{$index->id}})">Edit
+                                        </x-ui.button>
+                                    </x-ui.modal.trigger>
+                                </div>
+{{--BUG (Uncaught Snapshot missing on Livewire component with id: mtWxTD11u0c0npqOHg92)--}}
+                                <div>
+                                    <x-ui.modal.trigger id="delete-expense-modal" class="my-4">
+                                        <x-ui.button
+                                            variant="outline"
+                                            color="red"
+                                            icon="trash"
+                                            wire:click="delete({{$index->id}})"
+                                        >Delete
+                                        </x-ui.button>
+                                    </x-ui.modal.trigger>
+                                </div>
                             </div>
-                            <x-ui.modal
-                                :id="'delete-expense-' . $index->id"
-                                position="center"
-                                heading="Delete expense"
-                            >
-                               @livewire('expense-delete', ['id' => $index->id])
-                            </x-ui.modal>
                         </td>
                     </tr>
                 @endforeach
@@ -173,6 +179,14 @@
             @endif
             </tbody>
         </table>
+        {{--EDIT EXPENSE MODAL--}}
+        <x-ui.modal  id="edit-expense-modal" position="center" heading="Update Expense">
+            @livewire('expense-edit')
+        </x-ui.modal>
         {{$expenses->links()}}
+        {{--DELETE EXPENSE MODAL--}}
+         <x-ui.modal id="delete-expense-modal" position="center" heading="Delete Expense">
+           @livewire('expense-delete')
+         </x-ui.modal>
     </div>
 </div>
