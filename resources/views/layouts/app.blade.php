@@ -31,6 +31,7 @@
     <!-- Page Content -->
     <main>
         @yield('content')
+        <x-ui.toast maxToasts="5" />
     </main>
 </div>
 @livewireScripts
