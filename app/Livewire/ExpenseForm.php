@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Expense;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class ExpenseForm extends Component
@@ -30,11 +31,20 @@ class ExpenseForm extends Component
     public function save()
     {
         $this->authorize('create', Expense::class);
-        Expense::create([
-            'user_id' => auth()->id(),
-            'wallet_id' => auth()->id(),
-            ... $this->validate()
-        ]);
+        try {
+            Expense::create([
+                'user_id' => auth()->id(),
+                'wallet_id' => auth()->id(),
+                ... $this->validate()
+            ]);
+        }catch (\Exception $e){
+            \Log::error('An unexpected error occurred: ' . $e->getMessage());
+        }
+        $this->dispatch('notify',
+            type: 'success',
+            content:'expense added successfully',
+            duration: 3000
+        );
         return redirect()->route('expenses');
     }
 
