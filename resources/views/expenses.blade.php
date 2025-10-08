@@ -12,14 +12,14 @@
                     </p>
                 </div>
                 <div class="p-6 ">
-                    <x-ui.modal.trigger id="add-wallet" class="my-4">
+                    <x-ui.modal.trigger id="add-expense" class="my-4">
                         <x-ui.button icon="plus">
                             Add Expenses
                         </x-ui.button>
                     </x-ui.modal.trigger>
 
                     <x-ui.modal
-                        id="add-wallet"
+                        id="add-expense"
                         position="center"
                         heading="Add Expenses">
                         @livewire('expense-form')
@@ -28,6 +28,13 @@
             </div>
             <div class="px-6">
                @livewire('expense-table')
+                <x-ui.modal id="edit-expense-modal" position="center" heading="Delete Expense">
+                    @livewire('expense-edit')
+                </x-ui.modal>
+
+                <x-ui.modal id="delete-expense-modal" position="center" heading="Delete Expense">
+                    @livewire('expense-delete')
+                </x-ui.modal>
             </div>
             <div class="px-6">
 
