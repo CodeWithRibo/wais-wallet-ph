@@ -3,7 +3,7 @@
         <p class="pb-2">Are you sure want to delete this expense?</p>
         <div class="flex items-center justify-end space-x-3">
             <x-ui.button color="slate"
-                         x-on:click="$modal.close('delete-expense-{{$id}}')">
+                         x-on:click="$modal.close('delete-expense-modal')">
                 No
             </x-ui.button>
             <x-ui.button color="red" type="submit">Yes, Delete it!</x-ui.button>
