@@ -12,25 +12,15 @@
                 leftIcon="magnifying-glass"
             />
 
-            <x-ui.select
-                placeholder="All Categories"
-                wire:model="#"
-                class="w-full">
-                {{--Need Loop Option--}}
-                <x-ui.select.option value="All Categories">Personal</x-ui.select.option>
-                <x-ui.select.option value="Business">Business</x-ui.select.option>
-                <x-ui.select.option value="Shared">Shared</x-ui.select.option>
-            </x-ui.select>
+            <x-select-option wire:model="category_filter"
+                             wire:change="sortBy('category')"
+                             :options="['All Categories' => 'All Categories', 'Transportation' => 'Transportation' ,'Healthcare' => 'Healthcare']">
+            </x-select-option>
 
-            <x-ui.select
-                placeholder="All Wallets"
-                wire:model="walletFilter"
-                class="w-full">
-                {{--Need Loop Option--}}
-                <x-ui.select.option value="All Wallets">All Wallets</x-ui.select.option>
-                <x-ui.select.option value="Business">Business</x-ui.select.option>
-                <x-ui.select.option value="Shared">Shared</x-ui.select.option>
-            </x-ui.select>
+            <x-select-option wire:model="wallet_filter"
+                             wire:change="sortBy('wallet_type')"
+                            :options="['All Wallet' => 'All Wallet', 'Personal' => 'Personal' , 'Business' => 'Business', 'Shared' => 'Shared']">
+            </x-select-option>
 
         </div>
     </div>
@@ -98,7 +88,7 @@
                         @endif
                    </span>
                 </th>
-                <th>Notes</th>
+                    <th>Notes</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -126,13 +116,16 @@
                                 @case('Card')
                                     <x-ui.badge>{{$index->payment_method}}</x-ui.badge>
                                     @break
+                                @default
+                                    <p class="text-gray-600">N/A</p>
+                                    @break
                             @endswitch
                         </td>
                         <td class="text-start">
                             @if($index->notes == null)
                                 <p class="text-gray-600 font-light">No Additional Notes</p>
                             @else
-                                {{$index->notes}}
+                                <p class="text-gray-800">{{$index->notes}}</p>
                             @endif
                         </td>
                         <td>
@@ -142,11 +135,11 @@
                                         <x-ui.button variant="outline"
                                                      color="blue"
                                                      icon="pencil-square"
+
                                                      wire:click="edit({{$index->id}})">Edit
                                         </x-ui.button>
                                     </x-ui.modal.trigger>
                                 </div>
-{{--BUG (Uncaught Snapshot missing on Livewire component with id: mtWxTD11u0c0npqOHg92)--}}
                                 <div>
                                     <x-ui.modal.trigger id="delete-expense-modal" class="my-4">
                                         <x-ui.button
@@ -179,14 +172,7 @@
             @endif
             </tbody>
         </table>
-        {{--EDIT EXPENSE MODAL--}}
-        <x-ui.modal  id="edit-expense-modal" position="center" heading="Update Expense">
-            @livewire('expense-edit')
-        </x-ui.modal>
+
         {{$expenses->links()}}
-        {{--DELETE EXPENSE MODAL--}}
-         <x-ui.modal id="delete-expense-modal" position="center" heading="Delete Expense">
-           @livewire('expense-delete')
-         </x-ui.modal>
     </div>
 </div>

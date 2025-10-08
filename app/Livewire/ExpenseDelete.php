@@ -3,27 +3,43 @@
 namespace App\Livewire;
 
 use App\Models\Expense;
+use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ExpenseDelete extends Component
 {
-    public $id;
+    use WithPagination;
+
+    public $expenseId;
     public $expense;
 
-    public function mount($id): void
+    #[On('expense-delete')]
+    public function loadExpense($id): void
     {
-        $this->id = $id;
-        $this->expense = Expense::findOrFail($this->id);
-    }
+        $this->expenseId = $id;
+        $this->expense = Expense::findOrFail($this->expenseId);
 
-    public function delete()
-    {
         $this->authorize('delete', $this->expense);
-        $this->expense->delete();
-        return redirect()->route('expenses');
+        $this->resetPage();
     }
 
-    public function render()
+    public function delete(): void
+    {
+        $this->loadExpense($this->expenseId);
+        $this->expense->delete();
+
+        $this->dispatch('close-modal', id: 'delete-expense-modal');
+        $this->dispatch('delete-expense', ['id' => $this->expenseId]);
+        $this->dispatch('notify',
+            type: 'success',
+            content: 'expense deleted successfully',
+            duration: 3000
+        );
+    }
+
+    public function render(): View
     {
         return view('livewire.expense-delete');
     }
