@@ -2,11 +2,12 @@
 
 namespace App\Livewire;
 
+
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 

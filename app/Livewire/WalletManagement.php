@@ -4,9 +4,13 @@ namespace App\Livewire;
 
 use App\Models\Wallet;
 use Livewire\Component;
+use Livewire\WithPagination;
+use Livewire\Attributes\On;
 
 class WalletManagement extends Component
 {
+    use WithPagination;
+
     public float $totalBalance;
     public float $availBal;
     public float $monthlySpent;

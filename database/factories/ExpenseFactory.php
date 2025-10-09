@@ -31,10 +31,11 @@ class ExpenseFactory extends Factory
         ];
 
         $walletTypes = [
-            'creditcard',
-            'debitcard',
-            'personal',
-            'shared'
+            'CreditCard',
+            'DebitCard',
+            'Personal',
+            'Shared',
+            'Business'
         ];
 
         $paymentMethods = [

@@ -36,7 +36,7 @@ class ExpenseTable extends Component
             'notes')->get();
     }
 
-    #[On('refresh-table')]
+    #[On(['refresh-table' , 'expense-saved'])]
     public function refresh(): void
     {
         $this->resetPage();

@@ -20,13 +20,9 @@
 
             <x-ui.field required>
                 <x-ui.label>Wallet Type</x-ui.label>
-                <x-ui.select
-                    placeholder="Select Wallet"
-                    wire:model="wallet_type">
-                    <x-ui.select.option value="personal" icon="wallet">Personal</x-ui.select.option>
-                    <x-ui.select.option value="business" icon="credit-card">Business</x-ui.select.option>
-                    <x-ui.select.option value="shared" icon="share">Shared</x-ui.select.option>
-                </x-ui.select>
+                <x-select-option wire:model="wallet_type"
+                                 :options="['' => 'Select Wallet type','Personal' => 'Personal','Business' => 'Business', 'Shared' => 'Shared']">
+                </x-select-option>
             </x-ui.field>
             <x-ui.error name="wallet_type"/>
             <div class=" mt-5 flex items-center justify-center">

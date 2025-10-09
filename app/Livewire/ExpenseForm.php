@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Expense;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class ExpenseForm extends Component
@@ -30,22 +31,32 @@ class ExpenseForm extends Component
     public function save()
     {
         $this->authorize('create', Expense::class);
-            Expense::create([
-                'user_id' => auth()->id(),
-                'wallet_id' => auth()->id(),
-                ... $this->validate()
-            ]);
 
+        $expense = Expense::create([
+            'user_id' => auth()->id(),
+            'wallet_id' => auth()->id(),
+            ... $this->validate()
+        ]);
+
+        if ($expense) {
             $this->dispatch('notify',
                 type: 'success',
-                content:'expense added successfully',
-                duration: 3000
+                content: 'Expense added successfully',
+                duration: 4000
             );
+        } else {
+            $this->dispatch('notify',
+                type: 'error',
+                content: 'Failed to add expense. Please try again.',
+                duration: 4000
+            );
+        }
 
-        return redirect()->route('expenses');
+        $this->dispatch('close-modal', id: 'add-expense');
+        $this->dispatch('expense-saved');
     }
 
-    public function render()
+    public function render(): View
     {
         $user = auth()->user();
         return view('livewire.expense-form', compact('user'));
