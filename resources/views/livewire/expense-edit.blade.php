@@ -22,15 +22,14 @@
                 </x-select-option>
                 <x-ui.error name="category"/>
             </x-ui.field>
-
+            @php
+                $walletNames = $user->wallet()->pluck('wallet_name')->mapWithKeys(fn($v) => [$v => $v]);
+            @endphp
             <x-ui.field required>
                 <x-ui.label>Wallet</x-ui.label>
                 <x-select-option
                     wire:model="wallet_type"
-                    :options="[
-                            'Credit Card' => 'Credit Card',
-                            'Debit Card' => 'Debit Card',
-                            ]">
+                    :options="array_merge(['' => 'Select Wallet'], $walletNames->toArray())">
                 </x-select-option>
                 <x-ui.error name="wallet_type"/>
             </x-ui.field>
