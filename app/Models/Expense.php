@@ -33,12 +33,12 @@ class Expense extends Model
             });
     }
 
-    public function User(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function Wallet(): BelongsTo
+    public function wallet(): BelongsTo
     {
         return $this->belongsTo(Wallet::class);
     }

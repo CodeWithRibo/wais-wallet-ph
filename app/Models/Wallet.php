@@ -14,16 +14,18 @@ class Wallet extends Model
     protected $fillable = [
         'wallet_name',
         'current_balance',
+        'monthly_spent',
+        'transaction',
         'wallet_type',
         'user_id',
     ];
 
-    public function Expense(): HasMany
+    public function expense(): HasMany
     {
         return $this->hasMany(Expense::class);
     }
 
-    public function User(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

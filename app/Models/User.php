@@ -25,12 +25,12 @@ class User extends Authenticatable
         'role'
     ];
 
-    public function Wallet(): HasMany
+    public function wallet(): HasMany
     {
         return $this->hasMany(Wallet::class);
     }
 
-    public function Expense(): HasMany
+    public function expense(): HasMany
     {
         return $this->hasMany(Expense::class);
     }
