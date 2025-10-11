@@ -17,6 +17,8 @@ class WalletForm extends Component
     public $wallet_name = '';
     public $current_balance = '';
     public $wallet_type = '';
+    public $monthly_spent;
+    public $transaction;
 
     protected function rules(): array
     {
@@ -24,6 +26,8 @@ class WalletForm extends Component
             'wallet_name' => 'required|min:6|max:50',
             'current_balance' => 'required|numeric|min:1',
             'wallet_type' => 'required',
+            'monthly_spent' => 'nullable',
+            'transaction' => 'nullable',
         ];
     }
 
@@ -42,11 +46,12 @@ class WalletForm extends Component
     public function save()
     {
        $this->authorize('create', Wallet::class);
-        $q = Wallet::query();
-        $q->create([
+
+        Wallet::query()->create([
             'user_id' => auth()->id(),
             ... $this->validate()
         ]);
+
         return redirect()->route('wallet');
     }
 
