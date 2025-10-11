@@ -22,7 +22,7 @@
                 <x-ui.error name="category"/>
             </x-ui.field>
             @php
-                $walletNames = $user->wallet->pluck('wallet_name')->mapWithKeys(fn($v) => [$v => $v]);
+                $walletNames = $user->wallet()->pluck('wallet_name')->mapWithKeys(fn($v) => [$v => $v]);
             @endphp
             <x-ui.field required>
                 <x-ui.label>Wallet</x-ui.label>
