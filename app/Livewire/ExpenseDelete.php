@@ -20,7 +20,7 @@ class ExpenseDelete extends Component
     public function loadExpense($id): void
     {
         $this->expenseId = $id;
-        $this->expense = Expense::findOrFail($this->expenseId);
+        $this->expense = Expense::query()->findOrFail($this->expenseId);
 
         $this->authorize('delete', $this->expense);
         $this->resetPage();
