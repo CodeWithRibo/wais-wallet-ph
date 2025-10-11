@@ -28,7 +28,7 @@
             </div>
             <div class="px-6">
                @livewire('expense-table')
-                <x-ui.modal id="edit-expense-modal" position="center" heading="Delete Expense">
+                <x-ui.modal id="edit-expense-modal" position="center" heading="Edit Expense">
                     @livewire('expense-edit')
                 </x-ui.modal>
 
