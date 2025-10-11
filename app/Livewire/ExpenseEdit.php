@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Expense;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -59,19 +60,34 @@ class ExpenseEdit extends Component
 
     /**
      * @return void
+     * @throws \Throwable
      */
     public function save() : void
     {
-        $this->expense->update($this->validate());
+       DB::transaction(function () {
+           $originalWalletType = $this->expense->wallet_type;
 
-        $this->dispatch('refresh-table');
-        $this->dispatch('update-expense', id : $this->expense->id);
-        $this->dispatch('close-modal', id: 'edit-expense-modal');
-        $this->dispatch('notify',
-            type: 'success',
-            content:'expense updated successfully',
-            duration: 3000
-        );
+           $this->expense->update($this->validate());
+
+           DB::table('wallets')
+               ->where('wallet_name', $originalWalletType)
+               ->decrement('transaction');
+
+           $newWalletType = $this->expense->wallet_type;
+
+           DB::table('wallets')
+               ->where('wallet_name', $newWalletType)
+               ->increment('transaction');
+
+           $this->dispatch('refresh-table');
+           $this->dispatch('update-expense', id : $this->expense->id);
+           $this->dispatch('close-modal', id: 'edit-expense-modal');
+           $this->dispatch('notify',
+               type: 'success',
+               content:'expense updated successfully',
+               duration: 3000
+           );
+       });
     }
 
     public function render() : View

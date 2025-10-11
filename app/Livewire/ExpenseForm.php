@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Expense;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -28,32 +30,55 @@ class ExpenseForm extends Component
         ];
     }
 
-    public function save()
+    /**
+     * @throws \Throwable
+     */
+    public function save(): void
     {
+        $validated = $this->validate();
+
         $this->authorize('create', Expense::class);
 
-        $expense = Expense::create([
-            'user_id' => auth()->id(),
-            'wallet_id' => auth()->id(),
-            ... $this->validate()
-        ]);
+        try {
+            DB::transaction(function () use ($validated) {
+                //Fix not inserting new data
+                DB::table('wallets')
+                    ->where('wallet_name', $this->wallet_type)
+                    ->increment('monthly_spent', floatval($this->amount));
 
-        if ($expense) {
-            $this->dispatch('notify',
-                type: 'success',
-                content: 'Expense added successfully',
-                duration: 4000
-            );
-        } else {
-            $this->dispatch('notify',
-                type: 'error',
-                content: 'Failed to add expense. Please try again.',
-                duration: 4000
-            );
+                DB::table('wallets')
+                    ->where('wallet_name', $this->wallet_type)
+                    ->increment('transaction');
+
+
+                $expense = Expense::query()->create([
+                    'user_id' => auth()->id(),
+                    'wallet_id' => auth()->id(),
+                    ... $validated
+                ]);
+
+                if ($expense) {
+                    $this->dispatch('notify',
+                        type: 'success',
+                        content: 'Expense added successfully',
+                        duration: 4000
+                    );
+                } else {
+                    $this->dispatch('notify',
+                        type: 'error',
+                        content: 'Failed to add expense. Please try again.',
+                        duration: 4000
+                    );
+                }
+
+                $this->dispatch('close-modal', id: 'add-expense');
+                $this->dispatch('expense-saved');
+
+            });
+        } catch (\Throwable $e) {
+            Log::error('Something went wrong: ' . $e->getMessage());
+            DB::rollBack();
         }
-
-        $this->dispatch('close-modal', id: 'add-expense');
-        $this->dispatch('expense-saved');
     }
 
     public function render(): View

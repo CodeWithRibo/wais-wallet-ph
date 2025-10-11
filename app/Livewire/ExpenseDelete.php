@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Expense;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -29,6 +30,10 @@ class ExpenseDelete extends Component
     {
         $this->loadExpense($this->expenseId);
         $this->expense->delete();
+
+        DB::table('wallets')
+            ->where('wallet_name', $this->expense->wallet_type)
+            ->decrement('transaction');
 
         $this->dispatch('close-modal', id: 'delete-expense-modal');
         $this->dispatch('delete-expense', ['id' => $this->expenseId]);
