@@ -11,8 +11,9 @@ return new class extends Migration {
             $table->id();
             $table->string('wallet_name');
             $table->float('current_balance');
-            $table->float('monthly_spent')->nullable();
-            $table->integer('transaction')->nullable();
+            $table->float('monthly_spent');
+            $table->float('available_balance');
+            $table->integer('transaction');
             $table->string('wallet_type');
             $table->foreignId('user_id')
                 ->nullable()

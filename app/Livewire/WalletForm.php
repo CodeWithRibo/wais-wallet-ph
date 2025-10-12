@@ -26,8 +26,6 @@ class WalletForm extends Component
             'wallet_name' => 'required|min:6|max:50',
             'current_balance' => 'required|numeric|min:1',
             'wallet_type' => 'required',
-            'monthly_spent' => 'nullable',
-            'transaction' => 'nullable',
         ];
     }
 
@@ -49,6 +47,9 @@ class WalletForm extends Component
 
         Wallet::query()->create([
             'user_id' => auth()->id(),
+            'monthly_spent' => 0,
+            'transaction' => 0,
+            'available_balance' => $this->current_balance,
             ... $this->validate()
         ]);
 
