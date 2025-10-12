@@ -16,6 +16,7 @@ class Wallet extends Model
         'current_balance',
         'monthly_spent',
         'transaction',
+        'available_balance',
         'wallet_type',
         'user_id',
     ];

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Wallet;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
@@ -14,22 +15,45 @@ class WalletManagement extends Component
     public float $totalBalance;
     public float $availBal;
     public float $monthlySpent;
+    public $user;
 
-    public function mount(): void
+    public function wallet()
     {
-        $user = auth()->user()->load('expense', 'wallet');
-        $expense = $user->expense->sum('amount') ?? 0 ;
-        $currentBal = $user->wallet->sum('current_balance') ?? 0;
+        $this->user = auth()->user()->load('expense', 'wallet');
+        $expense = $this->user->expense()->sum('amount') ?? 0;
+        $currentBal = $this->user->wallet()->sum('current_balance') ?? 0;
 
         $available = $currentBal - $expense;
 
         $this->totalBalance = $currentBal;
         $this->monthlySpent = $expense;
         $this->availBal = $available;
+
+
     }
 
-    public function render()
+//    public function walletSummary()
+//    {
+//
+//    }
+
+    public function mount(): void
     {
-        return view('livewire.wallet-management');
+        $this->wallet();
+    }
+
+    public function render(): View
+    {
+        $wallets = $this->user->wallet()
+            ->select([
+                'wallet_name',
+                'current_balance',
+                'monthly_spent',
+                'transaction',
+                'available_balance',
+                'wallet_type'
+            ])->get();
+
+        return view('livewire.wallet-management', compact('wallets'));
     }
 }

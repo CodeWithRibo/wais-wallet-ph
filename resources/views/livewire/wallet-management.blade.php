@@ -94,10 +94,10 @@
                         <p>Transaction</p>
                    </span>
                         <span class="space-y-3">
-                        <p class="text-neutral-900">₱{{$wallet->current_balance}}</p>
-                        <p class="text-red-500 font-semibold">-₱{{$wallet->monthly_spent ?? 0}}</p>
-                        <p class="text-[#409A60] font-semibold">₱{{$wallet->current_balance}}</p>
-                        <p class="font-semibold text-neutral-900">{{$wallet->transaction ?? 0}}</p>
+                        <p class="text-neutral-900 font-semibold pl-3">₱{{number_format($wallet->current_balance, 2)}}</p>
+                        <p class="text-red-500 font-semibold pl-2">-₱{{number_format($wallet->monthly_spent, 2)}}</p>
+                        <p class="text-[#409A60] font-semibold pl-3 ">₱{{number_format($wallet->available_balance, 2)}}</p>
+                        <p class="font-semibold text-neutral-900 pl-3">{{$wallet->transaction}}</p>
                     </span>
                     </div>
                 </div>
