@@ -14,14 +14,23 @@ class CreateDefaultWalletsListener
         $defaultWallets = [
             ['wallet_name' => 'Personal',
                 'current_balance' => 1000,
+                'monthly_spent' => 0,
+                'transaction' => 0,
+                'available_balance' => 1000,
                 'wallet_type' => 'Personal'
             ],
             ['wallet_name' => 'Business',
                 'current_balance' => 1000,
+                'monthly_spent' => 0,
+                'transaction' => 0,
+                'available_balance' => 1000,
                 'wallet_type' => 'Business'
             ],
             ['wallet_name' => 'Shared',
                 'current_balance' => 1000,
+                'monthly_spent' => 0,
+                'transaction' => 0,
+                'available_balance' => 1000,
                 'wallet_type' => 'Shared'
             ],
 
