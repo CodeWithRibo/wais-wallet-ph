@@ -71,9 +71,25 @@ class ExpenseEdit extends Component
 
            DB::table('wallets')
                ->where('wallet_name', $originalWalletType)
+               ->decrement('monthly_spent', floatval($this->amount));
+
+           DB::table('wallets')
+               ->where('wallet_name', $originalWalletType)
+               ->decrement('available_balance', floatval($this->amount));
+
+           DB::table('wallets')
+               ->where('wallet_name', $originalWalletType)
                ->decrement('transaction');
 
            $newWalletType = $this->expense->wallet_type;
+
+           DB::table('wallets')
+               ->where('wallet_name', $newWalletType)
+               ->decrement('monthly_spent', floatval($this->amount));
+
+           DB::table('wallets')
+               ->where('wallet_name', $newWalletType)
+               ->decrement('available_balance', floatval($this->amount));
 
            DB::table('wallets')
                ->where('wallet_name', $newWalletType)

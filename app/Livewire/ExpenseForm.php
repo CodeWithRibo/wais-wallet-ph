@@ -41,10 +41,14 @@ class ExpenseForm extends Component
 
         try {
             DB::transaction(function () use ($validated) {
-                //Fix not inserting new data
+
                 DB::table('wallets')
                     ->where('wallet_name', $this->wallet_type)
                     ->increment('monthly_spent', floatval($this->amount));
+
+                DB::table('wallets')
+                    ->where('wallet_name', $this->wallet_type)
+                    ->decrement('available_balance', floatval($this->amount));
 
                 DB::table('wallets')
                     ->where('wallet_name', $this->wallet_type)
