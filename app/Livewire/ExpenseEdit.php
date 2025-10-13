@@ -3,8 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\Expense;
+use App\Models\Wallet;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -62,51 +64,70 @@ class ExpenseEdit extends Component
      * @return void
      * @throws \Throwable
      */
-    public function save() : void
+    public function save(): void
     {
-       DB::transaction(function () {
-           $originalWalletType = $this->expense->wallet_type;
+        $validated = $this->validate();
 
-           $this->expense->update($this->validate());
+        $originalWalletType = $this->expense->wallet_type;
+        $originalAmount = $this->expense->amount;
 
-           DB::table('wallets')
-               ->where('wallet_name', $originalWalletType)
-               ->decrement('monthly_spent', floatval($this->amount));
+        $walletChanged = $originalWalletType !== $validated['wallet_type'];
 
-           DB::table('wallets')
-               ->where('wallet_name', $originalWalletType)
-               ->decrement('available_balance', floatval($this->amount));
+        $newWalletType = $validated['wallet_type'];
+        $newAmount = $validated['amount'];
 
-           DB::table('wallets')
-               ->where('wallet_name', $originalWalletType)
-               ->decrement('transaction');
 
-           $newWalletType = $this->expense->wallet_type;
+        try {
+            DB::transaction(function () use ($walletChanged, $originalWalletType, $originalAmount, $newWalletType, $newAmount, $validated) {
 
-           DB::table('wallets')
-               ->where('wallet_name', $newWalletType)
-               ->decrement('monthly_spent', floatval($this->amount));
+                if ($walletChanged) {
+                    Wallet::query()
+                        ->where('wallet_name', $originalWalletType)
+                        ->update([
+                            'monthly_spent' => DB::raw('monthly_spent - ' . floatval($originalAmount)),
+                            'available_balance' => DB::raw('available_balance + ' . floatval($originalAmount)),
+                            'transaction' => DB::raw('transaction - 1 '),
+                        ]);
 
-           DB::table('wallets')
-               ->where('wallet_name', $newWalletType)
-               ->decrement('available_balance', floatval($this->amount));
+                    Wallet::query()
+                        ->where('wallet_name', $newWalletType)
+                        ->update([
+                            'monthly_spent' => DB::raw('monthly_spent + ' . floatval($newAmount)),
+                            'available_balance' => DB::raw('available_balance - ' . floatval($newAmount)),
+                            'transaction' => DB::raw('transaction + 1 '),
+                        ]);
+                } else {
+                    $diff = $newAmount - $originalAmount;
 
-           DB::table('wallets')
-               ->where('wallet_name', $newWalletType)
-               ->increment('transaction');
+                    if ($diff !== 0) {
+                        Wallet::query()
+                            ->where('wallet_name', $originalWalletType)
+                            ->update([
+                                'monthly_spent' => DB::raw('monthly_spent + ' . floatval($diff)),
+                                'available_balance' => DB::raw('available_balance' . ($diff > 0 ? '-' : '+') . abs($diff)),
+                            ]);
+                    }
+                }
 
-           $this->dispatch('refresh-table');
-           $this->dispatch('update-expense', id : $this->expense->id);
-           $this->dispatch('close-modal', id: 'edit-expense-modal');
-           $this->dispatch('notify',
-               type: 'success',
-               content:'expense updated successfully',
-               duration: 3000
-           );
-       });
+                $this->expense->update($validated);
+
+
+                $this->dispatch('refresh-table');
+                $this->dispatch('update-expense', id: $this->expense->id);
+                $this->dispatch('close-modal', id: 'edit-expense-modal');
+                $this->dispatch('notify',
+                    type: 'success',
+                    content: 'expense updated successfully',
+                    duration: 3000
+                );
+            });
+        } catch (\Throwable $e) {
+            Log::error('Something went wrong: ' . $e->getMessage());
+            DB::rollBack();
+        }
     }
 
-    public function render() : View
+    public function render(): View
     {
         $user = auth()->user();
         return view('livewire.expense-edit', compact('user'));
