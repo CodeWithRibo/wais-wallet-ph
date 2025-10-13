@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Expense;
+use App\Models\Wallet;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -42,18 +43,14 @@ class ExpenseForm extends Component
         try {
             DB::transaction(function () use ($validated) {
 
-                DB::table('wallets')
-                    ->where('wallet_name', $this->wallet_type)
-                    ->increment('monthly_spent', floatval($this->amount));
 
                 DB::table('wallets')
                     ->where('wallet_name', $this->wallet_type)
-                    ->decrement('available_balance', floatval($this->amount));
-
-                DB::table('wallets')
-                    ->where('wallet_name', $this->wallet_type)
-                    ->increment('transaction');
-
+                    ->update([
+                        'monthly_spent' => DB::raw('monthly_spent + ' . floatval($this->amount)),
+                        'available_balance' => DB::raw('available_balance - ' . floatval($this->amount)),
+                        'transaction' => DB::raw('transaction + 1 '),
+                    ]);
 
                 $expense = Expense::query()->create([
                     'user_id' => auth()->id(),
