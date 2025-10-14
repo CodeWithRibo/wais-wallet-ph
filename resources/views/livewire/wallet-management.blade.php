@@ -15,19 +15,25 @@
         </span>
         </div>
 
-        <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
+        <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5 relative">
+                <span class="absolute -bottom-8 -right-1 p-6">
+                   <p class="text-[10px] text-gray-500">
+                    Cycle: {{\Carbon\Carbon::parse($this->cycleStart)->format('M ,d, Y')}} → {{\Carbon\Carbon::parse($this->cycleEnd)->format('M ,d, Y')}}
+                    </p>
+                </span>
+
             <span class="flex items-center justify-between ">
                 <p class="text-sm font-semibold text-gray-800">Monthly Spending</p>
                 <x-ui.icon name="arrow-trending-down" class=""/>
-            </span>
+                    </span>
             <span class="">
-                <h1 class="text-gray-800 font-bold text-xl">
-                    ₱{{number_format($monthlySpent, 2)}}
-                </h1>
-                <p class="text-gray-500 text-sm">
-                    This month
-                </p>
-        </span>
+                        <h1 class="text-gray-800 font-bold text-xl">
+                            ₱{{number_format($monthlySpent, 2)}}
+                        </h1>
+                        <p class="text-gray-500 text-sm">
+                            This month
+                        </p>
+                     </span>
         </div>
 
 
@@ -60,7 +66,7 @@
                                     <h1 class="text-xl">👤</h1>
                                     @break
                                 @case('Business')
-                                     <h1 class="text-xl">💼</h1>
+                                    <h1 class="text-xl">💼</h1>
                                     @break
                                 @case('Shared')
                                     <h1 class="text-xl">👥</h1>
@@ -71,10 +77,12 @@
                              <h1>{{ucfirst($wallet->wallet_name)}}</h1>
                         @switch($wallet->wallet_type)
                                     @case('Personal')
-                                        <x-ui.badge color="personal">{{strtolower($wallet->wallet_type)}}</x-ui.badge>
+                                        <x-ui.badge
+                                            color="personal">{{strtolower($wallet->wallet_type)}}</x-ui.badge>
                                         @break
                                     @case('Business')
-                                        <x-ui.badge color="business">{{strtolower($wallet->wallet_type)}}</x-ui.badge>
+                                        <x-ui.badge
+                                            color="business">{{strtolower($wallet->wallet_type)}}</x-ui.badge>
                                         @break
                                     @case('Shared')
                                         <x-ui.badge color="shared">{{strtolower($wallet->wallet_type)}}</x-ui.badge>
@@ -83,7 +91,12 @@
                         </span>
                         </div>
                         <div class="mt-1">
-                            <x-ui.icon name="pencil-square" class="text-black"/>
+                            <x-ui.modal.trigger id="edit-wallet-modal" class="my-4">
+                                <x-secondary-button class="p-1" wire:click="edit({{$wallet->id}})">
+                                    <x-ui.icon name="pencil-square" class="text-black"/>
+                                </x-secondary-button>
+                            </x-ui.modal.trigger>
+
                         </div>
                     </div>
                     <div class="flex justify-between">
