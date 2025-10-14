@@ -30,6 +30,13 @@
          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
              <div class="px-6">
                  @livewire('wallet-management')
+
+                 <x-ui.modal
+                     id="edit-wallet-modal"
+                     position="center"
+                     heading="Edit Wallet">
+                     @livewire('wallet-edit')
+                 </x-ui.modal>
              </div>
 
          </div>
