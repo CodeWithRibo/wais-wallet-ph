@@ -53,7 +53,9 @@ class WalletForm extends Component
             ... $this->validate()
         ]);
 
-        return redirect()->route('wallet');
+        $this->dispatch('createWallet');
+        $this->dispatch('close-modal', id : 'add-wallet');
+
     }
 
     public function render()
