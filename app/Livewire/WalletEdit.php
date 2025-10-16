@@ -6,6 +6,7 @@ use App\Models\Expense;
 use App\Models\Wallet;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class WalletEdit extends Component
@@ -27,6 +28,8 @@ class WalletEdit extends Component
             'current_balance',
             'wallet_type',
         ]));
+
+        $this->authorize('update', $this->wallet);
     }
 
     protected function rules(): array
