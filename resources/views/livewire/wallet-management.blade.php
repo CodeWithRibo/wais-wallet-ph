@@ -29,7 +29,7 @@
                 <x-ui.icon name="arrow-trending-down" class=""/>
                     </span>
             <span class="">
-                        <h1 class="text-gray-800 font-bold text-xl">
+                        <h1 class="text-red-500 font-bold text-xl">
                             ₱{{number_format($monthlySpent, 2)}}
                         </h1>
                         <p class="text-gray-500 text-sm">
@@ -41,10 +41,10 @@
         <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
             <span class="flex items-center justify-between ">
                 <p class="text-sm font-semibold text-gray-800">Available</p>
-                <x-ui.icon name="arrow-trending-up" class=""/>
+                <x-ui.icon name="arrow-trending-up"/>
             </span>
             <span class="">
-                <h1 class="text-gray-800 font-bold text-xl">
+                <h1 class="font-bold text-xl text-[#409A60]">
                 ₱{{number_format($availBal, 2)}}
                 </h1>
                 <p class="text-gray-500 text-sm">
@@ -108,10 +108,10 @@
                         <p>Transaction</p>
                    </span>
                         <span class="space-y-3">
-                        <p class="text-neutral-900 font-semibold pl-3">₱{{number_format($wallet->current_balance, 2)}}</p>
-                        <p class="text-red-500 font-semibold pl-2">-₱{{number_format($wallet->monthly_spent, 2)}}</p>
-                        <p class="text-[#409A60] font-semibold pl-3 ">₱{{number_format($wallet->available_balance, 2)}}</p>
-                        <p class="font-semibold text-neutral-900 pl-3">{{$wallet->transaction}}</p>
+                        <p class="text-neutral-900 pl-3">₱{{number_format($wallet->current_balance, 2)}}</p>
+                        <p class="text-red-500  pl-2">-₱{{number_format($wallet->monthly_spent, 2)}}</p>
+                        <p class="text-[#409A60] pl-3 ">₱{{number_format($wallet->available_balance, 2)}}</p>
+                        <p class="text-neutral-900 pl-3">{{$wallet->transaction}}</p>
                     </span>
                     </div>
                 </div>
