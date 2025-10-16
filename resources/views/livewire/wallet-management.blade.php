@@ -17,9 +17,11 @@
 
         <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5 relative">
                 <span class="absolute -bottom-8 -right-1 p-6">
-                   <p class="text-[10px] text-gray-500">
+                @if($firstExpenseDate)
+                        <p class="text-[10px] text-gray-500">
                     Cycle: {{\Carbon\Carbon::parse($this->cycleStart)->format('M ,d, Y')}} → {{\Carbon\Carbon::parse($this->cycleEnd)->format('M ,d, Y')}}
                     </p>
+                    @endif
                 </span>
 
             <span class="flex items-center justify-between ">
@@ -35,7 +37,6 @@
                         </p>
                      </span>
         </div>
-
 
         <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
             <span class="flex items-center justify-between ">
@@ -115,6 +116,7 @@
                     </div>
                 </div>
             @endforeach
+
 
         </div>
     </div>
