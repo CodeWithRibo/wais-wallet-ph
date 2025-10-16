@@ -52,7 +52,7 @@ class ExpenseForm extends Component
                         'transaction' => DB::raw('transaction + 1 '),
                     ]);
 
-                $expense = Expense::query()->create([
+               $expense = Expense::query()->create([
                     'user_id' => auth()->id(),
                     'wallet_id' => auth()->id(),
                     ... $validated
