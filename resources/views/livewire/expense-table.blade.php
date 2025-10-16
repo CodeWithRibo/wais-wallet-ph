@@ -17,9 +17,12 @@
                              :options="['All Categories' => 'All Categories', 'Transportation' => 'Transportation' ,'Healthcare' => 'Healthcare']">
             </x-select-option>
 
+            @php
+            $wallets = \App\Models\Wallet::pluck('wallet_name')->mapWithKeys(fn ($v) => [$v => $v])
+             @endphp
             <x-select-option wire:model="wallet_filter"
                              wire:change="sortBy('wallet_type')"
-                            :options="['All Wallet' => 'All Wallet', 'Personal' => 'Personal' , 'Business' => 'Business', 'Shared' => 'Shared']">
+                            :options="array_merge(['All Wallet' => 'All Wallet'], $wallets->toArray())">
             </x-select-option>
 
         </div>
