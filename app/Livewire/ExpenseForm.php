@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Expense;
 use App\Models\Wallet;
+use App\Services\ToastNotificationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -58,19 +59,10 @@ class ExpenseForm extends Component
                     ... $validated
                 ]);
 
-                if ($expense) {
-                    $this->dispatch('notify',
-                        type: 'success',
-                        content: 'Expense added successfully',
-                        duration: 4000
-                    );
-                } else {
-                    $this->dispatch('notify',
-                        type: 'error',
-                        content: 'Failed to add expense. Please try again.',
-                        duration: 4000
-                    );
-                }
+                if ($expense)
+                    $this->dispatch('notify', ... ToastNotificationService::success('Expense added successfully'));
+                else
+                    $this->dispatch('notify', ... ToastNotificationService::error('Failed to add expense. Please try again.'));
 
                 $this->dispatch('close-modal', id: 'add-expense');
                 $this->dispatch('expense-saved');

@@ -5,6 +5,7 @@ namespace App\Livewire;
 
 use App\Models\User;
 use App\Models\Wallet;
+use App\Services\ToastNotificationService;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rule;
@@ -54,11 +55,7 @@ class WalletForm extends Component
         ]);
 
         if ($wallet) {
-            $this->dispatch('notify',
-                type: 'success',
-                content: 'Added wallet successfully',
-                duration: 4000
-            );
+            $this->dispatch('notify', ... ToastNotificationService::success('Added wallet successfully'));
         }
 
         $this->dispatch('createWallet');

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Expense;
 use App\Models\Wallet;
+use App\Services\ToastNotificationService;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Illuminate\Validation\Rule;
@@ -54,11 +55,7 @@ class WalletEdit extends Component
         $availBal = $this->current_balance - $expenseAmount;
 
         if ($availBal <= $expenseAmount) {
-            $this->dispatch('notify',
-                type: 'error',
-                content: 'Insufficient available balance',
-                duration: 4000
-            );
+            $this->dispatch('notify', ... ToastNotificationService::error('Insufficient available balance'));
         } else {
             $data = [
                 'wallet_name' => $this->wallet_name,
@@ -75,19 +72,10 @@ class WalletEdit extends Component
 
                 $this->wallet->save($validated);
 
-                $this->dispatch('notify',
-                    type: 'success',
-                    content: 'Wallet updated successfully',
-                    duration: 4000
-                );
+                $this->dispatch('notify', ... ToastNotificationService::success('Wallet updated successfully'));
 
-            } else {
-                $this->dispatch('notify',
-                    type: 'info',
-                    content: "No changes detected",
-                    duration: 4000
-                );
-            }
+            } else
+                $this->dispatch('notify', ... ToastNotificationService::info('No changes detected'));
 
         }
 

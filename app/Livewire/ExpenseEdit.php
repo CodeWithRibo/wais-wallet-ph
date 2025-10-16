@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Expense;
 use App\Models\Wallet;
+use App\Services\ToastNotificationService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -111,15 +112,10 @@ class ExpenseEdit extends Component
 
                 $this->expense->update($validated);
 
-
                 $this->dispatch('refresh-table');
                 $this->dispatch('update-expense', id: $this->expense->id);
                 $this->dispatch('close-modal', id: 'edit-expense-modal');
-                $this->dispatch('notify',
-                    type: 'success',
-                    content: 'expense updated successfully',
-                    duration: 3000
-                );
+                $this->dispatch('notify', ... ToastNotificationService::success('expense updated successfully'));
             });
         } catch (\Throwable $e) {
             Log::error('Something went wrong: ' . $e->getMessage());
