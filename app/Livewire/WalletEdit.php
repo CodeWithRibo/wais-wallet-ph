@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Expense;
 use App\Models\Wallet;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
@@ -42,6 +43,8 @@ class WalletEdit extends Component
 
     public function updateWallet(): void
     {
+        $expense = Expense::where('wallet_type', $this->wallet_type)->first() ?? 0;
+        $expenseAmount = $expense->amount ?? 0;
 
         $validated = $this->validate();
 
