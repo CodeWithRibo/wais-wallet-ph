@@ -19,19 +19,20 @@ class WalletManagement extends Component
     public $user;
     public $cycleStart;
     public $cycleEnd;
+    public $firstExpenseDate;
 
 
     public function sumWallet(): void
     {
         $this->user = auth()->user()->load('expense', 'wallet');
 
-        $firstExpenseDate = $this->user->expense()
+        $this->firstExpenseDate = $this->user->expense()
             ->orderBy('created_at')
             ->value('created_at');
 
-        if ($firstExpenseDate) {
+        if ($this->firstExpenseDate) {
 
-            $start = Carbon::parse($firstExpenseDate)->startOfDay();
+            $start = Carbon::parse($this->firstExpenseDate)->startOfDay();
             $today = Carbon::now();
 
             while ($today->gte($start->copy()->addMonth())) {
@@ -67,12 +68,12 @@ class WalletManagement extends Component
     #[On(['createWallet', 'refreshEditWallet'])]
     public function refreshWallet(): void
     {
-        $this->sumWallet();
+
     }
 
     public function render(): View
     {
-
+        $this->sumWallet();
         $wallets = $this->user->wallet()
             ->select([
                 'id',
