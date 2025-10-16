@@ -31,7 +31,10 @@ class WalletEdit extends Component
     protected function rules(): array
     {
         return [
-            'wallet_name' => 'required',
+            'wallet_name' => [
+                'required',
+                Rule::unique('wallets')->ignore($this->wallet->id)
+            ],
             'current_balance' => 'required',
             'wallet_type' => 'required',
         ];

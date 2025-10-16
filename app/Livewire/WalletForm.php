@@ -23,7 +23,7 @@ class WalletForm extends Component
     protected function rules(): array
     {
         return [
-            'wallet_name' => 'required|min:6|max:50',
+            'wallet_name' => 'required|max:50|unique:wallets',
             'current_balance' => 'required|numeric|min:1',
             'wallet_type' => 'required',
         ];
@@ -45,13 +45,21 @@ class WalletForm extends Component
     {
        $this->authorize('create', Wallet::class);
 
-        Wallet::query()->create([
+        $wallet = Wallet::query()->create([
             'user_id' => auth()->id(),
             'monthly_spent' => 0,
             'transaction' => 0,
             'available_balance' => $this->current_balance,
             ... $this->validate()
         ]);
+
+        if ($wallet) {
+            $this->dispatch('notify',
+                type: 'success',
+                content: 'Added wallet successfully',
+                duration: 4000
+            );
+        }
 
         $this->dispatch('createWallet');
         $this->dispatch('close-modal', id : 'add-wallet');
