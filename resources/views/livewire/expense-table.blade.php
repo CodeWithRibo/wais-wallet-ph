@@ -30,6 +30,7 @@
 
     <div class="rounded-box border border-base-content/5 bg-base-100 overflow-x-auto">
         <table class="table overflow-x-auto w-full">
+                <p class="p-6 text-gray-500 ">Expenses ({{$expenseCount}})</p>
             <thead>
             <tr class="text-center">
                 <th>

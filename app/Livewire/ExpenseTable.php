@@ -103,7 +103,8 @@ class ExpenseTable extends Component
         if ($this->wallet_filter != 'All Wallet')  $query->where('wallet_type', $this->wallet_filter);
 
         $expenses = $query->paginate(15);
+        $expenseCount = $query->count();
 
-        return view('livewire.expense-table', compact('expenses'));
+        return view('livewire.expense-table', compact(['expenses', 'expenseCount']));
     }
 }
