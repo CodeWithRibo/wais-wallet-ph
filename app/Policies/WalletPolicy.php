@@ -27,8 +27,11 @@ class WalletPolicy
             : Response::denyAsNotFound();
     }
 
-    public function update(User $user, Wallet $wallet): bool
+    public function update(User $user, Wallet $wallet): Response
     {
+        return $user->id === $wallet->user_id
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     public function delete(User $user, Wallet $wallet): bool
