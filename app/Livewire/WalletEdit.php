@@ -44,10 +44,46 @@ class WalletEdit extends Component
     {
 
         $validated = $this->validate();
-        $this->wallet->update([
-            'available_balance' => $this->current_balance,
-            ... $validated
-        ]);
+
+        $availBal = $this->current_balance - $expenseAmount;
+
+        if ($availBal <= $expenseAmount) {
+            $this->dispatch('notify',
+                type: 'error',
+                content: 'Insufficient available balance',
+                duration: 4000
+            );
+        } else {
+            $data = [
+                'wallet_name' => $this->wallet_name,
+                'current_balance' => $this->current_balance,
+                'wallet_type' => $this->wallet_type,
+            ];
+            $this->wallet->fill($data);
+
+            if ($this->wallet->isDirty()) {
+
+                $this->wallet->update([
+                    'available_balance' => $this->current_balance - $expenseAmount,
+                ]);
+
+                $this->wallet->save($validated);
+
+                $this->dispatch('notify',
+                    type: 'success',
+                    content: 'Wallet updated successfully',
+                    duration: 4000
+                );
+
+            } else {
+                $this->dispatch('notify',
+                    type: 'info',
+                    content: "No changes detected",
+                    duration: 4000
+                );
+            }
+
+        }
 
         $this->dispatch('refreshEditWallet');
         $this->dispatch('close-modal', id: 'edit-wallet-modal');
