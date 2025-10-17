@@ -22,20 +22,20 @@
                         id="add-wallet"
                         position="center"
                         heading="Add Wallet">
-                        @livewire('wallet-form')
+                        @livewire('wallets.wallet-form')
                     </x-ui.modal>
                 </div>
             </div>
         </div>
          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
              <div class="px-6">
-                 @livewire('wallet-management')
+                 @livewire('wallets.wallet-management')
 
                  <x-ui.modal
                      id="edit-wallet-modal"
                      position="center"
                      heading="Edit Wallet">
-                     @livewire('wallet-edit')
+                     @livewire('wallets.wallet-edit')
                  </x-ui.modal>
              </div>
 

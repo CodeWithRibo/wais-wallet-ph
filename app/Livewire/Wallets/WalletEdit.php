@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Wallets;
 
 use App\Models\Expense;
 use App\Models\Wallet;
 use App\Services\ToastNotificationService;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class WalletEdit extends Component
@@ -85,6 +85,6 @@ class WalletEdit extends Component
 
     public function render(): View
     {
-        return view('livewire.wallet-edit');
+        return view('livewire.wallets.wallet-edit');
     }
 }

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Wallets;
 
-use App\Models\Wallet;
 use Carbon\Carbon;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\On;
 
 class WalletManagement extends Component
 {
@@ -85,6 +84,6 @@ class WalletManagement extends Component
                 'wallet_type'
             ])->get();
 
-        return view('livewire.wallet-management', compact('wallets'));
+        return view('livewire.wallets.wallet-management', compact('wallets'));
     }
 }

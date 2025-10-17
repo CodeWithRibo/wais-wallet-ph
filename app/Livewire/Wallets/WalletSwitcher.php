@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Wallets;
 
 use Livewire\Component;
 
@@ -35,6 +35,7 @@ class WalletSwitcher extends Component
 
     public function render()
     {
-        return view('livewire.wallet-switcher');
+        return view('livewire.wallets.wallet-switcher');
     }
 }
+

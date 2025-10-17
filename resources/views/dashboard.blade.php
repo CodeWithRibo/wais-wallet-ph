@@ -12,7 +12,7 @@
                     </p>
                 </div>
                 <div class="p-6 space-y-2">
-                    @livewire('wallet-switcher')
+                    @livewire('wallets.wallet-switcher')
                 </div>
 
             </div>

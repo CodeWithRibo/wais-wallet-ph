@@ -1,14 +1,10 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Wallets;
 
 
-use App\Models\User;
 use App\Models\Wallet;
 use App\Services\ToastNotificationService;
-use Illuminate\Auth\Access\Gate;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -65,6 +61,6 @@ class WalletForm extends Component
 
     public function render()
     {
-        return view('livewire.wallet-form');
+        return view('livewire.wallets.wallet-form');
     }
 }
