@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Expenses;
 
 use App\Models\Expense;
 use App\Models\Wallet;
@@ -126,6 +126,6 @@ class ExpenseEdit extends Component
     public function render(): View
     {
         $user = auth()->user();
-        return view('livewire.expense-edit', compact('user'));
+        return view('livewire.expenses.expense-edit', compact('user'));
     }
 }

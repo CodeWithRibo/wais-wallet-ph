@@ -22,18 +22,18 @@
                         id="add-expense"
                         position="center"
                         heading="Add Expenses">
-                        @livewire('expense-form')
+                        @livewire('expenses.expense-form')
                     </x-ui.modal>
                 </div>
             </div>
             <div class="px-6">
-               @livewire('expense-table')
+               @livewire('expenses.expense-table')
                 <x-ui.modal id="edit-expense-modal" position="center" heading="Edit Expense">
-                    @livewire('expense-edit')
+                    @livewire('expenses.expense-edit')
                 </x-ui.modal>
 
                 <x-ui.modal id="delete-expense-modal" position="center" heading="Delete Expense">
-                    @livewire('expense-delete')
+                    @livewire('expenses.expense-delete')
                 </x-ui.modal>
             </div>
             <div class="px-6">

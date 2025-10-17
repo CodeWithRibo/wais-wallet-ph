@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Expenses;
 
 use App\Models\Expense;
 use Illuminate\View\View;
@@ -105,6 +105,6 @@ class ExpenseTable extends Component
         $expenses = $query->paginate(15);
         $expenseCount = $query->count();
 
-        return view('livewire.expense-table', compact(['expenses', 'expenseCount']));
+        return view('livewire.expenses.expense-table', compact(['expenses', 'expenseCount']));
     }
 }

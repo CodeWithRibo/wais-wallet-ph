@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Expenses;
 
 use App\Models\Expense;
-use App\Models\Wallet;
 use App\Services\ToastNotificationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -77,6 +76,6 @@ class ExpenseForm extends Component
     public function render(): View
     {
         $user = auth()->user();
-        return view('livewire.expense-form', compact('user'));
+        return view('livewire.expenses.expense-form', compact('user'));
     }
 }

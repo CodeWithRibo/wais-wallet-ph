@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Expenses;
 
 use App\Models\Expense;
 use App\Models\Wallet;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -56,6 +55,6 @@ class ExpenseDelete extends Component
 
     public function render(): View
     {
-        return view('livewire.expense-delete');
+        return view('livewire.expenses.expense-delete');
     }
 }
