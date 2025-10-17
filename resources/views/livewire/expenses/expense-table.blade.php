@@ -12,17 +12,19 @@
                 leftIcon="magnifying-glass"
             />
 
+            @php
+                $category = \App\Models\Category::pluck('category_name')->mapWithKeys(fn ($v) => [$v => $v]);
+                $wallets = \App\Models\Wallet::pluck('wallet_name')->mapWithKeys(fn ($v) => [$v => $v]);
+            @endphp
             <x-select-option wire:model="category_filter"
                              wire:change="sortBy('category')"
-                             :options="['All Categories' => 'All Categories', 'Transportation' => 'Transportation' ,'Healthcare' => 'Healthcare']">
+                             :options="array_merge(['All Categories' => 'All Categories'], $category->toArray())">
             </x-select-option>
 
-            @php
-            $wallets = \App\Models\Wallet::pluck('wallet_name')->mapWithKeys(fn ($v) => [$v => $v])
-             @endphp
+
             <x-select-option wire:model="wallet_filter"
                              wire:change="sortBy('wallet_type')"
-                            :options="array_merge(['All Wallet' => 'All Wallet'], $wallets->toArray())">
+                             :options="array_merge(['All Wallet' => 'All Wallet'], $wallets->toArray())">
             </x-select-option>
 
         </div>
@@ -30,7 +32,7 @@
 
     <div class="rounded-box border border-base-content/5 bg-base-100 overflow-x-auto">
         <table class="table overflow-x-auto w-full">
-                <p class="p-6 text-gray-500 ">Expenses ({{$expenseCount}})</p>
+            <p class="p-6 text-gray-500 ">Expenses ({{$expenseCount}})</p>
             <thead>
             <tr class="text-center">
                 <th>
@@ -92,7 +94,7 @@
                         @endif
                    </span>
                 </th>
-                    <th>Notes</th>
+                <th>Notes</th>
                 <th>Action</th>
             </tr>
             </thead>

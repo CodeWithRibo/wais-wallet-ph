@@ -9,22 +9,20 @@
                             wire:model="amount"/>
                 <x-ui.error name="amount"/>
             </x-ui.field>
-
+            @php
+                $walletNames = $user->wallet()->pluck('wallet_name')->mapWithKeys(fn($v) => [$v => $v]);
+                $category = $user->category()->pluck('category_name')->mapWithKeys(fn($v) => [$v => $v]);
+            @endphp
             <x-ui.field required>
                 <x-ui.label>Category</x-ui.label>
                 <x-select-option
                     wire:model="category"
-                    :options="[
-                            '' => 'Select Category',
-                            'Transportation' => 'Transportation',
-                            'HealthCare' => 'HealthCare',
-                            ]">
+                    :options="array_merge(
+                            ['' => 'Select Category'], $category->toArray())">
                 </x-select-option>
                 <x-ui.error name="category"/>
             </x-ui.field>
-            @php
-                $walletNames = $user->wallet()->pluck('wallet_name')->mapWithKeys(fn($v) => [$v => $v]);
-            @endphp
+
             <x-ui.field required>
                 <x-ui.label>Wallet</x-ui.label>
                 <x-select-option
