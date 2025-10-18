@@ -16,7 +16,7 @@ class CategoryForm extends Component
     protected function rules(): array
     {
         return [
-            'category_name' => 'required',
+            'category_name' => 'required|unique:categories',
             'monthly_budget' => 'required',
             'category_type' => 'required',
         ];
