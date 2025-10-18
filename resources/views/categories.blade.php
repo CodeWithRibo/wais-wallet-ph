@@ -28,7 +28,14 @@
             </div>
             <div class="p-6 ">
                 @livewire('categories.category-management')
+
+                <x-ui.modal
+                    id="update-category-modal"
+                    position="center"
+                    heading="Update Category">
+                    @livewire('categories.category-update')
+                </x-ui.modal>
+            </div>
             </div>
         </div>
-    </div>
 @endsection
