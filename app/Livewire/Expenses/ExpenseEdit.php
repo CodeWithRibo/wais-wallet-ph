@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Expenses;
 
+use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Wallet;
 use App\Services\ToastNotificationService;
@@ -69,17 +70,33 @@ class ExpenseEdit extends Component
     {
         $validated = $this->validate();
 
-        $originalWalletType = $this->expense->wallet_type;
         $originalAmount = $this->expense->amount;
-
-        $walletChanged = $originalWalletType !== $validated['wallet_type'];
-
-        $newWalletType = $validated['wallet_type'];
         $newAmount = $validated['amount'];
+
+        //Wallet
+        $originalWalletType = $this->expense->wallet_type;
+        $walletChanged = $originalWalletType !== $validated['wallet_type'];
+        $newWalletType = $validated['wallet_type'];
+
+        //Category
+        $originalCategory = $this->expense->category;
+        $categoryChanged = $originalCategory !== $validated['category'];
+        $newCategory = $validated['category'];
+
 
 
         try {
-            DB::transaction(function () use ($walletChanged, $originalWalletType, $originalAmount, $newWalletType, $newAmount, $validated) {
+            DB::transaction(function () use (
+                $walletChanged,
+                $originalWalletType,
+                $originalAmount,
+                $newWalletType,
+                $newAmount,
+                $validated,
+                $originalCategory,
+                $categoryChanged,
+                $newCategory
+            ){
 
                 if ($walletChanged) {
                     Wallet::query()
@@ -109,6 +126,34 @@ class ExpenseEdit extends Component
                             ]);
                     }
                 }
+
+                if ($categoryChanged) {
+                    Category::query()
+                        ->where('category_name', $originalCategory)
+                        ->update([
+                            'spent' => DB::raw('spent - ' . floatval($originalAmount)),
+                            'remaining' => DB::raw('remaining + ' . floatval($originalAmount)),
+                        ]);
+
+                    Category::query()
+                        ->where('category_name', $newCategory)
+                        ->update([
+                            'spent' => DB::raw('spent + ' . floatval($newAmount)),
+                            'remaining' => DB::raw('remaining - ' . floatval($newAmount)),
+                        ]);
+                } else {
+                    $diff = $newAmount - $originalAmount;
+
+                    if ($diff !== 0) {
+                        Category::query()
+                            ->where('category_name', $originalCategory)
+                            ->update([
+                                'spent' => DB::raw('spent + ' . floatval($diff)),
+                                'remaining' => DB::raw('remaining' . ($diff > 0 ? '-' : '+') . abs($diff)),
+                            ]);
+                    }
+                }
+
 
                 $this->expense->update($validated);
 

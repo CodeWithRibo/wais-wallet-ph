@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Expenses;
 
+use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Wallet;
 use Illuminate\View\View;
@@ -28,21 +29,31 @@ class ExpenseDelete extends Component
 
     public function delete(): void
     {
-        $this->loadExpense($this->expenseId);
-        $this->expense->delete();
 
         $wallet = Wallet::where('wallet_name', $this->expense->wallet_type)->first();
+        $category = Category::where('category_name', $this->expense->category)->first();
 
         if ($wallet) {
             Wallet::query()
                 ->where('wallet_name', $this->expense->wallet_type)
                 ->update([
-                    'monthly_spent' => $this->expense->amount - $wallet->monthly_spent,
-                    'available_balance' => $this->expense->amount + $wallet->available_balance,
+                    'monthly_spent' =>  $wallet->monthly_spent - $this->expense->amount,
+                    'available_balance' => $wallet->available_balance + $this->expense->amount,
                     'transaction' => 0,
             ]);
         }
 
+        if ($category) {
+            Category::query()
+            ->where('category_name', $this->expense->category)
+                ->update([
+                    'spent' => $category->spent - $this->expense->amount,
+                    'remaining' => $category->remaining +  $this->expense->amount,
+                ]);
+        }
+
+        $this->loadExpense($this->expenseId);
+        $this->expense->delete();
 
         $this->dispatch('close-modal', id: 'delete-expense-modal');
         $this->dispatch('delete-expense', ['id' => $this->expenseId]);
