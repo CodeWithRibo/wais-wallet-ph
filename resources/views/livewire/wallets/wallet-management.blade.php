@@ -3,7 +3,7 @@
         <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
             <span class="flex items-center justify-between ">
                 <p class="text-sm font-semibold text-gray-800">Total Balance</p>
-               <i class="fa-solid fa-peso-sign text-[18px] text-black"></i>
+               <i class="fa-solid fa-peso-sign text-[18px] text-gray-600"></i>
             </span>
             <span class="">
                 <h1 class="text-gray-800 font-bold text-xl">
@@ -26,7 +26,7 @@
 
             <span class="flex items-center justify-between ">
                 <p class="text-sm font-semibold text-gray-800">Monthly Spending</p>
-                <x-ui.icon name="arrow-trending-down" class=""/>
+                <x-ui.icon name="ps:trend-down" variant="bold" class="text-red-600"/>
                     </span>
             <span class="">
                         <h1 class="text-red-500 font-bold text-xl">
@@ -41,7 +41,7 @@
         <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
             <span class="flex items-center justify-between ">
                 <p class="text-sm font-semibold text-gray-800">Available</p>
-                <x-ui.icon name="arrow-trending-up"/>
+            <x-ui.icon name="ps:trend-up" variant="bold" class="text-green-600"/>
             </span>
             <span class="">
                 <h1 class="font-bold text-xl text-[#409A60]">
@@ -93,8 +93,9 @@
                         </div>
                         <div class="mt-1">
                             <x-ui.modal.trigger id="edit-wallet-modal" class="my-4">
-                                <x-secondary-button class="p-1" wire:click="edit({{$wallet->id}})">
-                                    <x-ui.icon name="pencil-square" class="text-black"/>
+                                <x-secondary-button class="py-1 px-2 space-x-1 " wire:click="edit({{$wallet->id}})">
+                                    <x-ui.icon name="ps:note-pencil" variant="bold" class="size-4.5"/>
+                                    <p class="text-[12px]">Edit</p>
                                 </x-secondary-button>
                             </x-ui.modal.trigger>
 
@@ -111,7 +112,7 @@
                         <p class="text-neutral-900 pl-3">₱{{number_format($wallet->current_balance, 2)}}</p>
                         <p class="text-red-500  pl-2">-₱{{number_format($wallet->monthly_spent, 2)}}</p>
                         <p class="text-[#409A60] pl-3 ">₱{{number_format($wallet->available_balance, 2)}}</p>
-                        <p class="text-neutral-900 pl-3">{{$wallet->transaction}}</p>
+                        <p class="text-neutral-900 pl-3">{{$wallet->transaction ?? 0}}</p>
                     </span>
                     </div>
                 </div>
