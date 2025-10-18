@@ -33,15 +33,15 @@ new class extends Component {
                         Dashboard
                     </x-nav-link>
 
-                    <x-nav-link :href="route('expenses')" :active="request()->routeIs('expenses')">
+                    <x-nav-link :href="route('expenses')" :active="request()->routeIs('expenses')" wire:navigate>
                         Expenses
                     </x-nav-link>
 
-                    <x-nav-link :href="route('dashboard')" wire:navigate>
+                    <x-nav-link :href="route('categories')" :active="request()->routeIs('categories')" wire:navigate>
                         Categories
                     </x-nav-link>
 
-                    <x-nav-link :href="route('wallet')" :active="request()->routeIs('wallet')">
+                    <x-nav-link :href="route('wallet')" :active="request()->routeIs('wallet')" wire:navigate>
                         Wallet
                     </x-nav-link>
 

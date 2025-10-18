@@ -27,7 +27,6 @@ class ExpenseForm extends Component
             'wallet_type' => 'required',
             'payment_method' => 'nullable',
             'notes' => 'nullable|max:50',
-
         ];
     }
 
@@ -61,6 +60,7 @@ class ExpenseForm extends Component
                $expense = Expense::query()->create([
                     'user_id' => auth()->id(),
                     'wallet_id' => auth()->id(),
+                    'category_id' => auth()->id(),
                     ... $validated
                 ]);
 
