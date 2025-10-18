@@ -43,13 +43,19 @@ class ExpenseForm extends Component
         try {
             DB::transaction(function () use ($validated) {
 
-
                 DB::table('wallets')
                     ->where('wallet_name', $this->wallet_type)
                     ->update([
                         'monthly_spent' => DB::raw('monthly_spent + ' . floatval($this->amount)),
                         'available_balance' => DB::raw('available_balance - ' . floatval($this->amount)),
                         'transaction' => DB::raw('transaction + 1 '),
+                    ]);
+
+                DB::table('categories')
+                    ->where('category_name', $this->category)
+                    ->update([
+                        'spent' => DB::raw('spent + ' . floatval($this->amount)),
+                        'remaining' => DB::raw('remaining - ' . floatval($this->amount)),
                     ]);
 
                $expense = Expense::query()->create([
