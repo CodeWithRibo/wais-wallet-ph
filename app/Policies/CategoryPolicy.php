@@ -27,8 +27,11 @@ class CategoryPolicy
             : Response::denyAsNotFound();
     }
 
-    public function update(User $user, Category $category): bool
+    public function update(User $user, Category $category): Response
     {
+        return $user->id === $category->user_id
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
     public function delete(User $user, Category $category): bool
