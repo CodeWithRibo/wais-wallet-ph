@@ -21,6 +21,7 @@ class Expense extends Model
         'wallet_type',
         'user_id',
         'wallet_id',
+        'category_id',
     ];
 
     public function scopeSearch(Builder $query, $term)
