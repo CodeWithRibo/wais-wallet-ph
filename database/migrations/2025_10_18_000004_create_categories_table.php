@@ -10,10 +10,10 @@ return new class extends Migration {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('category_name');
-            $table->string('monthly_budget');
+            $table->decimal('monthly_budget');
             $table->string('category_type');
-            $table->string('spent');
-            $table->string('remaining');
+            $table->decimal('spent');
+            $table->decimal('remaining');
             $table->foreignId('user_id')
                 ->nullable()
                 ->constrained()
