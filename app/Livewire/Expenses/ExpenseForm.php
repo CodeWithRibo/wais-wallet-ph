@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Expenses;
 
+use App\Models\Category;
 use App\Models\Expense;
+use App\Models\Wallet;
 use App\Services\ToastNotificationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -39,8 +41,11 @@ class ExpenseForm extends Component
 
         $this->authorize('create', Expense::class);
 
+        $wallet = Wallet::query()->where('wallet_name', $this->wallet_type)->first();
+        $category = Category::query()->where('category_name', $this->category)->first();
+
         try {
-            DB::transaction(function () use ($validated) {
+            DB::transaction(function () use ($validated, $wallet, $category) {
 
                 DB::table('wallets')
                     ->where('wallet_name', $this->wallet_type)
@@ -59,8 +64,8 @@ class ExpenseForm extends Component
 
                $expense = Expense::query()->create([
                     'user_id' => auth()->id(),
-                    'wallet_id' => auth()->id(),
-                    'category_id' => auth()->id(),
+                    'wallet_id' => $wallet?->id,
+                    'category_id' => $category?->id,
                     ... $validated
                 ]);
 

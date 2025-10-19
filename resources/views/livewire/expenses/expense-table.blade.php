@@ -105,16 +105,20 @@
                            'Lifestyle' => 'bg-blue-50 text-blue-600',
                            'Work & Business' => 'bg-green-50 text-green-600',
                             'Savings & Investments' => 'bg-yellow-50 text-yellow-600',
-                            'Pet Expenses' => 'bg-rose-50 text-rose-600',
+                            'Pet Expenses' => 'bg-purple-50 text-purple-600',
                             ];
-//                   <x-ui.badge size="sm" class="{{ $colors[$type] }}"><p class="{{ $colors[$type] }}">{{$type}}</p></x-ui.badge>
             @endphp
             @if($expenses->isNotEmpty())
                 @foreach($expenses as $index)
                     <tr class="text-center" wire:key="{{ $index->id }}">
                         <td>{{$index->date->format('Y-m-d')}}</td>
                         <td class="font-semibold text-[#118139]">₱{{number_format($index->amount, 2)}}</td>
-                        <td>{{$index->category}}</td>
+                        <td>
+                            <p class="text-[15px]">{{$index->category}}</p>
+                            <x-ui.badge size="sm" class="{{ $colors[$index->categoryRelation->category_type] }}">
+                                <p class="{{ $colors[$index->categoryRelation->category_type] }}">{{$index->categoryRelation->category_type}}</p>
+                            </x-ui.badge>
+                        </td>
                         <td>
                             <x-ui.badge size="sm" variant="outline">{{ucwords($index->wallet_type)}}</x-ui.badge>
                         </td>

@@ -44,6 +44,11 @@ class Expense extends Model
         return $this->belongsTo(Wallet::class);
     }
 
+    public function categoryRelation() : BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
     protected function casts(): array
     {
         return [
