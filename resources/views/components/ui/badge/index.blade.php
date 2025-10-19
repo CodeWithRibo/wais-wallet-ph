@@ -35,7 +35,7 @@
         $colorClasses = match ($color) {
             default => '',
 //                => 'text-white dark:text-white bg-neutral-900 dark:bg-neutral-600 border-black/10 dark:border-white/10',
-            'red' => 'text-white dark:text-white bg-red-500 dark:bg-red-500 border-red-400 dark:border-red-400/90',
+            'red' => 'text-white dark:text-white bg-red-600 dark:bg-red-600 border-red-600 dark:border-red-600/90',
             'orange'
                 => 'text-white dark:text-white bg-orange-400 dark:bg-orange-400 border-orange-400 dark:border-orange-400/90',
             'amber'
