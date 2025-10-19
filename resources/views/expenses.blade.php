@@ -26,8 +26,9 @@
                     </x-ui.modal>
                 </div>
             </div>
+                @livewire('budget-alert')
             <div class="px-6">
-               @livewire('expenses.expense-table')
+                @livewire('expenses.expense-table')
                 <x-ui.modal id="edit-expense-modal" position="center" heading="Edit Expense">
                     @livewire('expenses.expense-edit')
                 </x-ui.modal>
@@ -35,9 +36,6 @@
                 <x-ui.modal id="delete-expense-modal" position="center" heading="Delete Expense">
                     @livewire('expenses.expense-delete')
                 </x-ui.modal>
-            </div>
-            <div class="px-6">
-
             </div>
         </div>
     </div>

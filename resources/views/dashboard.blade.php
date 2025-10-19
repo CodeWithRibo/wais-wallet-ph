@@ -11,6 +11,7 @@
                         Track your expenses, manage budgets, and achieve your financial goals
                     </p>
                 </div>
+                @livewire('budget-alert')
                 <div class="p-6 space-y-2">
                     @livewire('wallets.wallet-switcher')
                 </div>

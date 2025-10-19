@@ -26,6 +26,7 @@
                     </x-ui.modal>
                 </div>
             </div>
+            @livewire('budget-alert')
             <div class="p-6 ">
                 @livewire('categories.category-management')
 
@@ -36,6 +37,6 @@
                     @livewire('categories.category-update')
                 </x-ui.modal>
             </div>
-            </div>
         </div>
+    </div>
 @endsection
