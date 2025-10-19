@@ -16,7 +16,7 @@ class CreateDefaultCategoriesListener
 
         $defaultCategories = [
             [
-                'category_name' => 'Rent/Mortgage',
+                'category_name' => 'Rent',
                 'category_type' => 'Essential',
                 'monthly_budget' => 1000,
                 'spent' => 0,
