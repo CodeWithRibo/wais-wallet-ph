@@ -48,11 +48,19 @@
                 </span>
 
                 @foreach($group as $category)
+                    @php
+                        $isExceeded = $category->spent > $category->monthly_budget;
+                    @endphp
                     <div
                         class="w-full border border-gray-300 p-4 rounded-lg hover:shadow-md transition-all duration-200"
                         wire:key="{{$category->id}}">
                     <span class="flex justify-between items-center pb-5">
+                         <span class="sm:flex gap-2">
                          <p class="text-[15px] text-gray-900">{{$category->category_name}}</p>
+                             @if($isExceeded)
+                                 <x-ui.badge size="sm" color="red">Over budget</x-ui.badge>
+                             @endif
+                         </span>
                           <x-ui.modal.trigger id="update-category-modal" class="my-4">
                             <x-secondary-button class="space-x-2 p-1 px-2" wire:click="edit({{$category->id}})">
                              <x-ui.icon name="ps:note-pencil" class="size-5 text-gray-900"/>
@@ -78,11 +86,11 @@
                                     ₱{{number_format($category->spent, 2)}}</h1>
                             </div>
 
-                            <div class="flex flex-col items-center w-full rounded-lg p-4 bg-green-50">
-                        <span class="flex space-x-2">
-                            <p class="text-[13px]  text-gray-500">Remaining</p>
-                        </span>
-                                <h1 class="text-base font-bold text-green-600">
+                            <div @class(['bg-red-50' => $isExceeded, 'bg-green-50 flex flex-col items-center w-full rounded-lg p-4 ']) class="">
+                                <span class="flex space-x-2">
+                                    <p class="text-[13px]  text-gray-500">Remaining</p>
+                                </span>
+                                <h1 @class(['text-red-600' => $isExceeded, 'text-base font-bold text-green-600'])>
                                     ₱{{number_format($category->remaining, 2)}}</h1>
                             </div>
 
