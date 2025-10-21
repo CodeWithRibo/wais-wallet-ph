@@ -2,40 +2,76 @@
 
 namespace App\Livewire\Wallets;
 
+use App\Models\Category;
+use App\Models\Expense;
+use JetBrains\PhpStorm\NoReturn;
 use Livewire\Component;
 
 class WalletSwitcher extends Component
 {
-    public $wallet_option = 'all';
-    public $remainingBalance = 0;
+    public $totalSpent;
+    public $totalBudget;
+    public $remaining;
+    public $budgetProgress;
+    public $active_wallet;
+    public $categoryBreakdown = [];
+
+    public function calculateTotals($walletId = null)
+    {
+
+        $categories = Category::query()->select('monthly_budget', 'category_name', 'id')->get();
+
+        $expenses = Expense::query()
+            ->when($walletId && $walletId !== 'all', fn($q) => $q->where('wallet_id', $walletId))
+            ->get();
+
+        $this->totalSpent = $expenses->sum('amount');
+        $this->totalBudget = $categories->sum('monthly_budget');
+        $this->remaining = $this->totalBudget - $this->totalSpent;
+        $this->budgetProgress = ($this->totalSpent / $this->totalBudget) * 100;
+
+
+            $this->categoryBreakdown = $categories->map(function ($category) use ($expenses) {
+                $spent = $expenses->where('category_id', $category->id)->sum('amount');
+                $percentage = $this->totalSpent > 0 ? round(($spent / $this->totalSpent) * 100, 2) : 0;
+
+                return [
+                    'category_name' => $category->category_name,
+                    'spent' => $spent,
+                    'percentage' => $percentage,
+                ];
+            })->filter(fn($item) => $item['spent'] > 0)->values()->toArray();
+
+            if (empty($this->categoryBreakdown)) {
+                $this->categoryBreakdown[] = [
+                    'category_name' => 'No Data',
+                    'spent' => 1,
+                    'percentage' => 100,
+                ];
+            }
+
+    }
 
     public function mount(): void
     {
-        $this->wallet_option == 'all' ? $this->remainingBalance = 20 : $this->remainingBalance = 0 ;
+        $this->active_wallet = 'all';
+        $this->calculateTotals('all');
+        $this->dispatch('updateChart', categoryData: $this->categoryBreakdown);
+
     }
 
-    public function updatedWalletOption($value): void
+    public function updatedActiveWallet($value)
     {
-       switch ($value)
-       {
-           case 'all' :
-               $this->remainingBalance = 20;
-                break;
-           case 'personal' :
-               $this->remainingBalance = 300;
-               break;
-           case 'business' :
-               $this->remainingBalance = 500;
-               break;
-           case 'shared' :
-               $this->remainingBalance = 700;
-               break;
-       }
+        $this->calculateTotals($value);
+        $this->dispatch('updateChart', categoryData: $this->categoryBreakdown);
     }
 
     public function render()
     {
-        return view('livewire.wallets.wallet-switcher');
+        $totalSpent = $this->totalSpent;
+        $totalBudget = $this->totalBudget;
+        $remaining = $this->remaining;
+        return view('livewire.wallets.wallet-switcher', compact(['totalSpent', 'totalBudget', 'remaining']));
     }
 }
 
