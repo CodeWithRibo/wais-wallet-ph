@@ -77,58 +77,85 @@
         </div>
     </div>
 
-    <div>
-        <h1 class="text-gray-800 font-semibold text-xl p-2">Category Breakdown</h1>
-        <div class="grid grid-col-1 md:grid-cols-2 gap-5 relative">
-            <div style="height: 300px;" class="border rounded-xl">
-                <div id="walletChart"></div>
-            </div>
-            <div style="height: 300px;" class="border rounded-xl">
-                <div id="dailyTrent"></div>
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div style="height: 300px;" class="border rounded-xl">
+            <div id="walletChart" wire:ignore></div>
+        </div>
+        <div style="height: 300px;" class="border rounded-xl">
+            <div id="dailyTrend" wire:ignore></div>
         </div>
     </div>
 
+
     @script
     <script>
-        let chart;
-        let series = [];
-        let labels = [];
+        let pieChart, trendChart;
 
-        window.onload = () => {
-            const options = {
-                chart: {
-                    type: 'pie',
-                    height: 300
-                },
-                series: series,
-                labels: labels,
-                colors: ['#F87171', '#34D399'],
-                legend: {
-                    position: 'bottom'
-                }
-            };
+        function ensurePieChart() {
+            const el = document.querySelector('#walletChart');
+            if (!el) return;
+            if (!pieChart || pieChart.el !== el) {
+                pieChart = new ApexCharts(el, {
+                    chart: { type: 'pie', height: 300 },
+                    series: [0],
+                    labels: ['No data'],
+                    title: { text: 'Category Breakdown', align: 'left' },
+                    colors: ['#F87171', '#34D399'],
+                    legend: { position: 'bottom' }
+                });
+                pieChart.render();
+            }
+        }
 
+        function ensureTrendChart() {
+            const el = document.querySelector('#dailyTrend');
+            if (!el) return;
+            if (!trendChart || trendChart.el !== el) {
+                trendChart = new ApexCharts(el, {
+                    series: [{ name: 'Spent', data: [] }],
+                    chart: { height: 300, type: 'line', zoom: { enabled: false } },
+                    dataLabels: { enabled: false },
+                    stroke: { curve: 'straight' },
+                    title: { text: 'Daily Spending Trend', align: 'left' },
+                    grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5 } },
+                    xaxis: { categories: [] }
+                });
+                trendChart.render();
+            }
+        }
 
-            chart = new ApexCharts(document.querySelector("#walletChart"), options);
-            chart.render();
-        };
+        document.addEventListener('livewire:load', () => {
 
+            ensurePieChart();
+            ensureTrendChart();
+        });
 
+        Livewire.on('updateChart', (data) => {
+            const items = Array.isArray(data?.categoryData) ? data.categoryData : [];
 
-        Livewire.on('updateChart', data => {
-            labels = data.categoryData.map(item => `${item.category_name} (${item.percentage}%)`);
-            series = data.categoryData.map(item => item.spent);
+            ensurePieChart();
+            ensureTrendChart();
 
-            chart.updateOptions({labels: labels});
-            chart.updateSeries(series);
+            const hasData = items.some(i => Number(i.spent) > 0);
+            const pieLabels = hasData ? items.map(i => `${i.category_name} (${i.percentage}%)`) : ['No data'];
+            const pieSeries = hasData ? items.map(i => Number(i.spent) || 0) : [0];
 
-            setTimeout(() => {
-                window.dispatchEvent(new Event('resize'));
-            }, 100);
+            if (pieChart) {
+                pieChart.updateOptions({ labels: pieLabels });
+                pieChart.updateSeries(pieSeries);
+            }
+
+            const trendData = items.map(i => Number(i.spent) || 0);
+            const trendLabels = items.map(i => i.date ?? i.day ?? i.category_name ?? '');
+            if (trendChart) {
+                trendChart.updateOptions({ xaxis: { categories: trendLabels } });
+                trendChart.updateSeries([{ name: 'Spent', data: trendData }]);
+            }
+
+            setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
         });
     </script>
-
     @endscript
+
 
 </div>
