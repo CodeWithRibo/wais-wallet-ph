@@ -19,7 +19,7 @@
         <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
             <span class="flex items-center justify-between ">
                 <p class="text-sm font-semibold text-gray-800">Total Spent</p>
-               <i class="fa-solid fa-peso-sign text-[18px] text-black"></i>
+               <i class="fa-solid fa-peso-sign text-[18px] text-gray-500"></i>
             </span>
             <span class="">
                 <h1 class="text-gray-800 font-bold text-xl">
@@ -34,7 +34,7 @@
         <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
             <span class="flex items-center justify-between ">
                 <p class="text-sm font-semibold text-gray-800">Total Budget</p>
-                <x-ui.icon name="wallet" class="text-gray-500"/>
+               <x-ui.icon name="ps:wallet" variant="bold" class="text-gray-500"/>
             </span>
             <span class="">
                 <h1 class="text-gray-800 font-bold text-xl">
@@ -78,10 +78,10 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div style="height: 300px;" class="border rounded-xl">
+        <div style="height: 350px;" class="border rounded-xl p-5">
             <div id="walletChart" wire:ignore></div>
         </div>
-        <div style="height: 300px;" class="border rounded-xl">
+        <div style="height: 350px;" class="border rounded-xl p-5">
             <div id="dailyTrend" wire:ignore></div>
         </div>
     </div>
@@ -90,18 +90,44 @@
     @script
     <script>
         let pieChart, trendChart;
+        let colors = [];
+        const categoryColorMap = {
+            'Rent': '#93C5FD',
+            'Utilities': '#FCD34D',
+            'Groceries': '#A7F3D0',
+            'Transportation': '#FCA5A5',
+            'Healthcare': '#C4B5FD',
+            'Dining Out': '#F9A8D4',
+            'Entertainment': '#FDBA74',
+            'Shopping': '#6EE7B7',
+            'Fitness & Gym': '#A5B4FC',
+            'School Supplies': '#FDE68A',
+            'Professional Development': '#BFDBFE',
+            'Emergency Fund': '#10B981',
+            'Investments': '#4ADE80',
+            'Pet Food': '#FCA5A5',
+            'Pet Healthcare': '#F87171'
+        };
+
 
         function ensurePieChart() {
             const el = document.querySelector('#walletChart');
             if (!el) return;
             if (!pieChart || pieChart.el !== el) {
                 pieChart = new ApexCharts(el, {
-                    chart: { type: 'pie', height: 300 },
+                    chart: {type: 'pie', height: 300},
                     series: [0],
                     labels: ['No data'],
-                    title: { text: 'Category Breakdown', align: 'left' },
-                    colors: ['#F87171', '#34D399'],
-                    legend: { position: 'bottom' }
+                    title: {text: 'Category Breakdown', align: 'left'},
+                    colors: ['#D1D5DB'],
+                    legend: {position: 'bottom'},
+                    states: {
+                        hover: {
+                            filter: {
+                                type: 'none'
+                            }
+                        }
+                    }
                 });
                 pieChart.render();
             }
@@ -112,13 +138,13 @@
             if (!el) return;
             if (!trendChart || trendChart.el !== el) {
                 trendChart = new ApexCharts(el, {
-                    series: [{ name: 'Spent', data: [] }],
-                    chart: { height: 300, type: 'line', zoom: { enabled: false } },
-                    dataLabels: { enabled: false },
-                    stroke: { curve: 'straight' },
-                    title: { text: 'Daily Spending Trend', align: 'left' },
-                    grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5 } },
-                    xaxis: { categories: [] }
+                    series: [{name: 'Spent', data: []}],
+                    chart: {height: 300, type: 'line', zoom: {enabled: false}},
+                    dataLabels: {enabled: false},
+                    stroke: {curve: 'straight'},
+                    title: {text: 'Daily Spending Trend', align: 'left'},
+                    grid: {row: {colors: ['#f3f3f3', 'transparent'], opacity: 0.5}},
+                    xaxis: {categories: []}
                 });
                 trendChart.render();
             }
@@ -136,20 +162,24 @@
             ensurePieChart();
             ensureTrendChart();
 
+            const colors = data.categoryData.map(item => {
+                return categoryColorMap[item.category_name] || '#D1D5DB';
+            });
             const hasData = items.some(i => Number(i.spent) > 0);
             const pieLabels = hasData ? items.map(i => `${i.category_name} (${i.percentage}%)`) : ['No data'];
             const pieSeries = hasData ? items.map(i => Number(i.spent) || 0) : [0];
 
+
             if (pieChart) {
-                pieChart.updateOptions({ labels: pieLabels });
+                pieChart.updateOptions({labels: pieLabels, colors: colors});
                 pieChart.updateSeries(pieSeries);
             }
 
             const trendData = items.map(i => Number(i.spent) || 0);
             const trendLabels = items.map(i => i.date ?? i.day ?? i.category_name ?? '');
             if (trendChart) {
-                trendChart.updateOptions({ xaxis: { categories: trendLabels } });
-                trendChart.updateSeries([{ name: 'Spent', data: trendData }]);
+                trendChart.updateOptions({xaxis: {categories: trendLabels}});
+                trendChart.updateSeries([{name: 'Spent', data: trendData}]);
             }
 
             setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
