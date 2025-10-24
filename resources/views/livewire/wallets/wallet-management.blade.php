@@ -1,21 +1,21 @@
 <div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-1 gap-4">
-        <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
+        <div class="w-full border border-blue-50 bg-blue-50 rounded-xl p-6 space-y-5">
             <span class="flex items-center justify-between ">
-                <p class="text-sm font-semibold text-gray-800">Total Balance</p>
-               <i class="fa-solid fa-peso-sign text-[18px] text-gray-600"></i>
+                <p class="text-sm font-semibold text-blue-600">Total Balance</p>
+                <x-ui.icon name="ps:wallet" variant="bold" class="text-blue-600"/>
             </span>
             <span class="">
-                <h1 class="text-gray-800 font-bold text-xl">
+                <h1 class="text-blue-600 font-bold text-xl">
                    ₱{{number_format($totalBalance, 2)}}
                 </h1>
                 <p class="text-gray-500 text-sm">
                     Across All wallets
                 </p>
-        </span>
+            </span>
         </div>
 
-        <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5 relative">
+        <div class="w-full border border-red-50 bg-red-50 rounded-xl p-6 space-y-5 relative">
                 <span class="absolute -bottom-8 -right-1 p-6">
                 @if($firstExpenseDate)
                         <p class="text-[10px] text-gray-500">
@@ -25,11 +25,11 @@
                 </span>
 
             <span class="flex items-center justify-between ">
-                <p class="text-sm font-semibold text-gray-800">Monthly Spending</p>
+                <p class="text-sm font-semibold text-red-600">Monthly Spending</p>
                 <x-ui.icon name="ps:trend-down" variant="bold" class="text-red-600"/>
                     </span>
             <span class="">
-                        <h1 class="text-red-500 font-bold text-xl">
+                        <h1 class="text-red-600 font-bold text-xl">
                             ₱{{number_format($monthlySpent, 2)}}
                         </h1>
                         <p class="text-gray-500 text-sm">
@@ -38,19 +38,19 @@
                      </span>
         </div>
 
-        <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
+        <div class="w-full border border-green-50 bg-green-50 rounded-xl p-6 space-y-5">
             <span class="flex items-center justify-between ">
-                <p class="text-sm font-semibold text-gray-800">Available</p>
+                <p class="text-sm font-semibold text-green-600">Available</p>
             <x-ui.icon name="ps:trend-up" variant="bold" class="text-green-600"/>
             </span>
             <span class="">
-                <h1 class="font-bold text-xl text-[#409A60]">
+                <h1 class="font-bold text-xl text-green-600">
                 ₱{{number_format($availBal, 2)}}
                 </h1>
                 <p class="text-gray-500 text-sm">
                     After Expenses
                 </p>
-        </span>
+            </span>
         </div>
     </div>
     <div class="mt-13">

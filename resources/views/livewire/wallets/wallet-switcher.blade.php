@@ -16,13 +16,13 @@
         Monthly Summary
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-rows-1 gap-4">
-        <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
+        <div class="w-full border border-red-50 bg-red-50 rounded-xl p-6 space-y-5">
             <span class="flex items-center justify-between ">
-                <p class="text-sm font-semibold text-gray-800">Total Spent</p>
-               <i class="fa-solid fa-peso-sign text-[18px] text-gray-500"></i>
+                <p class="text-sm font-semibold text-red-600">Total Spent</p>
+                <x-ui.icon name="ps:trend-down" variant="bold" class="text-red-600"/>
             </span>
             <span class="">
-                <h1 class="text-gray-800 font-bold text-xl">
+                <h1 class="text-red-600 font-bold text-xl">
                     ₱{{$totalSpent ?? 0}}
                 </h1>
                 <p class="text-gray-500 text-sm">
@@ -31,13 +31,13 @@
             </span>
         </div>
 
-        <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
+        <div class="w-full border border-blue-50 bg-blue-50 rounded-xl p-6 space-y-5">
             <span class="flex items-center justify-between ">
-                <p class="text-sm font-semibold text-gray-800">Total Budget</p>
-               <x-ui.icon name="ps:wallet" variant="bold" class="text-gray-500"/>
+                <p class="text-sm font-semibold text-blue-600">Total Budget</p>
+               <x-ui.icon name="ps:wallet" variant="bold" class="text-blue-600"/>
             </span>
             <span class="">
-                <h1 class="text-gray-800 font-bold text-xl">
+                <h1 class="text-blue-600 font-bold text-xl">
                     ₱{{$totalBudget ?? 0}}
                 </h1>
                 <p class="text-gray-500 text-sm">
@@ -46,13 +46,13 @@
             </span>
         </div>
 
-        <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
+        <div class="w-full border border-green-50 bg-green-50 rounded-xl p-6 space-y-5">
             <span class="flex items-center justify-between ">
-                <p class="text-sm font-semibold text-gray-800">Remaining</p>
-                <x-ui.icon name="arrow-trending-up"/>
+                <p class="text-sm font-semibold text-green-600">Remaining</p>
+                <x-ui.icon name="ps:trend-up" variant="bold" class="text-green-600"/>
             </span>
             <span class="">
-                <h1 class="text-[#118139] font-bold text-xl">
+                <h1 class="text-green-600 font-bold text-xl">
                         ₱{{$remaining ?? 0}}
                 </h1>
                 <p class="text-gray-500 text-sm">
@@ -61,13 +61,29 @@
             </span>
         </div>
 
-        <div class="w-full border border-gray-300 rounded-xl p-6 space-y-5">
+        <div @class([
+                'border-green-50 bg-green-50' => $this->budgetProgress <= 49.9,
+                'border-yellow-50 bg-yellow-50' => $this->budgetProgress >= 50.0 && $this->budgetProgress <= 79.9,
+                'border-red-50 bg-red-50' => $this->budgetProgress >= 80.0,
+                 'w-full border rounded-xl p-6 space-y-5'])>
             <span class="flex items-center justify-between ">
-                <p class="text-sm font-semibold text-gray-800">Budget used</p>
-                <x-ui.icon name="arrow-trending-up"/>
+                <p
+                @class([ 'text-green-600' => $this->budgetProgress <= 49.9,
+                'text-yellow-600' => $this->budgetProgress >= 50.0 && $this->budgetProgress <= 79.9,
+                'text-red-600' => $this->budgetProgress >= 80.0,
+                'text-sm font-semibold '])
+                >Budget used</p>
+                <x-ui.icon name="ps:trend-up" variant="bold" @class([ 'text-green-600' => $this->budgetProgress <= 49.9,
+                'text-yellow-600' => $this->budgetProgress >= 50.0 && $this->budgetProgress <= 79.9,
+                'text-red-600' => $this->budgetProgress >= 80.0,
+                'size-6'])/>
             </span>
-            <span class="">
-                <h1 class="text-[#118139] font-bold text-xl">
+            <span>
+                <h1
+                @class([ 'text-green-600' => $this->budgetProgress <= 49.9,
+                'text-yellow-600' => $this->budgetProgress >= 50.0 && $this->budgetProgress <= 79.9,
+                'text-red-600' => $this->budgetProgress >= 80.0,
+                'font-bold text-xl'])>
                         {{round($budgetProgress, 2)}}%
                 </h1>
                 <p class="text-gray-500 text-sm">

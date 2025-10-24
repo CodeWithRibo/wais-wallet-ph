@@ -23,13 +23,13 @@ new class extends Component {
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" wire:navigate>
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800"/>
+                        <x-application-logo class="block h-24 w-auto fill-current text-gray-800"/>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-5 md:space-x-10 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" >
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate >
                         Dashboard
                     </x-nav-link>
 
@@ -45,9 +45,6 @@ new class extends Component {
                         Wallet
                     </x-nav-link>
 
-                    <x-nav-link :href="route('dashboard')" wire:navigate>
-                        Recurring
-                    </x-nav-link>
 
                 </div>
             </div>
@@ -108,6 +105,18 @@ new class extends Component {
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('expenses')" :active="request()->routeIs('expenses')" wire:navigate>
+                {{ __('Expenses') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('categories')" :active="request()->routeIs('categories')" wire:navigate>
+                {{ __('Categories') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('wallet')" :active="request()->routeIs('wallet')" wire:navigate>
+                {{ __('Wallet') }}
             </x-responsive-nav-link>
         </div>
 
