@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Wallet;
 use App\Services\ToastNotificationService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -20,6 +21,10 @@ class ExpenseForm extends Component
     public $notes;
     public $wallet_type;
 
+    public function mount() : void
+    {
+        $this->date =  Carbon::now()->format('Y-m-d');
+    }
     protected function rules(): array
     {
         return [

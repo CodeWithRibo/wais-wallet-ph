@@ -33,7 +33,8 @@
             <x-ui.field required>
                 <x-ui.label>Date</x-ui.label>
                 <x-ui.input type="date"
-                            wire:model="date"/>
+                            wire:model="date"
+                            value="{{$date}}"/>
                 <x-ui.error name="date"/>
             </x-ui.field>
 
