@@ -16,11 +16,10 @@
 <main class="min-h-screen bg-white">
     <header class="shadow">
         <nav x-data="{ open: false }" class=" max-w-7xl mx-auto px-5">
-            <div class="hidden sm:flex items-center justify-between py-5">
+            <div class="hidden sm:flex items-center justify-between">
                 <div class="flex items-center space-x-3">
-                        <span class="bg-[#00AF74] py-1 px-1 rounded-md">
-                            <x-ui.icon name="ps:currency-dollar" class="text-white size-5"/>
-                        </span>
+                    <img src="{{asset('wais-wallet-logo-v2.png')}}" class="w-[15%] h-[15%]" alt="wais_wallet_logo"
+                         srcset="">
                     <h1 class="text-gray-800 text-base">Wais Wallet PH</h1>
                 </div>
                 <div class="space-x-3">
@@ -156,12 +155,10 @@
     </section>
     <footer class="max-w-7xl mx-auto mt-10 sm:pt-0 ">
         <footer class="footer sm:footer-horizontal  text-gray-500 items-center p-4">
-            <aside class="grid-flow-col items-center">
-                 <span class="bg-[#00AF74] py-1 px-1 rounded-md">
-                            <x-ui.icon name="ps:currency-dollar" class="text-white size-5"/>
-                  </span>
-                <p>Copyright © Wais Wallet PH {{\Carbon\Carbon::now()->year }} - All right reserved</p>
-            </aside>
+               <div class="flex items-center">
+                   <img src="{{asset('wais-wallet-logo-v2.png')}}" class="w-[15%] h-[15%]" alt="wais_wallet_logo" srcset="">
+                   <p>Copyright © Wais Wallet PH {{\Carbon\Carbon::now()->year }} - All right reserved</p>
+               </div>
             <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
                 <a>
                     <svg
@@ -185,7 +182,7 @@
                             d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
                     </svg>
                 </a>
-                <a href="https://www.facebook.com/carljohn2818/" target="_blank" >
+                <a href="https://www.facebook.com/carljohn2818/" target="_blank">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
