@@ -7,8 +7,8 @@ test('login screen can be rendered', function () {
     $response = $this->get('/login');
 
     $response
-        ->assertOk()
-        ->assertSeeVolt('pages.auth.login');
+    ->assertOk()
+    ->assertSeeVolt('pages.auth.login');
 });
 
 test('users can authenticate using the login screen', function () {
@@ -51,7 +51,7 @@ test('navigation menu can be rendered', function () {
     $response = $this->get('/dashboard');
 
     $response
-        ->assertOk()
+        ->assertStatus(200)
         ->assertSeeVolt('layout.navigation');
 });
 
