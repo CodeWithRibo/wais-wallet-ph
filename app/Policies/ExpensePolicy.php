@@ -13,11 +13,12 @@ class ExpensePolicy
 
     public function viewAny(User $user): bool
     {
-
+        return $user->role === 'user';
     }
 
     public function view(User $user, Expense $expense): bool
     {
+        return $user->id === $expense->user_id;
     }
 
     public function create(User $user): Response

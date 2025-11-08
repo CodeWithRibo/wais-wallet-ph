@@ -13,11 +13,12 @@ class CategoryPolicy
 
     public function viewAny(User $user): bool
     {
-
+        return $user->role === 'user';
     }
 
     public function view(User $user, Category $category): bool
     {
+        return $user->id === $category->user_id;
     }
 
     public function create(User $user) : Response

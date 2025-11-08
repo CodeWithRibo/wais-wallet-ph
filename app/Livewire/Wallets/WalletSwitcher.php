@@ -19,9 +19,12 @@ class WalletSwitcher extends Component
     public function calculateTotals($walletId = null)
     {
 
-        $categories = Category::query()->select('monthly_budget', 'category_name', 'id')->get();
+        $categories = Category::query()
+            ->where('user_id', auth()->id())
+            ->select('monthly_budget', 'category_name', 'id')->get();
 
         $expenses = Expense::query()
+            ->where('user_id', auth()->id())
             ->when($walletId && $walletId !== 'all', fn($q) => $q->where('wallet_id', $walletId))
             ->get();
 

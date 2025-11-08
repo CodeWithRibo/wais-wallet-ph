@@ -46,14 +46,19 @@ class ExpenseForm extends Component
 
         $this->authorize('create', Expense::class);
 
-        $wallet = Wallet::query()->where('wallet_name', $this->wallet_type)->first();
-        $category = Category::query()->where('category_name', $this->category)->first();
+        $wallet = Wallet::where('wallet_name', $this->wallet_type)
+            ->where('user_id', auth()->id())
+            ->first();
+        $category = Category::where('category_name', $this->category)
+            ->where('user_id', auth()->id())
+            ->first();
 
         try {
             DB::transaction(function () use ($validated, $wallet, $category) {
 
                 DB::table('wallets')
                     ->where('wallet_name', $this->wallet_type)
+                    ->where('user_id', auth()->id())
                     ->update([
                         'monthly_spent' => DB::raw('monthly_spent + ' . floatval($this->amount)),
                         'available_balance' => DB::raw('available_balance - ' . floatval($this->amount)),
@@ -62,6 +67,7 @@ class ExpenseForm extends Component
 
                 DB::table('categories')
                     ->where('category_name', $this->category)
+                    ->where('user_id', auth()->id())
                     ->update([
                         'spent' => DB::raw('spent + ' . floatval($this->amount)),
                         'remaining' => DB::raw('remaining - ' . floatval($this->amount)),

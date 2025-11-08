@@ -27,13 +27,15 @@ class ExpenseTable extends Component
 
     public function mount(): void
     {
-        $this->expense = Expense::select(
-            'amount',
-            'category',
-            'date',
-            'wallet_type',
-            'payment_method',
-            'notes')->get();
+        $this->expense = Expense::where('user_id', auth()->id())
+            ->select(
+                'amount',
+                'category',
+                'date',
+                'wallet_type',
+                'payment_method',
+                'notes'
+            )->get();
     }
 
     #[On(['refresh-table' , 'expense-saved'])]
@@ -61,7 +63,7 @@ class ExpenseTable extends Component
     #[On('update-expense')]
     public function refreshExpense($id): void
     {
-        $updatedExpense = Expense::findOrFail($id);
+        $updatedExpense = Expense::where('user_id', auth()->id())->findOrFail($id);
         $this->expense = $this->expense->map(function ($t) use ($updatedExpense) {
             return $t->id === (int)$updatedExpense->id ? $updatedExpense : $t;
         });
@@ -95,6 +97,7 @@ class ExpenseTable extends Component
         $sortColumn = $this->sortDirection === 'DESC' ? "-$this->sort" : $this->sort;
 
         $query = QueryBuilder::for(Expense::class)
+            ->where('user_id', auth()->id())
             ->search(trim($this->search))
             ->allowedSorts(['date', 'category', 'wallet_type', 'payment_method'])
             ->defaultSort($sortColumn);

@@ -27,7 +27,7 @@ class CategoryManagement extends Component
 
     public function render(): View
     {
-        $q = Category::query();
+        $q = Category::where('user_id', auth()->id());
 
         $this->totalBudget = $q->pluck('monthly_budget')->sum() ?? 0;
         $this->totalSpent = $q->pluck('spent')->sum() ?? 0;

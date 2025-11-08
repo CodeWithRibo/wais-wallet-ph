@@ -21,7 +21,7 @@ class CategoryUpdate extends Component
     #[On('update-category')]
     public function loadCategory($id): void
     {
-        $this->category = Category::query()->findOrFail($id);
+        $this->category = Category::where('user_id', auth()->id())->findOrFail($id);
 
         $this->fill($this->category->only([
             'category_name',
@@ -57,7 +57,9 @@ class CategoryUpdate extends Component
 
         if ($this->category->isDirty()) {
 
-            $expense = Expense::where('category', $this->category_name)->first() ?? 0;
+            $expense = Expense::where('category', $this->category_name)
+                ->where('user_id', auth()->id())
+                ->first() ?? 0;
             $expenseAmount = $expense->amount ?? 0;
 
             $this->category->update([

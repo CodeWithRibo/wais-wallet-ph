@@ -29,7 +29,7 @@ class ExpenseEdit extends Component
     public function loadExpense($id) : void
     {
         $this->expenseId = $id;
-        $this->expense = Expense::findOrFail($this->expenseId);
+        $this->expense = Expense::where('user_id', auth()->id())->findOrFail($this->expenseId);
 
         $this->fill($this->expense->only([
             'amount',
@@ -101,6 +101,7 @@ class ExpenseEdit extends Component
                 if ($walletChanged) {
                     Wallet::query()
                         ->where('wallet_name', $originalWalletType)
+                        ->where('user_id', auth()->id())
                         ->update([
                             'monthly_spent' => DB::raw('monthly_spent - ' . floatval($originalAmount)),
                             'available_balance' => DB::raw('available_balance + ' . floatval($originalAmount)),
@@ -109,6 +110,7 @@ class ExpenseEdit extends Component
 
                     Wallet::query()
                         ->where('wallet_name', $newWalletType)
+                        ->where('user_id', auth()->id())
                         ->update([
                             'monthly_spent' => DB::raw('monthly_spent + ' . floatval($newAmount)),
                             'available_balance' => DB::raw('available_balance - ' . floatval($newAmount)),
@@ -120,6 +122,7 @@ class ExpenseEdit extends Component
                     if ($diff !== 0) {
                         Wallet::query()
                             ->where('wallet_name', $originalWalletType)
+                            ->where('user_id', auth()->id())
                             ->update([
                                 'monthly_spent' => DB::raw('monthly_spent + ' . floatval($diff)),
                                 'available_balance' => DB::raw('available_balance' . ($diff > 0 ? '-' : '+') . abs($diff)),
