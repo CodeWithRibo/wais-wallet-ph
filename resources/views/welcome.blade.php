@@ -22,11 +22,23 @@
                          srcset="">
                     <h1 class="text-gray-800 text-base">Wais Wallet PH</h1>
                 </div>
-                <div class="space-x-3">
-                    <a href="{{route('login')}}"
-                       class="py-2 px-4  text-black hover:bg-green-50 rounded-lg hover:text-green-600 transition-all duration-300">
-                        Login
-                    </a>
+                <div class=" flex items-center space-x-3">
+                    @auth
+                        <form action="{{route('logout-account')}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                    class="py-2 px-4  text-black hover:bg-green-50 rounded-lg hover:text-green-600 transition-all duration-300">
+                                Logout
+                            </button>
+                        </form>
+                    @endauth
+                    @guest
+                        <a href="{{route('login')}}"
+                           class="py-2 px-4  text-black hover:bg-green-50 rounded-lg hover:text-green-600 transition-all duration-300">
+                            Login
+                        </a>
+                    @endguest
                     <button
                         class="btn btn-outline border-emerald-600 font-light text-green-600 hover:text-black hover:bg-emerald-50 hover:shadow-none transition-all duration-300 px-4 rounded-lg"
                     >Contact Us
@@ -36,8 +48,8 @@
 
             <div class="flex items-center justify-between py-5 sm:py-0">
                 <!-- Logo -->
-                    <img src="{{asset('wais-wallet-logo-v2.png')}}" class="sm:hidden w-[15%] h-[15%]" alt="wais_wallet_logo"
-                         srcset="">
+                <img src="{{asset('wais-wallet-logo-v2.png')}}" class="sm:hidden w-[15%] h-[15%]" alt="wais_wallet_logo"
+                     srcset="">
                 <!--Hamburger Menu-->
                 <div class="-me-2 flex items-center sm:hidden">
                     <button @click="open = ! open"
@@ -154,10 +166,11 @@
     </section>
     <footer class="max-w-7xl mx-auto mt-10 sm:pt-0 ">
         <footer class="footer sm:footer-horizontal  text-gray-500 items-center p-4">
-               <div class="flex items-center">
-                   <img src="{{asset('wais-wallet-logo-v2.png')}}" class="w-[15%] h-[15%]" alt="wais_wallet_logo" srcset="">
-                   <p>Copyright © Wais Wallet PH {{\Carbon\Carbon::now()->year }} - All right reserved</p>
-               </div>
+            <div class="flex items-center">
+                <img src="{{asset('wais-wallet-logo-v2.png')}}" class="w-[15%] h-[15%]" alt="wais_wallet_logo"
+                     srcset="">
+                <p>Copyright © Wais Wallet PH {{\Carbon\Carbon::now()->year }} - All right reserved</p>
+            </div>
             <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
                 <a>
                     <svg
