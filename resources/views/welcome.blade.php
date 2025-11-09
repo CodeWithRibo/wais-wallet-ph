@@ -24,7 +24,7 @@
                 </div>
                 <div class="space-x-3">
                     <a href="{{route('login')}}"
-                       class="py-2 px-4  text-black hover:bg-green-50 rounded-lg hover:text-green-600 transition-all duration-300 py-3">
+                       class="py-2 px-4  text-black hover:bg-green-50 rounded-lg hover:text-green-600 transition-all duration-300">
                         Login
                     </a>
                     <button
@@ -36,11 +36,8 @@
 
             <div class="flex items-center justify-between py-5 sm:py-0">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                <span class="bg-[#00AF74] py-1 px-1 rounded-md  sm:hidden">
-                      <x-ui.icon name="ps:currency-dollar" class="text-white size-5"/>
-                </span>
-                </div>
+                    <img src="{{asset('wais-wallet-logo-v2.png')}}" class="sm:hidden w-[15%] h-[15%]" alt="wais_wallet_logo"
+                         srcset="">
                 <!--Hamburger Menu-->
                 <div class="-me-2 flex items-center sm:hidden">
                     <button @click="open = ! open"
@@ -91,10 +88,12 @@
                 </p>
 
                 <div class="space-x-5">
-                    <button
-                        class="btn bg-emerald-600 hover:bg-emerald-700 cursor-auto font-light border-none rounded-md px-8 "
-                    >Get Started
-                    </button>
+                    <a href="{{route('login')}}">
+                        <button
+                            class="btn bg-emerald-600 hover:bg-emerald-700 font-light border-none rounded-md px-8 cursor-pointer "
+                        >Get Started
+                        </button>
+                    </a>
                     <button
                         class="btn btn-outline border-emerald-600 font-light text-green-600 hover:text-black hover:bg-emerald-50 hover:shadow-none transition-all duration-300 px-8"
                     >Learn More
@@ -147,7 +146,7 @@
 
                 <div class="bg-white px-10 py-10 rounded-2xl shadow-2xl relative z-10">
                     <div class="flex justify-center items-center  rounded-2xl bg-gray-100 py-3">
-                        <img src="{{asset('blank_image.png')}}" class="w-[20%]" alt="blank_image">
+                        <img src="{{asset('accounting_image.png')}}" class="w-[15%]" alt="blank_image">
                     </div>
                 </div>
             </div>
