@@ -98,14 +98,23 @@
                     in
                     personal finance.
                 </p>
-
                 <div class="space-x-5">
-                    <a href="{{route('login')}}">
-                        <button
-                            class="btn bg-emerald-600 hover:bg-emerald-700 font-light border-none rounded-md px-8 cursor-pointer "
-                        >Get Started
-                        </button>
-                    </a>
+                    @auth
+                        <a href="{{auth()->user()->role === 'user' ? route('dashboard') : route('admin.dashboard')}}">
+                            <button
+                                class="btn bg-emerald-600 hover:bg-emerald-700 font-light border-none rounded-md px-8 cursor-pointer "
+                            >Get Started
+                            </button>
+                        </a>
+                    @endauth
+                    @guest
+                        <a href="{{route('login')}}">
+                            <button
+                                class="btn bg-emerald-600 hover:bg-emerald-700 font-light border-none rounded-md px-8 cursor-pointer "
+                            >Get Started
+                            </button>
+                        </a>
+                    @endguest
                     <button
                         class="btn btn-outline border-emerald-600 font-light text-green-600 hover:text-black hover:bg-emerald-50 hover:shadow-none transition-all duration-300 px-8"
                     >Learn More
