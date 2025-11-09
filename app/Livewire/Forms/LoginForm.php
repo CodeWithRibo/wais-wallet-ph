@@ -21,6 +21,11 @@ class LoginForm extends Form
     #[Validate('boolean')]
     public bool $remember = false;
 
+    public function updated($property) : void
+    {
+        $this->validateOnly($property);
+    }
+
     /**
      * Attempt to authenticate the request's credentials.
      *
