@@ -3,7 +3,7 @@
         <h1 class="text-gray-800 text-base font-semibold">Active Wallet: </h1>
 
         @php
-            $wallets = \App\Models\Wallet::query()->pluck('wallet_name')->toArray();
+            $wallets = \App\Models\Wallet::query()->where('user_id', auth()->id())->pluck('wallet_name')->toArray();
             $indexed = array_combine(range(1, count($wallets)), $wallets);
         @endphp
 
