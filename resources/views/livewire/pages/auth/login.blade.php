@@ -37,7 +37,7 @@ class extends Component {
         <div class="m-5 block text-center">
             <span class="flex items-center justify-center">
                       <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                <h1 class="text-3xl">Wait Wallet Ph</h1>
+                <h1 class="text-2xl sm:text-3xl">Wait Wallet PH</h1>
             </span>
             <p class="text-gray-500 text-sm">Sign in to your account</p>
         </div>
@@ -68,7 +68,7 @@ class extends Component {
         </div>
 
         <div class="mt-5">
-            <button class=" py-[8px] text-white w-full bg-emerald-500 border-none rounded-md" type="submit">
+            <button class="cursor-pointer py-[8px] text-white w-full bg-emerald-500 hover:bg-emerald-600 transition-all duration-300 border-none rounded-md" type="submit">
                 {{ __('Log in') }}
             </button>
         </div>
