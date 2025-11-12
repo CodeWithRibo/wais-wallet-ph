@@ -49,17 +49,27 @@ new #[Layout('layouts.guest')] class extends Component
 
 <div>
     <form wire:submit="register">
+        <div class="m-5 block text-center">
+            <span class="flex items-center justify-center">
+                      <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <h1 class="text-2xl sm:text-3xl">Wait Wallet PH</h1>
+            </span>
+            <p class="text-gray-500 text-sm">Sign in to your account</p>
+        </div>
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input wire:model.live.debounce.300ms="name" id="name" class="block mt-1 w-full" type="text" name="name" required autofocus autocomplete="name" />
+            <x-text-input wire:model.live.debounce.300ms="name" id="name"
+                          class="block mt-1 w-full focus:border-green-400 focus:ring-green-400"
+                          type="text" name="name" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model.live.debounce.300ms="email" id="email" class="block mt-1 w-full" type="email" name="email" required autocomplete="username" />
+            <x-text-input wire:model.live.debounce.300ms="email" id="email"
+                          class="block mt-1 w-full focus:border-green-400 focus:ring-green-400" type="email" name="email" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -67,7 +77,8 @@ new #[Layout('layouts.guest')] class extends Component
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input wire:model.live.debounce.300ms="password" id="password" class="block mt-1 w-full"
+            <x-text-input wire:model.live.debounce.300ms="password" id="password"
+                            class="block mt-1 w-full focus:border-green-400 focus:ring-green-400"
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
@@ -79,21 +90,26 @@ new #[Layout('layouts.guest')] class extends Component
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
-            <x-text-input wire:model.live.debounce.300ms="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
+            <x-text-input wire:model.live.debounce.300ms="password_confirmation" id="password_confirmation"
+                            class="block mt-1 w-full focus:border-green-400 focus:ring-green-400"
                             type="password"
                             name="password_confirmation" required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+        <div class="mt-5">
+            <button class="cursor-pointer py-[8px] text-white w-full bg-emerald-500 hover:bg-emerald-600 transition-all duration-300 border-none rounded-md" type="submit">
+                {{ __('Register') }}
+            </button>
+        </div>
+
+
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}" wire:navigate>
+            <a class="hover:underline text-sm text-emerald-500 hover:text-emerald-600 rounded-md transition-all duration-300" href="{{ route('login') }}" wire:navigate>
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
         </div>
     </form>
 </div>
