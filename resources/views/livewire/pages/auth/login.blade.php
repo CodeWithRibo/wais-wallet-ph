@@ -44,7 +44,7 @@ class extends Component {
         <!-- Email Address -->
         <div class="">
             <x-input-label for="email" :value="__('Email Address')"/>
-            <x-text-input wire:model.live.debounce.300ms="form.email"
+            <x-text-input wire:model.live.debounce.250ms="form.email"
                           id="email"
                           class="block mt-1 w-full focus:border-green-400 focus:ring-green-400"
                           type="email" name="email"
