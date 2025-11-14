@@ -6,6 +6,6 @@ class CategoriesController extends Controller
 {
     public function __invoke()
     {
-        return view('categories');
+        return view('user.categories');
     }
 }

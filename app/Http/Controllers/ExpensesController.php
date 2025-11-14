@@ -8,6 +8,6 @@ class ExpensesController extends Controller
 {
     public function __invoke()
     {
-        return view ('expenses');
+        return view ('user.expenses');
     }
 }

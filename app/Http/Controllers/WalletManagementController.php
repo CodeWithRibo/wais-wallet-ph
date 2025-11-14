@@ -8,6 +8,6 @@ class WalletManagementController extends Controller
 {
     public function __invoke()
     {
-        return view('wallet');
+        return view('user.wallet');
     }
 }
