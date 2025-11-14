@@ -4,10 +4,34 @@ use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
 
 new class extends Component {
+
+    public $user;
+    public $route;
+    public $activeRequest;
+
     /**
+     * @return void
+     * Routes and Active user navigation
+     */
+    public function mount(): void
+    {
+        $this->user = auth()->user();
+
+        $this->route = match ($this->user->role) {
+            'user' => route('dashboard'),
+            'admin' => route('admin.dashboard'),
+        };
+
+        $this->activeRequest = match ($this->user->role) {
+            'user' => request()->routeIs('dashboard'),
+            'admin' => request()->routeIs('admin.dashboard'),
+        };
+    }
+    /**
+     * @return void
      * Log the current user out of the application.
      */
-    public function logout(Logout $logout): void
+    public function logout(Logout $logout) : void
     {
         $logout();
 
@@ -22,29 +46,36 @@ new class extends Component {
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" wire:navigate>
+                    <a href="{{$route}}" wire:navigate>
                         <x-application-logo class="block h-24 w-auto fill-current text-gray-800"/>
                     </a>
                 </div>
-
                 <!-- Navigation Links -->
                 <div class="hidden space-x-5 md:space-x-10 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate >
+                    <x-nav-link :href="$route"
+                                :active="$activeRequest"
+                                wire:navigate>
+                        @if($user->role == 'user' || $user->role == 'admin')
                         Dashboard
+                        @endif
                     </x-nav-link>
 
                     <x-nav-link :href="route('expenses')" :active="request()->routeIs('expenses')" wire:navigate>
-                        Expenses
+                        {{$user->role =='user' ? 'Expenses' : 'Users'}}
                     </x-nav-link>
 
                     <x-nav-link :href="route('categories')" :active="request()->routeIs('categories')" wire:navigate>
-                        Categories
+                        {{$user->role =='user' ? 'Categories' : 'Audit Logs'}}
                     </x-nav-link>
 
                     <x-nav-link :href="route('wallet')" :active="request()->routeIs('wallet')" wire:navigate>
-                        Wallet
+                        {{$user->role =='user' ? 'Wallet' : 'Categories'}}
                     </x-nav-link>
 
+
+                    <x-nav-link :href="route('wallet')" wire:navigate>
+                        {{$user->role =='admin' ? 'Wallet' : null}}
+                    </x-nav-link>
 
                 </div>
             </div>
@@ -103,8 +134,10 @@ new class extends Component {
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="$route" :active="$activeRequest" wire:navigate>
+                @if($user->role == 'user' || $user->role == 'admin')
+                    Dashboard
+                @endif
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('expenses')" :active="request()->routeIs('expenses')" wire:navigate>
