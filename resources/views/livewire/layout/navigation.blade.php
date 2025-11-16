@@ -6,8 +6,8 @@ use Livewire\Volt\Component;
 new class extends Component {
 
     public $user;
-    public $route;
-    public $activeRequest;
+    public array $routes;
+    public array $active;
 
     /**
      * @return void
@@ -17,21 +17,37 @@ new class extends Component {
     {
         $this->user = auth()->user();
 
-        $this->route = match ($this->user->role) {
-            'user' => route('dashboard'),
-            'admin' => route('admin.dashboard'),
+        $this->routes = match ($this->user->role) {
+            'user' =>
+            [
+                'dashboard' => route('dashboard'),
+                'secondRoute' => route('expenses'),
+                'third' => route('categories'),
+                'fourth' => route('wallet'),
+            ],
+            'admin' =>
+            [
+                'dashboard' => route('admin.dashboard'),
+                'secondRoute' => route('admin.users'),
+            ],
         };
 
-        $this->activeRequest = match ($this->user->role) {
-            'user' => request()->routeIs('dashboard'),
-            'admin' => request()->routeIs('admin.dashboard'),
-        };
+        $this->active = [
+            'dashboard' => $this->user->role === 'user'
+                ? request()->routeIs('dashboard')
+                : request()->routeIs('admin.dashboard'),
+            'secondRoute' => $this->user->role === 'user'
+                ? request()->routeIs('expenses')
+                : request()->routeIs('admin.users'),
+        ];
+
     }
+
     /**
      * @return void
      * Log the current user out of the application.
      */
-    public function logout(Logout $logout) : void
+    public function logout(Logout $logout): void
     {
         $logout();
 
@@ -46,35 +62,40 @@ new class extends Component {
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{$route}}" wire:navigate>
+                    <a href="{{$routes['dashboard']}}" wire:navigate>
                         <x-application-logo class="block h-24 w-auto fill-current text-gray-800"/>
                     </a>
                 </div>
                 <!-- Navigation Links -->
                 <div class="hidden space-x-5 md:space-x-10 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="$route"
-                                :active="$activeRequest"
+                    <x-nav-link :href="$routes['dashboard']"
+                                :active="$active['dashboard']"
                                 wire:navigate>
                         @if($user->role == 'user' || $user->role == 'admin')
-                        Dashboard
+                            Dashboard
                         @endif
                     </x-nav-link>
 
-                    <x-nav-link :href="route('expenses')" :active="request()->routeIs('expenses')" wire:navigate>
+                    <x-nav-link :href="$routes['secondRoute']"
+                                :active="$active['secondRoute']"
+                                wire:navigate>
                         {{$user->role =='user' ? 'Expenses' : 'Users'}}
                     </x-nav-link>
 
                     <x-nav-link :href="route('categories')" :active="request()->routeIs('categories')" wire:navigate>
-                        {{$user->role =='user' ? 'Categories' : 'Audit Logs'}}
+                        @if($user->role == 'user' || $user->role == 'admin')
+                            Categories
+                        @endif
                     </x-nav-link>
 
                     <x-nav-link :href="route('wallet')" :active="request()->routeIs('wallet')" wire:navigate>
-                        {{$user->role =='user' ? 'Wallet' : 'Categories'}}
+                        @if($user->role == 'user' || $user->role == 'admin')
+                            Wallet
+                        @endif
                     </x-nav-link>
 
-
                     <x-nav-link :href="route('wallet')" wire:navigate>
-                        {{$user->role =='admin' ? 'Wallet' : null}}
+                        {{$user->role =='admin' ? 'Audit Logs' : null}}
                     </x-nav-link>
 
                 </div>
@@ -134,14 +155,14 @@ new class extends Component {
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="$route" :active="$activeRequest" wire:navigate>
+            <x-responsive-nav-link :href="$routes['dashboard']" :active="$active['dashboard']" wire:navigate>
                 @if($user->role == 'user' || $user->role == 'admin')
                     Dashboard
                 @endif
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('expenses')" :active="request()->routeIs('expenses')" wire:navigate>
-                {{ __('Expenses') }}
+                {{$user->role =='user' ? 'Expenses' : 'Users'}}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('categories')" :active="request()->routeIs('categories')" wire:navigate>
