@@ -65,8 +65,11 @@
             'Gcash'=> 'text-white dark:text-white bg-[#007CFF] dark:bg-[#007CFF] border-[#007CFF] dark:border-[#007CFF]',
             'Cash'=> 'text-white dark:text-white bg-[#206B28] dark:bg-[#206B28] border-[#206B28] dark:border-[#206B28]',
             'personal'=> 'text-blue-500 dark:text-blue-500 bg-blue-100 dark: bg-blue-100 border-blue-100 dark:border-blue-100',
-            'business'=> 'text-green-500 dark:text-green-500 bg-green-100 dark: bg-green-100 border-green-100 dark:border-green-100',
+            'business'=> 'text-emerald-500 dark:text-emerald-500 bg-emerald-100 dark: bg-emerald-100 border-emerald-100 dark:border-emerald-100',
             'shared'=> 'text-violet-500 dark:text-violet-500 bg-violet-100 dark: bg-violet-100 border-violet-100 dark:border-violet-100',
+            'create'=> 'text-emerald-600 dark:text-emerald-600 bg-emerald-100 dark: bg-emerald-100 border-emerald-100 dark:border-emerald-100',
+            'archive'=> 'text-gray-600 dark:text-gray-600 bg-gray-100 dark: bg-gray-100 border-gray-100 dark:border-gray-100',
+            'delete'=> 'text-red-600 dark:text-red-600 bg-red-100 dark: bg-red-100 border-red-100 dark:border-red-100',
         };
     }
 
