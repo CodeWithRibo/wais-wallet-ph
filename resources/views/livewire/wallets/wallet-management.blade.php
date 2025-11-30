@@ -98,7 +98,6 @@
                                     <p class="text-[12px]">Edit</p>
                                 </x-secondary-button>
                             </x-ui.modal.trigger>
-
                         </div>
                     </div>
                     <div class="flex justify-between">

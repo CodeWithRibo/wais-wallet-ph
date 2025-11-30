@@ -23,7 +23,6 @@ new class extends Component {
                 'dashboard' => route('dashboard'),
                 'secondRoute' => route('expenses'),
                 'third' => route('categories'),
-                'fourth' => route('wallet'),
             ],
             'admin' =>
             [
@@ -88,13 +87,8 @@ new class extends Component {
                         @endif
                     </x-nav-link>
 
-                    <x-nav-link :href="route('wallet')" :active="request()->routeIs('wallet')" wire:navigate>
-                        @if($user->role == 'user' || $user->role == 'admin')
-                            Wallet
-                        @endif
                     </x-nav-link>
 
-                    <x-nav-link :href="route('wallet')" wire:navigate>
                         {{$user->role =='admin' ? 'Audit Logs' : null}}
                     </x-nav-link>
 
@@ -169,7 +163,6 @@ new class extends Component {
                 {{ __('Categories') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('wallet')" :active="request()->routeIs('wallet')" wire:navigate>
                 {{ __('Wallet') }}
             </x-responsive-nav-link>
         </div>
