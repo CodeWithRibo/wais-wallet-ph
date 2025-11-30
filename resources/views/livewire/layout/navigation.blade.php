@@ -23,12 +23,13 @@ new class extends Component {
                 'dashboard' => route('dashboard'),
                 'secondRoute' => route('expenses'),
                 'third' => route('categories'),
-                'fourth' => route('wallet'),
+                'wallets' => route('wallets'),
             ],
             'admin' =>
             [
                 'dashboard' => route('admin.dashboard'),
                 'secondRoute' => route('admin.users'),
+                'wallets' => route('admin.wallets'),
             ],
         };
 
@@ -39,6 +40,9 @@ new class extends Component {
             'secondRoute' => $this->user->role === 'user'
                 ? request()->routeIs('expenses')
                 : request()->routeIs('admin.users'),
+            'wallets' => $this->user->role === 'user'
+                ? request()->routeIs('wallets')
+                : request()->routeIs('admin.wallets'),
         ];
 
     }
@@ -88,13 +92,13 @@ new class extends Component {
                         @endif
                     </x-nav-link>
 
-                    <x-nav-link :href="route('wallet')" :active="request()->routeIs('wallet')" wire:navigate>
-                        @if($user->role == 'user' || $user->role == 'admin')
-                            Wallet
-                        @endif
+                    <x-nav-link :href="$routes['wallets']"
+                                :active="$active['wallets']"
+                                wire:navigate>
+                        {{$user->role =='user' ? 'Wallet' : 'Wallets'}}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('wallet')" wire:navigate>
+                    <x-nav-link :href="route('wallets')" wire:navigate>
                         {{$user->role =='admin' ? 'Audit Logs' : null}}
                     </x-nav-link>
 
@@ -169,7 +173,7 @@ new class extends Component {
                 {{ __('Categories') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('wallet')" :active="request()->routeIs('wallet')" wire:navigate>
+            <x-responsive-nav-link :href="route('wallets')" :active="request()->routeIs('wallets')" wire:navigate>
                 {{ __('Wallet') }}
             </x-responsive-nav-link>
         </div>
