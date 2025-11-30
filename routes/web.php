@@ -23,7 +23,7 @@ Route::middleware(['auth', 'is_user', 'verified'])->group(function (){
 });
 
 Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function (){
-   Route::get('dashboarda', AdminDashboardController::class)->name('admin.dashboard');
+   Route::get('dashboard', AdminDashboardController::class)->name('admin.dashboard');
    Route::get('users', AdminUserController::class)->name('admin.users');
    Route::get('wallets', AdminWalletController::class)->name('admin.wallets');
 });
