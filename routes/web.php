@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Session;
 
 Route::view('/', 'welcome')->name('welcome');
 
+/*User*/
 Route::middleware(['auth', 'is_user', 'verified'])->group(function (){
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('profile', [DashboardController::class, 'profile'])->name('profile');
@@ -21,13 +22,14 @@ Route::middleware(['auth', 'is_user', 'verified'])->group(function (){
     Route::get('expenses', ExpensesController::class)->name('expenses');
     Route::get('categories', CategoriesController::class)->name('categories');
 });
-
+/*Admin*/
 Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function (){
    Route::get('dashboard', AdminDashboardController::class)->name('admin.dashboard');
    Route::get('users', AdminUserController::class)->name('admin.users');
    Route::get('wallets', AdminWalletController::class)->name('admin.wallets');
 });
 
+/*Logout*/
 Route::delete('logout',LogoutController::class)->name('logout-account');
 Route::get('/logout', function () {
     Auth::guard('web')->logout();
