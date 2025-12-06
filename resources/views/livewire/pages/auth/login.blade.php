@@ -7,31 +7,58 @@ use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')]
 class extends Component {
-    public LoginForm $form;
+    public string $email = '';
+    public string $password = '';
 
-    /**
-     * Handle an incoming authentication request.
-     */
+    protected function rules(): array
+    {
+        return [
+            'email' => 'string|required|email',
+            'password' => 'required',
+        ];
+    }
+
+    public function updated($propertyName): void
+    {
+        $this->validateOnly($propertyName);
+    }
+
     public function login()
     {
-        $this->validate();
+        $credential = $this->validate();
+        if (!Auth::attempt($credential)) {
+            $this->addError('status', 'The provided credentials do not match our records.');
+            return;
+        }
 
-        $this->form->authenticate();
+        $user = auth()->user();
+        if (!$user->is_active) {
+            $this->addError('status', 'Account Disabled. Your account has been disabled by an administrator. Please contact support for assistance.');
+
+            Auth::logout();
+            Session::invalidate();
+            Session::regenerateToken();
+            return;
+        }
 
         Session::regenerate();
-
         return redirect()->route(
             match (Auth::user()->role) {
                 'user' => 'dashboard',
                 'admin' => 'admin.dashboard'
             }
         );
+
     }
 }; ?>
 
 <div>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')"/>
+
+    @error('status')
+    <div role="alert" class="alert alert-error alert-soft">
+        <span>{{$message}}</span>
+    </div>
+    @enderror
 
     <form wire:submit="login">
         <div class="m-5 block text-center">
@@ -44,27 +71,27 @@ class extends Component {
         <!-- Email Address -->
         <div class="">
             <x-input-label for="email" :value="__('Email Address')"/>
-            <x-text-input wire:model.live.debounce.250ms="form.email"
+            <x-text-input wire:model.live.debounce.250ms="email"
                           id="email"
                           class="block mt-1 w-full focus:border-green-400 focus:ring-green-400"
-                          type="email" name="email"
+                          type="email"
                           required
                           placeholder="juandelacruz@gmail.com"/>
-            <x-input-error :messages="$errors->get('form.email')" class="mt-2"/>
+            <x-input-error :messages="$errors->get('email')" class="mt-2"/>
         </div>
 
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')"/>
 
-            <x-text-input wire:model.live.debounce.300m="form.password" id="password"
+            <x-text-input wire:model.live.debounce.300m="password" id="password"
                           class="block mt-1 w-full focus:border-green-400 focus:ring-green-400"
                           type="password"
                           name="password"
                           required autocomplee="current-password"
                           placeholder="******"/>
 
-            <x-input-error :messages="$errors->get('form.password')" class="mt-2"/>
+            <x-input-error :messages="$errors->get('password')" class="mt-2"/>
         </div>
 
         <div class="mt-5">

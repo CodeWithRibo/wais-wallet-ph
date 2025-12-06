@@ -22,9 +22,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        'is_active'
     ];
-
     public function wallet(): HasMany
     {
         return $this->hasMany(Wallet::class);
