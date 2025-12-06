@@ -81,9 +81,9 @@ class ExpenseForm extends Component
                 ]);
 
                 if ($expense)
-                    $this->dispatch('notify', ... ToastNotificationService::success('Expense added successfully'));
+                    ToastNotificationService::success('Expense added successfully');
                 else
-                    $this->dispatch('notify', ... ToastNotificationService::error('Failed to add expense. Please try again.'));
+                    ToastNotificationService::error('Failed to add expense. Please try again.');
 
                 $this->dispatch('close-modal', id: 'add-expense');
                 $this->dispatch('expense-saved');

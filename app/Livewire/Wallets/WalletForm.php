@@ -51,7 +51,7 @@ class WalletForm extends Component
         ]);
 
         if ($wallet) {
-            $this->dispatch('notify', ... ToastNotificationService::success('Added wallet successfully'));
+            ToastNotificationService::success('Added wallet successfully');
         }
 
         $this->dispatch('createWallet');

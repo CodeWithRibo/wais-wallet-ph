@@ -8,30 +8,30 @@ class ToastNotificationService
     {
     }
 
-    public static function success($message): array
+    public static function success($message): void
     {
-        return [
+         session()->flash('notify', [
+            'content' => $message,
             'type' => 'success',
-            'content' => $message,
-            'duration' => 4000,
-        ];
+            'duration' => 3000
+        ]);
     }
 
-    public static function error($message): array
+    public static function error($message): void
     {
-        return [
+        session()->flash('notify', [
+            'content' => $message,
             'type' => 'error',
-            'content' => $message,
-            'duration' => 4000,
-        ];
+            'duration' => 3000
+        ]);
     }
 
-    public static function info($message): array
+    public static function info($message): void
     {
-        return [
-            'type' => 'info',
+        session()->flash('notify', [
             'content' => $message,
-            'duration' => 4000,
-        ];
+            'type' => 'info',
+            'duration' => 3000
+        ]);
     }
 }

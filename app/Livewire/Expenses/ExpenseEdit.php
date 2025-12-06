@@ -163,7 +163,7 @@ class ExpenseEdit extends Component
                 $this->dispatch('refresh-table');
                 $this->dispatch('update-expense', id: $this->expense->id);
                 $this->dispatch('close-modal', id: 'edit-expense-modal');
-                $this->dispatch('notify', ... ToastNotificationService::success('expense updated successfully'));
+                ToastNotificationService::success('expense updated successfully');
             });
         } catch (\Throwable $e) {
             Log::error('Something went wrong: ' . $e->getMessage());

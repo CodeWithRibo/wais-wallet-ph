@@ -69,9 +69,9 @@ class CategoryUpdate extends Component
             $category = $this->category->save($validated);
 
             if ($category)
-                $this->dispatch('notify', ... ToastNotificationService::success('Category update successfully'));
+                ToastNotificationService::success('Category update successfully');
         } else {
-            $this->dispatch('notify', ... ToastNotificationService::info('No changes detected'));
+            ToastNotificationService::info('No changes detected');
         }
 
 

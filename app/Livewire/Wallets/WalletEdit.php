@@ -55,7 +55,7 @@ class WalletEdit extends Component
         $availBal = $this->current_balance - $expenseAmount;
 
         if ($availBal <= $expenseAmount) {
-            $this->dispatch('notify', ... ToastNotificationService::error('Insufficient available balance'));
+            ToastNotificationService::error('Insufficient available balance');
         } else {
             $data = [
                 'wallet_name' => $this->wallet_name,
@@ -72,10 +72,10 @@ class WalletEdit extends Component
 
                 $this->wallet->save($validated);
 
-                $this->dispatch('notify', ... ToastNotificationService::success('Wallet updated successfully'));
+                ToastNotificationService::success('Wallet updated successfully');
 
             } else
-                $this->dispatch('notify', ... ToastNotificationService::info('No changes detected'));
+                ToastNotificationService::info('No changes detected');
 
         }
 
