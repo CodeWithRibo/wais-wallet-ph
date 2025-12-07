@@ -10,25 +10,25 @@ services:
     startCommand: php artisan serve --host 0.0.0.0 --port $PORT
     envVars:
       - key: APP_NAME
-        value: "Laravel"
+        value: Laravel
       - key: APP_ENV
-        value: "production"
+        value: production
       - key: APP_KEY
-        value: "base64:T7qckBRzedDajZvK35Cot/Jh4s5K5P6igh6+AqIFw8w="
+        value: base64:T7qckBRzedDajZvK35Cot/Jh4s5K5P6igh6+AqIFw8w=
       - key: APP_DEBUG
-        value: "false"
+        value: false
       - key: APP_URL
-        value: "https://wais-wallet-ph.onrender.com"
+        value: https://wais-wallet-ph.onrender.com
 
       - key: DB_CONNECTION
-        value: "pgsql"
+        value: pgsql
       - key: DB_HOST
-        value: "dpg-d4qotd3e5dus73esaaug-a"
+        value: dpg-d4qotd3e5dus73esaaug-a
       - key: DB_PORT
-        value: "5432"
+        value: 5432
       - key: DB_DATABASE
-        value: "wais-wallet-postgresql"
+        value: wais-wallet-postgresql
       - key: DB_USERNAME
-        value: "wais_wallet_postgresql_user"
+        value: wais_wallet_postgresql_user
       - key: DB_PASSWORD
-        value: "Tls8HACo3weUU1vf6qtaMUuMJRl5ASXv"
+        value: Tls8HACo3weUU1vf6qtaMUuMJRl5ASXv
