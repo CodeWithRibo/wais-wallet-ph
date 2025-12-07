@@ -8,6 +8,6 @@ WORKDIR /var/www/html
 COPY . .
 RUN composer install --no-dev --optimize-autoloader
 RUN npm install && npm run build
-RUN php artisan migrate:fresh && php artisan storage:link && php artisan session:table
+RUN php artisan migrate --force && php artisan storage:link
 EXPOSE 8000
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
