@@ -16,7 +16,7 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # Build assets
-RUN npm install && npm run build
+RUN npm install
 
 # Remove this RUN command (it doesn't work here!)
 # RUN php artisan migrate --force && php artisan storage:link  <-- DELETE THIS LINE
