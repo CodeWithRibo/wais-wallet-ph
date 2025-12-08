@@ -25,4 +25,4 @@ EXPOSE 8000
 
 # Update CMD to run migrations AND start the server
 # We use "sh -c" to chain multiple commands
-CMD ["sh", "-c", "php artisan migrate --force && php artisan storage:link && npm run dev && php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["sh", "-c", "php artisan migrate --force && php artisan storage:link && npm run build && php artisan serve --host=0.0.0.0 --port=8000"]
