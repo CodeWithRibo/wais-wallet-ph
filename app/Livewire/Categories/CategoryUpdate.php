@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Categories;
 
+use App\Livewire\Concerns\HasToast;
 use App\Models\Category;
 use App\Models\Expense;
 use App\Services\ToastNotificationService;
@@ -12,6 +13,8 @@ use Livewire\Component;
 
 class CategoryUpdate extends Component
 {
+    use HasToast;
+
     public $category_name;
     public $category_type;
     public $monthly_budget;
@@ -69,9 +72,9 @@ class CategoryUpdate extends Component
             $category = $this->category->save($validated);
 
             if ($category)
-                ToastNotificationService::success('Category update successfully');
+                $this->success('Category update successfully');
         } else {
-            ToastNotificationService::info('No changes detected');
+            $this->info('No changes detected');
         }
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Wallets;
 
+use App\Livewire\Concerns\HasToast;
 use App\Models\Expense;
 use App\Models\Wallet;
 use App\Services\ToastNotificationService;
@@ -12,6 +13,8 @@ use Livewire\Component;
 
 class WalletEdit extends Component
 {
+    use HasToast;
+
     public $wallet_name = '';
     public $current_balance = '';
     public $wallet_type = '';
@@ -72,10 +75,10 @@ class WalletEdit extends Component
 
                 $this->wallet->save($validated);
 
-                ToastNotificationService::success('Wallet updated successfully');
+                $this->success('Wallet updated successfully');
 
             } else
-                ToastNotificationService::info('No changes detected');
+                $this->info('No changes detected');
 
         }
 

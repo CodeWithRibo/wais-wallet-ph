@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Expenses;
 
+use App\Livewire\Concerns\HasToast;
 use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Wallet;
@@ -13,7 +14,7 @@ use Livewire\WithPagination;
 class ExpenseDelete extends Component
 {
     use WithPagination;
-
+    use HasToast;
     public $expenseId;
     public $expense;
 
@@ -57,11 +58,7 @@ class ExpenseDelete extends Component
 
         $this->dispatch('close-modal', id: 'delete-expense-modal');
         $this->dispatch('delete-expense', ['id' => $this->expenseId]);
-        $this->dispatch('notify',
-            type: 'success',
-            content: 'expense deleted successfully',
-            duration: 3000
-        );
+        $this->error('expense deleted successfully');
     }
 
     public function render(): View

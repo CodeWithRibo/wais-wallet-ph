@@ -3,6 +3,7 @@
 namespace App\Livewire\Wallets;
 
 
+use App\Livewire\Concerns\HasToast;
 use App\Models\Wallet;
 use App\Services\ToastNotificationService;
 use Livewire\Attributes\Validate;
@@ -10,6 +11,8 @@ use Livewire\Component;
 
 class WalletForm extends Component
 {
+    use HasToast;
+
     #[Validate]
     public $wallet_name = '';
     public $current_balance = '';
@@ -51,7 +54,7 @@ class WalletForm extends Component
         ]);
 
         if ($wallet) {
-            ToastNotificationService::success('Added wallet successfully');
+            $this->success('Added wallet successfully');
         }
 
         $this->dispatch('createWallet');

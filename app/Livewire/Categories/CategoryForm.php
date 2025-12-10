@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Categories;
 
+use App\Livewire\Concerns\HasToast;
 use App\Models\Category;
 use App\Services\ToastNotificationService;
 use Illuminate\View\View;
@@ -9,6 +10,8 @@ use Livewire\Component;
 
 class CategoryForm extends Component
 {
+    use HasToast;
+
     public $category_name;
     public $monthly_budget;
     public $category_type;
@@ -35,13 +38,13 @@ class CategoryForm extends Component
                 ... $validated]);
 
         if ($category)
-            $this->dispatch('notify', ... ToastNotificationService::success('Category added successfully'));
+            $this->success('Category added successfully');
 
         $this->dispatch('createCategory');
         $this->dispatch('close-modal', id: 'add-category');
     }
 
-    public function render() : View
+    public function render(): View
     {
         return view('livewire.categories.category-form');
     }

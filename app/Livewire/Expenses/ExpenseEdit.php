@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Expenses;
 
+use App\Livewire\Concerns\HasToast;
 use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Wallet;
@@ -15,6 +16,8 @@ use Livewire\Component;
 
 class ExpenseEdit extends Component
 {
+    use HasToast;
+
     public $id;
     public $amount;
     public $category;
@@ -163,7 +166,7 @@ class ExpenseEdit extends Component
                 $this->dispatch('refresh-table');
                 $this->dispatch('update-expense', id: $this->expense->id);
                 $this->dispatch('close-modal', id: 'edit-expense-modal');
-                ToastNotificationService::success('expense updated successfully');
+                $this->success('expense updated successfully');
             });
         } catch (\Throwable $e) {
             Log::error('Something went wrong: ' . $e->getMessage());

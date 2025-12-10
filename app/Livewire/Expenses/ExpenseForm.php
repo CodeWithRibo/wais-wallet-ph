@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Expenses;
 
+use App\Livewire\Concerns\HasToast;
 use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Wallet;
@@ -14,6 +15,8 @@ use Livewire\Component;
 
 class ExpenseForm extends Component
 {
+    use HasToast;
+
     public $amount;
     public $category;
     public $date;
@@ -81,9 +84,9 @@ class ExpenseForm extends Component
                 ]);
 
                 if ($expense)
-                    ToastNotificationService::success('Expense added successfully');
+                    $this->success('Expense added successfully');
                 else
-                    ToastNotificationService::error('Failed to add expense. Please try again.');
+                    $this->error('Failed to add expense. Please try again');
 
                 $this->dispatch('close-modal', id: 'add-expense');
                 $this->dispatch('expense-saved');
@@ -91,6 +94,7 @@ class ExpenseForm extends Component
             });
         } catch (\Throwable $e) {
             Log::error('Something went wrong: ' . $e->getMessage());
+            $this->error('Something went wrong');
             DB::rollBack();
         }
     }
