@@ -58,7 +58,7 @@ class ExpenseDelete extends Component
 
         $this->dispatch('close-modal', id: 'delete-expense-modal');
         $this->dispatch('delete-expense', ['id' => $this->expenseId]);
-        $this->error('expense deleted successfully');
+        $this->success('expense deleted successfully');
     }
 
     public function render(): View
