@@ -8,12 +8,12 @@
                     </span>
                 <p class="flex space-x-2">
                     <x-ui.icon name="arrow-trending-up" class="size-5 text-emerald-700"/>
-                    <span class="text-xs text-emerald-700">12.5%</span>
+                    <span class="text-xs text-emerald-700">{{$totalExpensePercentage ?? 0}}%</span>
                 </p>
             </span>
             <span class="space-y-2">
                 <h1 class="text-sm text-gray-500">Total Expenses</h1>
-                <p class="text-2xl text-gray-800">₱241,800</p>
+                <p class="text-2xl text-gray-800">₱{{number_format($totalExpense, 2) ?? 0}}</p>
                 <h2 class="text-xs text-gray-500">Across all users this year</h2>
             </span>
         </div>
@@ -30,7 +30,7 @@
             </span>
             <span class="space-y-2">
                 <h1 class="text-sm text-gray-500">Total Balance</h1>
-                <p class="text-2xl text-gray-800">₱241,800</p>
+                <p class="text-2xl text-gray-800">₱{{number_format($this->totalBalance, 2) ?? 0}}</p>
                 <h2 class="text-xs text-gray-500">Combined user wallets</h2>
             </span>
         </div>
@@ -44,8 +44,8 @@
             </span>
             <span class="space-y-2">
                 <h1 class="text-sm text-gray-500">Active Users</h1>
-                <p class="text-2xl text-gray-800">50</p>
-                <h2 class="text-xs text-gray-500">Out of 156 total users</h2>
+                <p class="text-2xl text-gray-800">{{$activeUsers ?? 0}}</p>
+                <h2 class="text-xs text-gray-500">Out of {{$totalUser ?? 0}} total users</h2>
             </span>
         </div>
 
@@ -58,7 +58,7 @@
             </span>
             <span class="space-y-2">
                 <h1 class="text-sm text-gray-500">Avg. Monthly Spend</h1>
-                <p class="text-2xl text-gray-800">₱1,551</p>
+                <p class="text-2xl text-gray-800">₱{{number_format($average, 2) ?? 0}}</p>
                 <h2 class="text-xs text-gray-500">Per user this month</h2>
             </span>
         </div>
@@ -68,83 +68,114 @@
         {{--Top Spenders--}}
         <div class="col-span-5 row-span-2 lg:col-span-2 lg:row-span-4 border bg-white rounded-2xl p-6 space-y-5">
             <span class="flex items-center justify-between">
-                <h1 class="text-gray-800 text-base">Top 5 Spenders</h1>
+                <div>
+                    <h1 class="text-gray-800 text-base">Top 5 Spenders</h1>
+                    <h3 class="text-xs text-gray-500">The top spenders only show ₱5,000 above spent</h3>
+                </div>
                 <h2 class="text-gray-500 text-sm">This Month</h2>
             </span>
-
-            <div class="bg-gray-100 py-[12px] px-6 rounded-2xl">
-                <div class="flex items-center justify-between">
-                    <div class="flex gap-3">
-                        <span class="rounded-full bg-emerald-600 text-white text-base px-[11px] py-2">JS</span>
-                        <span>
-                            <h1 class="text-sm">John Smith</h1>
-                            <p class="text-gray-500 text-xs">89 transactions</p>
+            @if($this->topSpenders->isNotEmpty())
+                @foreach($this->topSpenders as $spender)
+                    <div class="bg-gray-100 py-[12px] px-6 rounded-2xl">
+                        <div class="flex items-center justify-between">
+                            <div class="flex gap-3">
+                        <span class="rounded-full bg-emerald-600 text-white text-base px-[13px] py-2">
+                             {{substr(strtoupper($spender->user->name), 0, 1)}}
+                           </span>
+                                <span>
+                            <h1 class="text-sm">{{$spender->user->name}}</h1>
+                            <p class="text-gray-500 text-xs">{{$spender->transaction ?? 0}} transactions</p>
                         </span>
+                            </div>
+                            <div>
+                                <h1>₱{{number_format($spender->monthly_spent, 2) ?? 0}}</h1>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <h1>$12,450</h1>
-                    </div>
-                </div>
+                @endforeach
+            @else
+                <h1 class="text-center text-gray-500">No Top Spenders found</h1>
+            @endif
+        </div>
+        {{-- Global Expense Chart Container --}}
+        <div
+            class="col-span-5 row-span-2 row-start-3 lg:col-span-3 lg:row-span-4 lg:col-start-3 border bg-white rounded-2xl p-6">
+            <div class="flex items-center justify-between">
+                <h3 class="font-bold text-gray-700 mb-4">Global Expenses (Last 12 Months)</h3>
+                <span class="mb-4 text-green-600 text-base"><span class="text-gray-500 text-sm">Total Annual:</span> ₱{{number_format($totalExpense, 2) ?? 0}}</span>
             </div>
-            <div class="bg-gray-100 py-[12px] px-6 rounded-2xl">
-                <div class="flex items-center justify-between">
-                    <div class="flex gap-3">
-                        <span class="rounded-full bg-emerald-600 text-white text-base px-[11px] py-2">JS</span>
-                        <span>
-                            <h1 class="text-sm">John Smith</h1>
-                            <p class="text-gray-500 text-xs">89 transactions</p>
-                        </span>
-                    </div>
-                    <div>
-                        <h1>$12,450</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-gray-100 py-[12px] px-6 rounded-2xl">
-                <div class="flex items-center justify-between">
-                    <div class="flex gap-3">
-                        <span class="rounded-full bg-emerald-600 text-white text-base px-[11px] py-2">JS</span>
-                        <span>
-                            <h1 class="text-sm">John Smith</h1>
-                            <p class="text-gray-500 text-xs">89 transactions</p>
-                        </span>
-                    </div>
-                    <div>
-                        <h1>$12,450</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-gray-100 py-[12px] px-6 rounded-2xl">
-                <div class="flex items-center justify-between">
-                    <div class="flex gap-3">
-                        <span class="rounded-full bg-emerald-600 text-white text-base px-[11px] py-2">JS</span>
-                        <span>
-                            <h1 class="text-sm">John Smith</h1>
-                            <p class="text-gray-500 text-xs">89 transactions</p>
-                        </span>
-                    </div>
-                    <div>
-                        <h1>$12,450</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-gray-100 py-[12px] px-6 rounded-2xl">
-                <div class="flex items-center justify-between">
-                    <div class="flex gap-3">
-                        <span class="rounded-full bg-emerald-600 text-white text-base px-[11px] py-2">JS</span>
-                        <span>
-                            <h1 class="text-sm">John Smith</h1>
-                            <p class="text-gray-500 text-xs">89 transactions</p>
-                        </span>
-                    </div>
-                    <div>
-                        <h1>$12,450</h1>
-                    </div>
-                </div>
+            <div class="relative h-72 w-full">
+                <canvas id="expenseChart"></canvas>
             </div>
         </div>
-        {{--Global Expense--}}
-        <div class="col-span-5 row-span-2 row-start-3 lg:col-span-3 lg:row-span-4 lg:col-start-3 border bg-white rounded-2xl p-6">2</div>
+
+        @push('scripts')
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <script>
+                document.addEventListener('livewire:initialized', () => {
+
+                    const ctx = document.getElementById('expenseChart');
+
+
+                    if (window.myExpenseChart) window.myExpenseChart.destroy();
+
+                    window.myExpenseChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: @json($expenseLabels),
+                            datasets: [{
+                                label: 'Total Expense',
+                                data: @json($expenseData),
+                                backgroundColor: 'rgb(209,250,229)',
+                                borderColor: 'rgb(81,232,155)',
+                                borderWidth: 2,
+                                tension: 0.4,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function (value) {
+                                            return '₱' + value;
+                                        }
+                                    }
+                                },
+                                x: {
+                                    grid: {display: false}
+                                }
+                            },
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+
+                                        label: function (context) {
+                                            let label = context.dataset.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            if (context.parsed.y !== null) {
+                                                label += new Intl.NumberFormat('en-PH', {
+                                                    style: 'currency',
+                                                    currency: 'PHP'
+                                                }).format(context.parsed.y);
+                                            }
+                                            return label;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                });
+            </script>
+        @endpush
     </div>
     {{--Recent Activity--}}
     <div class="bg-white rounded-2xl space-y-3 p-6">
@@ -156,7 +187,6 @@
         </div>
         <div class="overflow-x-auto">
             <table class="table table-pin-rows">
-                <!-- head -->
                 <thead>
                 <tr class="text-center text-gray-600">
                     <th>User</th>
@@ -167,7 +197,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!-- row 1 -->
                 <tr class="text-center">
                     <td>Admin</td>
                     <td>added category</td>
@@ -180,13 +209,13 @@
                         @switch($type)
                             @case('create')
                                 <x-ui.badge pill color="create" size="sm">create</x-ui.badge>
-                            @break
+                                @break
                             @case('update')
                                 <x-ui.badge pill color="personal" size="sm">update</x-ui.badge>
-                            @break
+                                @break
                             @case('delete')
                                 <x-ui.badge pill color="delete" size="sm">delete</x-ui.badge>
-                            @break
+                                @break
                         @endswitch
 
                     </td>

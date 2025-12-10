@@ -13,13 +13,21 @@
                         </p>
                     </div>
                     <div class="space-x-3 flex">
-                        <x-ui.modal.trigger id="add-user" class="my-4">
+                        <x-ui.modal.trigger id="add-category" class="my-4">
                             <button
                                 class="btn border bg-white border-emerald-600 text-emerald-600 font-light rounded-xl hover:bg-emerald-50">
                                 <x-ui.icon name="plus" class="size-4"></x-ui.icon>
                                 Create Category
                             </button>
                         </x-ui.modal.trigger>
+
+                        <x-ui.modal
+                            id="add-category"
+                            position="center"
+                            heading="Add Category Form"
+                        >
+                            @livewire('admin.categories.category-form ')
+                        </x-ui.modal>
 
                         <x-ui.modal.trigger id="add-new-user" class="my-4">
                             <button
@@ -34,7 +42,7 @@
                             position="center"
                             heading="Add User Form"
                         >
-                           @livewire('admin.users.user-form')
+                            @livewire('admin.users.user-form')
                         </x-ui.modal>
                     </div>
                 </div>
