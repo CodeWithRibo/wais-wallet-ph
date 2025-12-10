@@ -43,7 +43,9 @@ class WalletForm extends Component
 
     public function save()
     {
-       $this->authorize('create', Wallet::class);
+        $this->wallet_name = trim($this->wallet_name);
+
+        $this->authorize('create', Wallet::class);
 
         $wallet = Wallet::query()->create([
             'user_id' => auth()->id(),
@@ -58,7 +60,7 @@ class WalletForm extends Component
         }
 
         $this->dispatch('createWallet');
-        $this->dispatch('close-modal', id : 'add-wallet');
+        $this->dispatch('close-modal', id: 'add-wallet');
 
     }
 
