@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAuditLogController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminUserController;
@@ -28,7 +29,8 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function (){
    Route::get('dashboard', AdminDashboardController::class)->name('admin.dashboard');
    Route::get('users', AdminUserController::class)->name('admin.users');
    Route::get('wallets', AdminWalletController::class)->name('admin.wallets');
-   Route::get('categories', AdminCategoryController::class)->name('admin.category');
+   Route::get('categories', AdminCategoryController::class)->name('admin.categories');
+   Route::get('audit-logs', AdminAuditLogController::class)->name('admin.audit-logs');
 });
 
 /*Logout*/
