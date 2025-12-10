@@ -64,7 +64,7 @@ class extends Component {
         <div class="m-5 block text-center">
             <span class="flex items-center justify-center">
                       <x-application-logo class="w-20 h-20 fill-current text-gray-500"/>
-                <h1 class="text-2xl sm:text-3xl">Wait Wallet PH</h1>
+                <h1 class="text-2xl sm:text-3xl">Wais Wallet PH</h1>
             </span>
             <p class="text-gray-500 text-sm">Sign in to your account</p>
         </div>

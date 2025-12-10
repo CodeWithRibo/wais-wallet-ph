@@ -24,7 +24,7 @@
                 <x-ui.label>Category Type</x-ui.label>
                 <x-select-option
                     wire:model="category_type"
-                    :options="array_merge(['' => 'Select Wallet'], $category->toArray())">
+                    :options="array_merge(['' => 'Select Category'], $category->toArray())">
                 </x-select-option>
                 <x-ui.error name="category_type"/>
             </x-ui.field>
