@@ -53,6 +53,7 @@
                    focus:outline-hidden focus:ring-2 focus:ring-emerald-500
                    focus:ring-offset-2 transition-all duration-300"/>
         </div>
+        <x-ui.icon name="ps:funnel" class="size-10 fill-gray-500"/>
         <x-ui.button class="bg-gray-100 text-gray-500 rounded-lg border-none">All</x-ui.button>
         <x-ui.button class="bg-gray-100 text-gray-500 rounded-lg border-none">Personal</x-ui.button>
         <x-ui.button class="bg-gray-100 text-gray-500 rounded-lg border-none">Business</x-ui.button>
