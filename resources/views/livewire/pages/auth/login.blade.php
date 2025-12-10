@@ -33,7 +33,7 @@ class extends Component {
 
         $user = auth()->user();
         if (!$user->is_active) {
-            $this->addError('status', 'Account Disabled. Your account has been disabled by an administrator. Please contact support for assistance.');
+            $this->addError('status', 'Account Deactivated. Your account has been Deactivated by an administrator. Please contact support for assistance.');
 
             Auth::logout();
             Session::invalidate();
