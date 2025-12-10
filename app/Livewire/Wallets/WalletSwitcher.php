@@ -13,7 +13,6 @@ class WalletSwitcher extends Component
     public $totalBudget;
     public $remaining;
     public $budgetProgress;
-    public $active_wallet;
     public $categoryBreakdown = [];
 
     public function calculateTotals($walletId = null)
@@ -57,7 +56,6 @@ class WalletSwitcher extends Component
 
     public function mount(): void
     {
-        $this->active_wallet = 'all';
         $this->calculateTotals('all');
         $this->dispatch('updateChart', categoryData: $this->categoryBreakdown);
 

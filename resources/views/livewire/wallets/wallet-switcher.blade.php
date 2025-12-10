@@ -1,17 +1,4 @@
 <div class="space-y-8">
-    <div class="md:flex items-center gap-4">
-        <h1 class="text-gray-800 text-base font-semibold">Active Wallet: </h1>
-
-        @php
-            $wallets = \App\Models\Wallet::query()->where('user_id', auth()->id())->pluck('wallet_name')->toArray();
-            $indexed = array_combine(range(1, count($wallets)), $wallets);
-        @endphp
-
-        <x-select-option wire:model.live="active_wallet"
-                         :options="['all' => 'All Wallets'] +  $indexed"
-                         class="w-full  md:w-[50%] lg:w-[30%]">
-        </x-select-option>
-    </div>
     <div class="text-gray-800 text-2xl font-bold">
         Monthly Summary
     </div>
