@@ -22,14 +22,16 @@ new class extends Component {
             [
                 'dashboard' => route('dashboard'),
                 'secondRoute' => route('expenses'),
-                'third' => route('categories'),
+                'categories' => route('categories'),
                 'wallets' => route('wallets'),
             ],
             'admin' =>
             [
                 'dashboard' => route('admin.dashboard'),
                 'secondRoute' => route('admin.users'),
+                'categories' => route('admin.categories'),
                 'wallets' => route('admin.wallets'),
+                'auditLogs' => route('admin.audit-logs'),
             ],
         };
 
@@ -43,6 +45,12 @@ new class extends Component {
             'wallets' => $this->user->role === 'user'
                 ? request()->routeIs('wallets')
                 : request()->routeIs('admin.wallets'),
+            'categories' => $this->user->role === 'user'
+                ? request()->routeIs('categories')
+                : request()->routeIs('admin.categories'),
+            'auditLogs' => $this->user->role === 'admin'
+                ? request()->routeIs('admin.audit-logs')
+                : null
         ];
 
     }
@@ -86,7 +94,8 @@ new class extends Component {
                         {{$user->role =='user' ? 'Expenses' : 'Users'}}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('categories')" :active="request()->routeIs('categories')" wire:navigate>
+                    <x-nav-link :href="$routes['categories']"
+                                :active="$active['categories']" wire:navigate>
                         @if($user->role == 'user' || $user->role == 'admin')
                             Categories
                         @endif
@@ -98,7 +107,8 @@ new class extends Component {
                         {{$user->role =='user' ? 'Wallet' : 'Wallets'}}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('wallets')" wire:navigate>
+                    <x-nav-link :href="$user->role === 'admin' ? $routes['auditLogs'] : null"
+                                :active="$user->role === 'admin' ? $active['auditLogs'] : null" wire:navigate>
                         {{$user->role =='admin' ? 'Audit Logs' : null}}
                     </x-nav-link>
 
