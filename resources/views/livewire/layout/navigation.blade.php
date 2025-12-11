@@ -31,7 +31,7 @@ new class extends Component {
                 'secondRoute' => route('admin.users'),
                 'categories' => route('admin.categories'),
                 'wallets' => route('admin.wallets'),
-                'auditLogs' => route('admin.audit-logs'),
+//                'auditLogs' => route('admin.audit-logs'),
             ],
         };
 
@@ -48,9 +48,9 @@ new class extends Component {
             'categories' => $this->user->role === 'user'
                 ? request()->routeIs('categories')
                 : request()->routeIs('admin.categories'),
-            'auditLogs' => $this->user->role === 'admin'
-                ? request()->routeIs('admin.audit-logs')
-                : null
+//            'auditLogs' => $this->user->role === 'admin'
+//                ? request()->routeIs('admin.audit-logs')
+//                : null
         ];
 
     }
@@ -104,10 +104,10 @@ new class extends Component {
                         {{$user->role =='user' ? 'Wallet' : 'Wallets'}}
                     </x-nav-link>
 
-                    <x-nav-link :href="$user->role === 'admin' ? $routes['auditLogs'] : null"
-                                :active="$user->role === 'admin' ? $active['auditLogs'] : null">
-                        {{$user->role =='admin' ? 'Audit Logs' : null}}
-                    </x-nav-link>
+{{--                    <x-nav-link :href="$user->role === 'admin' ? $routes['auditLogs'] : null"--}}
+{{--                                :active="$user->role === 'admin' ? $active['auditLogs'] : null">--}}
+{{--                        {{$user->role =='admin' ? 'Audit Logs' : null}}--}}
+{{--                    </x-nav-link>--}}
 
                 </div>
             </div>
