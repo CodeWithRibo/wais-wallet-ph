@@ -5,6 +5,7 @@ namespace App\Livewire\Categories;
 use App\Livewire\Concerns\HasToast;
 use App\Models\Category;
 use App\Services\ToastNotificationService;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -15,11 +16,20 @@ class CategoryForm extends Component
     public $category_name;
     public $monthly_budget;
     public $category_type;
+    public $categoryId;
+    public function mount()
+    {
+        $this->categoryId = auth()->id();
+    }
+
 
     protected function rules(): array
     {
         return [
-            'category_name' => 'required|unique:categories',
+            'category_name' => [
+                'required',
+                Rule::unique('wallets')->ignore($this->categoryId)
+            ],
             'monthly_budget' => 'required',
             'category_type' => 'required',
         ];
