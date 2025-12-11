@@ -2,8 +2,11 @@
 
 namespace App\Livewire\Expenses;
 
+use App\Models\Category;
 use App\Models\Expense;
+use App\Models\Wallet;
 use Illuminate\View\View;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -38,7 +41,7 @@ class ExpenseTable extends Component
             )->get();
     }
 
-    #[On(['refresh-table' , 'expense-saved'])]
+    #[On(['refresh-table', 'expense-saved'])]
     public function refresh(): void
     {
         $this->resetPage();
@@ -77,7 +80,7 @@ class ExpenseTable extends Component
             : $this->sort = $field;
     }
 
-    public function updatedWalletFilter() : void
+    public function updatedWalletFilter(): void
     {
         $this->resetPage();
     }
@@ -92,6 +95,22 @@ class ExpenseTable extends Component
         $this->resetPage();
     }
 
+    #[Computed]
+    public function getCurrentUserCategoryName()
+    {
+        return Category::where('user_id', auth()->id())
+            ->pluck('category_name')
+            ->mapWithKeys(fn($v) => [$v => $v]);
+    }
+
+    #[Computed]
+    public function getCurrentUserWalletName()
+    {
+        return Wallet::where('user_id', auth()->id())
+            ->pluck('wallet_name')
+            ->mapWithKeys(fn($v) => [$v => $v]);
+    }
+
     public function render(): View
     {
         $sortColumn = $this->sortDirection === 'DESC' ? "-$this->sort" : $this->sort;
@@ -102,8 +121,12 @@ class ExpenseTable extends Component
             ->allowedSorts(['date', 'category', 'wallet_type', 'payment_method'])
             ->defaultSort($sortColumn);
 
-        if ($this->category_filter != 'All Categories') $query->where('category', $this->category_filter);
-        if ($this->wallet_filter != 'All Wallet')  $query->where('wallet_type', $this->wallet_filter);
+        if ($this->category_filter != 'All Categories') {
+            $query->where('category', $this->category_filter);
+        }
+        if ($this->wallet_filter != 'All Wallet') {
+            $query->where('wallet_type', $this->wallet_filter);
+        }
 
         $expenses = $query->with('categoryRelation')->paginate(15);
         $expenseCount = $query->count();

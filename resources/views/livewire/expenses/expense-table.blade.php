@@ -12,19 +12,15 @@
                 leftIcon="magnifying-glass"
             />
 
-            @php
-                $category = \App\Models\Category::pluck('category_name')->mapWithKeys(fn ($v) => [$v => $v]);
-                $wallets = \App\Models\Wallet::pluck('wallet_name')->mapWithKeys(fn ($v) => [$v => $v]);
-            @endphp
             <x-select-option wire:model="category_filter"
                              wire:change="sortBy('category')"
-                             :options="array_merge(['All Categories' => 'All Categories'], $category->toArray())">
+                             :options="array_merge(['All Categories' => 'All Categories'], $this->getCurrentUserCategoryName->toArray())">
             </x-select-option>
 
 
             <x-select-option wire:model="wallet_filter"
                              wire:change="sortBy('wallet_type')"
-                             :options="array_merge(['All Wallet' => 'All Wallet'], $wallets->toArray())">
+                             :options="array_merge(['All Wallet' => 'All Wallet'], $this->getCurrentUserWalletName->toArray())">
             </x-select-option>
 
         </div>
