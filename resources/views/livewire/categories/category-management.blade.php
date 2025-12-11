@@ -54,20 +54,30 @@
                     <div
                         class="w-full border border-gray-300 p-4 rounded-lg hover:shadow-md transition-all duration-200"
                         wire:key="{{$category->id}}">
-                    <span class="flex justify-between items-center pb-5">
+                    <div class=" sm:flex sm:justify-between justify-center text-center  items-center pb-5">
                          <span class="sm:flex gap-2">
                          <p class="text-[15px] text-gray-900">{{$category->category_name}}</p>
                              @if($isExceeded)
                                  <x-ui.badge size="sm" color="red">Over budget</x-ui.badge>
                              @endif
                          </span>
+
+                       <div class="flex items-center justify-center gap-3 flex-row-reverse ">
+                               <x-ui.modal.trigger id="delete-category-modal" class="my-4">
+                            <x-secondary-button class="space-x-2 p-1 px-2" wire:click="delete({{$category->id}})">
+                             <x-ui.icon name="ps:trash" class="size-5 text-gray-900"/>
+                                <p class="text-[12px]">Delete</p>
+                            </x-secondary-button>
+                          </x-ui.modal.trigger>
+
                           <x-ui.modal.trigger id="update-category-modal" class="my-4">
                             <x-secondary-button class="space-x-2 p-1 px-2" wire:click="edit({{$category->id}})">
                              <x-ui.icon name="ps:note-pencil" class="size-5 text-gray-900"/>
                                 <p class="text-[12px]">Edit</p>
                             </x-secondary-button>
                           </x-ui.modal.trigger>
-                    </span>
+                       </div>
+                    </div>
 
                         <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
                             <div class="flex flex-col items-center w-full rounded-lg  p-4 bg-blue-50">
@@ -86,7 +96,8 @@
                                     ₱{{number_format($category->spent, 2)}}</h1>
                             </div>
 
-                            <div @class(['bg-red-50' => $isExceeded, 'bg-green-50 flex flex-col items-center w-full rounded-lg p-4 ']) class="">
+                            <div
+                                @class(['bg-red-50' => $isExceeded, 'bg-green-50 flex flex-col items-center w-full rounded-lg p-4 ']) class="">
                                 <span class="flex space-x-2">
                                     <p class="text-[13px]  text-gray-500">Remaining</p>
                                 </span>

@@ -43,7 +43,10 @@ class CategoryPolicy
     {
     }
 
-    public function forceDelete(User $user, Category $category): bool
+    public function forceDelete(User $user, Category $category): Response
     {
+        return $user->id === $category->user_id
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 }

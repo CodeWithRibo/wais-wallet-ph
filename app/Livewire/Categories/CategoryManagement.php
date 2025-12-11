@@ -19,7 +19,12 @@ class CategoryManagement extends Component
         $this->dispatch('update-category', id: $id);
     }
 
-    #[On(['createCategory', 'saved-update-category'])]
+    public function delete($id): void
+    {
+        $this->dispatch('delete-category', id: $id);
+    }
+
+    #[On(['createCategory', 'saved-update-category', 'delete-category'])]
     public function refresh()
     {
 

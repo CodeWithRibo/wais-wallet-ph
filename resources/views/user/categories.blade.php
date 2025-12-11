@@ -36,6 +36,13 @@
                     heading="Update Category">
                     @livewire('categories.category-update')
                 </x-ui.modal>
+
+                <x-ui.modal
+                    id="delete-category-modal"
+                    position="center"
+                    heading="Delete Category">
+                    @livewire('categories.category-delete')
+                </x-ui.modal>
             </div>
         </div>
     </div>

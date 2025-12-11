@@ -34,7 +34,7 @@ class CategoryForm extends Component
         $category = Category::query()
             ->create(['user_id' => auth()->id(),
                 'spent' => 0,
-                'remaining' => 0,
+                'remaining' => $this->monthly_budget,
                 ... $validated]);
 
         if ($category)
