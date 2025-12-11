@@ -23,7 +23,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'is_active'
+        'is_active',
+        'last_login_at'
     ];
     public function wallet(): HasMany
     {
