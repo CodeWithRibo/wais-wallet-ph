@@ -31,7 +31,7 @@ new class extends Component {
                 'secondRoute' => route('admin.users'),
                 'categories' => route('admin.categories'),
                 'wallets' => route('admin.wallets'),
-//                'auditLogs' => route('admin.audit-logs'),
+                'auditLogs' => route('admin.audit-logs'),
             ],
         };
 
@@ -48,9 +48,9 @@ new class extends Component {
             'categories' => $this->user->role === 'user'
                 ? request()->routeIs('categories')
                 : request()->routeIs('admin.categories'),
-//            'auditLogs' => $this->user->role === 'admin'
-//                ? request()->routeIs('admin.audit-logs')
-//                : null
+            'auditLogs' => $this->user->role === 'admin'
+                ? request()->routeIs('admin.audit-logs')
+                : null
         ];
 
     }
@@ -74,43 +74,40 @@ new class extends Component {
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{$routes['dashboard']}}" wire:navigate>
+                    <a href="{{$routes['dashboard']}}">
                         <x-application-logo class="block h-24 w-auto fill-current text-gray-800"/>
                     </a>
                 </div>
                 <!-- Navigation Links -->
                 <div class="hidden space-x-5 md:space-x-10 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="$routes['dashboard']"
-                                :active="$active['dashboard']"
-                                wire:navigate>
+                                :active="$active['dashboard']">
                         @if($user->role == 'user' || $user->role == 'admin')
                             Dashboard
                         @endif
                     </x-nav-link>
 
                     <x-nav-link :href="$routes['secondRoute']"
-                                :active="$active['secondRoute']"
-                                wire:navigate>
+                                :active="$active['secondRoute']">
                         {{$user->role =='user' ? 'Expenses' : 'Users'}}
                     </x-nav-link>
 
                     <x-nav-link :href="$routes['categories']"
-                                :active="$active['categories']" wire:navigate>
+                                :active="$active['categories']">
                         @if($user->role == 'user' || $user->role == 'admin')
                             Categories
                         @endif
                     </x-nav-link>
 
                     <x-nav-link :href="$routes['wallets']"
-                                :active="$active['wallets']"
-                                wire:navigate>
+                                :active="$active['wallets']">
                         {{$user->role =='user' ? 'Wallet' : 'Wallets'}}
                     </x-nav-link>
 
-{{--                    <x-nav-link :href="$user->role === 'admin' ? $routes['auditLogs'] : null"--}}
-{{--                                :active="$user->role === 'admin' ? $active['auditLogs'] : null" wire:navigate>--}}
-{{--                        {{$user->role =='admin' ? 'Audit Logs' : null}}--}}
-{{--                    </x-nav-link>--}}
+                    <x-nav-link :href="$user->role === 'admin' ? $routes['auditLogs'] : null"
+                                :active="$user->role === 'admin' ? $active['auditLogs'] : null">
+                        {{$user->role =='admin' ? 'Audit Logs' : null}}
+                    </x-nav-link>
 
                 </div>
             </div>
@@ -136,7 +133,7 @@ new class extends Component {
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile')" wire:navigate>
+                        <x-dropdown-link :href="route('profile')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -169,21 +166,21 @@ new class extends Component {
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="$routes['dashboard']" :active="$active['dashboard']" wire:navigate>
+            <x-responsive-nav-link :href="$routes['dashboard']" :active="$active['dashboard']">
                 @if($user->role == 'user' || $user->role == 'admin')
                     Dashboard
                 @endif
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('expenses')" :active="request()->routeIs('expenses')" wire:navigate>
+            <x-responsive-nav-link :href="route('expenses')" :active="request()->routeIs('expenses')">
                 {{$user->role =='user' ? 'Expenses' : 'Users'}}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('categories')" :active="request()->routeIs('categories')" wire:navigate>
+            <x-responsive-nav-link :href="route('categories')" :active="request()->routeIs('categories')">
                 {{ __('Categories') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('wallets')" :active="request()->routeIs('wallets')" wire:navigate>
+            <x-responsive-nav-link :href="route('wallets')" :active="request()->routeIs('wallets')">
                 {{ __('Wallet') }}
             </x-responsive-nav-link>
         </div>
@@ -198,7 +195,7 @@ new class extends Component {
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile')" wire:navigate>
+                <x-responsive-nav-link :href="route('profile')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
