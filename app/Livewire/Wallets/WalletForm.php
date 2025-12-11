@@ -6,6 +6,7 @@ namespace App\Livewire\Wallets;
 use App\Livewire\Concerns\HasToast;
 use App\Models\Wallet;
 use App\Services\ToastNotificationService;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -19,11 +20,21 @@ class WalletForm extends Component
     public $wallet_type = '';
     public $monthly_spent;
     public $transaction;
+    public $walletId;
+
+    public function mount()
+    {
+        $this->walletId = auth()->id();
+    }
 
     protected function rules(): array
     {
         return [
-            'wallet_name' => 'required|max:50|unique:wallets',
+            'wallet_name' => [
+                'required',
+                'max:50',
+                Rule::unique('wallets')->ignore($this->walletId)
+            ],
             'current_balance' => 'required|numeric|min:1',
             'wallet_type' => 'required',
         ];
