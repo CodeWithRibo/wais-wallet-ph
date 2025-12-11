@@ -28,7 +28,7 @@ class CategoryForm extends Component
         return [
             'category_name' => [
                 'required',
-                Rule::unique('wallets')->ignore($this->categoryId)
+                Rule::unique('categories')->ignore($this->categoryId)
             ],
             'monthly_budget' => 'required',
             'category_type' => 'required',
