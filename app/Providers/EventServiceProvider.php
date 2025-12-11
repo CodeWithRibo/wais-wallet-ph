@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Listeners\CreateDefaultCategoriesListener;
 use App\Listeners\CreateDefaultWalletsListener;
+use App\Listeners\UserLoginAtListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,6 +14,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             CreateDefaultWalletsListener::class,
             CreateDefaultCategoriesListener::class,
+            UserLoginAtListener::class,
         ]
     ];
 
