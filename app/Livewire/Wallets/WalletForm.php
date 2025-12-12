@@ -20,12 +20,6 @@ class WalletForm extends Component
     public $wallet_type = '';
     public $monthly_spent;
     public $transaction;
-    public $walletId;
-
-    public function mount()
-    {
-        $this->walletId = auth()->id();
-    }
 
     protected function rules(): array
     {
@@ -33,7 +27,7 @@ class WalletForm extends Component
             'wallet_name' => [
                 'required',
                 'max:50',
-                Rule::unique('wallets')->ignore($this->walletId)
+                Rule::unique('wallets')->where('user_id', auth()->id())
             ],
             'current_balance' => 'required|numeric|min:1',
             'wallet_type' => 'required',

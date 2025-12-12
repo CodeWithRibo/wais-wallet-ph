@@ -28,7 +28,7 @@ class CategoryForm extends Component
         return [
             'category_name' => [
                 'required',
-                Rule::unique('categories')->ignore($this->categoryId)
+                Rule::unique('categories')->where('user_id', auth()->id())
             ],
             'monthly_budget' => 'required',
             'category_type' => 'required',
@@ -38,7 +38,7 @@ class CategoryForm extends Component
     public function save(): void
     {
         $this->authorize('create', Category::class);
-
+        $this->category_name = trim($this->category_name);
         $validated = $this->validate();
 
         $category = Category::query()

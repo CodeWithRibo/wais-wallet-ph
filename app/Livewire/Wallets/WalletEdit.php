@@ -40,7 +40,9 @@ class WalletEdit extends Component
         return [
             'wallet_name' => [
                 'required',
-                Rule::unique('wallets')->ignore($this->wallet->id)
+                Rule::unique('wallets')
+                    ->where('user_id', auth()->id())
+                    ->ignore($this->wallet)
             ],
             'current_balance' => 'required',
             'wallet_type' => 'required',
@@ -53,7 +55,6 @@ class WalletEdit extends Component
         $expenseAmount = $expense->amount ?? 0;
 
         $this->wallet_name = trim($this->wallet_name);
-        $validated = $this->validate();
 
         $availBal = $this->current_balance - $expenseAmount;
 
@@ -73,7 +74,7 @@ class WalletEdit extends Component
                     'available_balance' => $this->current_balance - $expenseAmount,
                 ]);
 
-                $this->wallet->save($validated);
+                $this->wallet->save($this->validate());
 
                 $this->success('Wallet updated successfully');
 

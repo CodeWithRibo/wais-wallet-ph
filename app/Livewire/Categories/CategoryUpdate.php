@@ -5,10 +5,9 @@ namespace App\Livewire\Categories;
 use App\Livewire\Concerns\HasToast;
 use App\Models\Category;
 use App\Models\Expense;
-use App\Services\ToastNotificationService;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
-use \Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class CategoryUpdate extends Component
@@ -39,8 +38,10 @@ class CategoryUpdate extends Component
     {
         return [
             'category_name' => [
-               'required',
-                Rule::unique('categories')->ignore($this->category->id)
+                'required',
+                Rule::unique('categories')
+                    ->where('user_id', auth()->id())
+                    ->ignore($this->category)
             ],
             'category_type' => 'required',
             'monthly_budget' => 'required',
@@ -49,6 +50,7 @@ class CategoryUpdate extends Component
 
     public function save(): void
     {
+        $this->category_name = trim($this->category_name);
         $validated = $this->validate();
         $data = [
             'category_name' => $this->category_name,
