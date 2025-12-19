@@ -1,1 +1,5 @@
-🚧 **Project Status: Under Construction** 🚧
+<div align="center">
+
+## 🚧 PROJECT STATUS: UNDER CONSTRUCTION 🚧
+
+</div>
