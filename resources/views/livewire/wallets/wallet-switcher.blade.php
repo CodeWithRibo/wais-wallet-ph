@@ -10,7 +10,7 @@
             </span>
             <span class="">
                 <h1 class="text-red-600 font-bold text-xl">
-                    ₱{{$totalSpent ?? 0}}
+                    ₱{{number_format($totalSpent, 2) ?? 0}}
                 </h1>
                 <p class="text-gray-500 text-sm">
                     This month
@@ -25,7 +25,7 @@
             </span>
             <span class="">
                 <h1 class="text-blue-600 font-bold text-xl">
-                    ₱{{$totalBudget ?? 0}}
+                    ₱{{number_format($totalBudget, 2) ?? 0}}
                 </h1>
                 <p class="text-gray-500 text-sm">
                     This month
@@ -35,12 +35,12 @@
 
         <div class="w-full border border-green-50 bg-green-50 rounded-xl p-6 space-y-5">
             <span class="flex items-center justify-between ">
-                <p class="text-sm font-semibold text-green-600">Remaining</p>
+                <p class="text-sm font-semibold text-green-600">Remaining Budget</p>
                 <x-ui.icon name="ps:trend-up" variant="bold" class="text-green-600"/>
             </span>
             <span class="">
                 <h1 class="text-green-600 font-bold text-xl">
-                        ₱{{$remaining ?? 0}}
+                        ₱{{number_format($remaining, 2) ?? 0}}
                 </h1>
                 <p class="text-gray-500 text-sm">
                     This month

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
-class AdminCategoryController extends Controller
+class AdminAuditLogController extends Controller
 {
     public function __invoke()
     {
-        return view('admin.categories');
+        return view('admin.audit-logs');
     }
 }

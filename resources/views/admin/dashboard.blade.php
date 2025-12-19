@@ -21,13 +21,13 @@
                             </button>
                         </x-ui.modal.trigger>
 
-{{--                        <x-ui.modal--}}
-{{--                            id="add-category"--}}
-{{--                            position="center"--}}
-{{--                            heading="Add Category Form"--}}
-{{--                        >--}}
-{{--                            @livewire('admin.categories.category-form ')--}}
-{{--                        </x-ui.modal>--}}
+                        <x-ui.modal
+                            id="add-category"
+                            position="center"
+                            heading="Add Category Form"
+                        >
+                            @livewire('admin.categories.category-form ')
+                        </x-ui.modal>
 
                         <x-ui.modal.trigger id="add-new-user" class="my-4">
                             <button
@@ -37,13 +37,13 @@
                             </button>
                         </x-ui.modal.trigger>
 
-{{--                        <x-ui.modal--}}
-{{--                            id="add-new-user"--}}
-{{--                            position="center"--}}
-{{--                            heading="Add User Form"--}}
-{{--                        >--}}
-{{--                            @livewire('admin.users.user-form')--}}
-{{--                        </x-ui.modal>--}}
+                        <x-ui.modal
+                            id="add-new-user"
+                            position="center"
+                            heading="Add User Form"
+                        >
+                            @livewire('admin.users.user-form')
+                        </x-ui.modal>
                     </div>
                 </div>
 

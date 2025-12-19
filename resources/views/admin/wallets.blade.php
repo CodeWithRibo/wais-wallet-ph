@@ -28,6 +28,7 @@
                             heading="Add Wallet Form"
                             description="Adding wallet"
                         >
+                            @livewire('admin.wallets.wallet-form')
                         </x-ui.modal>
                     </div>
                 </div>
@@ -43,7 +44,7 @@
                         position="center"
                         heading="Edit Wallet"
                     >
-                        <p>Edit Wallet Content...</p>
+                        @livewire('admin.wallets.wallet-update')
                     </x-ui.modal>
 
                     <x-ui.modal
@@ -51,7 +52,7 @@
                         position="center"
                         heading="Delete Wallet"
                     >
-                        <p>Delete Wallet Content...</p>
+                        @livewire('admin.wallets.wallet-delete')
                     </x-ui.modal>
                 </div>
             </div>

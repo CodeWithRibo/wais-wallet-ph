@@ -30,7 +30,7 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function (){
    Route::get('users', AdminUserController::class)->name('admin.users');
    Route::get('wallets', AdminWalletController::class)->name('admin.wallets');
    Route::get('categories', AdminCategoryController::class)->name('admin.categories');
-//   Route::get('audit-logs', AdminAuditLogController::class)->name('admin.audit-logs');
+   Route::get('audit-logs', AdminAuditLogController::class)->name('admin.audit-logs');
 });
 
 /*Logout*/

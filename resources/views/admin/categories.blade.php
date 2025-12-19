@@ -34,6 +34,22 @@
 
                 <div class="px-5 py-4 space-y-2">
                     @livewire('admin.categories.category-management')
+
+                    <x-ui.modal
+                        id="edit-category"
+                        position="center"
+                        heading="Edit Category"
+                    >
+                        @livewire('admin.categories.category-update')
+                    </x-ui.modal>
+
+                    <x-ui.modal
+                        id="delete-category"
+                        position="center"
+                        heading="Delete Category"
+                    >
+                        @livewire('admin.categories.category-delete')
+                    </x-ui.modal>
                 </div>
             </div>
         </div>

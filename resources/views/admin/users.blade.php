@@ -34,6 +34,23 @@
 
                 <div class="px-5 py-4 space-y-2">
                     @livewire('admin.users.user-management')
+
+                    <x-ui.modal
+                        id="edit-user"
+                        position="center"
+                        heading="Edit User Form"
+                    >
+                        @livewire('admin.users.user-update')
+                    </x-ui.modal>
+
+                    <x-ui.modal
+                        id="delete-user"
+                        position="center"
+                        heading="Delete User Form"
+                    >
+                        @livewire('admin.users.user-delete')
+                    </x-ui.modal>
+
                 </div>
             </div>
         </div>

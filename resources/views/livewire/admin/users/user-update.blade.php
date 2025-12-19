@@ -1,29 +1,27 @@
 <div>
-    <form wire:submit="save()">
+    <form method="POST">
         <x-ui.fieldset label="User Information">
             <x-ui.field required>
                 <x-ui.label>Full Name</x-ui.label>
-                <x-ui.input wire:model.live.debounce.200ms="name" placeholder="Enter Full Name"/>
+                <x-ui.input placeholder="Enter Full Name"/>
                 <x-ui.error name="name"/>
             </x-ui.field>
 
             <x-ui.field required>
                 <x-ui.label>Email Address</x-ui.label>
-                <x-ui.input wire:model.live.debounce.200ms="email" placeholder="user@gmail.com"/>
+                <x-ui.input placeholder="user@gmail.com"/>
                 <x-ui.error name="email"/>
             </x-ui.field>
 
             <x-ui.field required>
                 <x-ui.label>Password</x-ui.label>
-                <x-ui.input wire:model.live.debounce.200ms="password" placeholder="Enter Password"/>
+                <x-ui.input placeholder="Enter Password"/>
                 <x-ui.error name="password"/>
             </x-ui.field>
 
             <x-ui.field required>
                 <x-ui.label>Role</x-ui.label>
-                <x-select-option
-                    wire:model.live.debounce.200ms="role"
-                    :options="['' => 'Select Role', 'user' => 'User', 'admin' => 'Admin']"/>
+                <x-select-option :options="['' => 'Select Role', 'user' => 'User', 'admin' => 'Admin']"/>
                 <x-ui.error name="role"/>
             </x-ui.field>
 
