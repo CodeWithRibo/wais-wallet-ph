@@ -1,14 +1,17 @@
+# Normalize line endings
 * text=auto eol=lf
 
-*.blade.php diff=html
-*.css diff=css
-*.html diff=html
-*.md diff=markdown
-*.php diff=php
+# Syntax-aware diffs
+*.php        diff=php
+*.blade.php  diff=html
+*.html       diff=html
+*.css        diff=css
+*.md         diff=markdown
 
 # GitHub Linguist override (treat Blade as PHP)
 *.blade.php linguist-language=PHP
 
-/.github export-ignore
-CHANGELOG.md export-ignore
-.styleci.yml export-ignore
+# Exclude from export archives
+/.github      export-ignore
+CHANGELOG.md  export-ignore
+.styleci.yml  export-ignore
